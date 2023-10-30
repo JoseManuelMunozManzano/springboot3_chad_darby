@@ -20,4 +20,11 @@ Temas a tratar:
 
 Otro ejemplo con las devtools añadidas.
 
-- Se añaden más endpoints estando la aplicación iniciada para ver que las devtools funcionan
+- Se añaden más endpoints estando la aplicación iniciada para ver que las devtools funcionan.
+
+### 03-actuator-demo
+
+Ejemplo con Spring Boot Starter Actuator, para monitorizar y gestionar la aplicación.
+
+- Se han añadido a las properties los endpoints /health (ya viene por defecto) y /info
+- Los endpoints son: `http://localhost:8080/actuator/health` y `http://localhost:8080/actuator/info`
