@@ -11,3 +11,4 @@ Primera aplicación para ir aprendiendo a usar Spring Boot 3.
 Temas a tratar:
 
 - Creación de un REST Controller muy simple que devuelve: Hello World!
+- Añadir properties al fichero application.properties y usarlo en nuestro controller
