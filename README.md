@@ -19,3 +19,5 @@ Temas a tratar:
 ### 02-dev-tools-demo
 
 Otro ejemplo con las devtools añadidas.
+
+- Se añaden más endpoints estando la aplicación iniciada para ver que las devtools funcionan
