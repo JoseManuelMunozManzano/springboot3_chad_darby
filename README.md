@@ -30,3 +30,13 @@ Ejemplo con Spring Boot Starter Actuator, para monitorizar y gestionar la aplica
 - Los endpoints son: `http://localhost:8080/actuator/health` y `http://localhost:8080/actuator/info`
 - Properties con la configuración de actuator/info
 - Se exponen más endpoints de actuator: actuator/beans, actuator/threaddump, actuator/mappings... hasta un total de 13.
+
+### 04-actuator-security-demo
+
+Si queremos exponer los endpoints de actuator, pero a la vez tener implementada la seguridad para evitar que cualquiera pueda ver esa información.
+
+- Añadido al POM la dependencia spring-boot-starter-security
+- Esto hace que al ingresar en, por ejemplo, /actuator/mappings, aparezca la seguridad: /login
+- El username por defecto es user y el password aparece en los logs de ejecución de Spring Boot, en la consola
+- Añadido al fichero properties la deshabilitación de algunos endpoints de actuator (queda comentado)
+- Añadido al fichero properties una configuración personalizada de username y password de seguridad
