@@ -28,3 +28,5 @@ Ejemplo con Spring Boot Starter Actuator, para monitorizar y gestionar la aplica
 
 - Se han añadido a las properties los endpoints /health (ya viene por defecto) y /info
 - Los endpoints son: `http://localhost:8080/actuator/health` y `http://localhost:8080/actuator/info`
+- Properties con la configuración de actuator/info
+- Se exponen más endpoints de actuator: actuator/beans, actuator/threaddump, actuator/mappings... hasta un total de 13.
