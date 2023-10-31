@@ -40,3 +40,27 @@ Si queremos exponer los endpoints de actuator, pero a la vez tener implementada 
 - El username por defecto es user y el password aparece en los logs de ejecución de Spring Boot, en la consola
 - Añadido al fichero properties la deshabilitación de algunos endpoints de actuator (queda comentado)
 - Añadido al fichero properties una configuración personalizada de username y password de seguridad
+
+### 05-command-line-demo
+
+Este proyecto no tiene nada de especial y no hace falta ni analizarlo.
+
+Si está aquí es simplemente para demostrar que se puede ejecutar un proyecto Spring desde la terminal, sin necesidad de utilizar el IDE.
+
+Para ello:
+
+- **EJECUCIÓN CON MAVEN**
+- En una terminal acceder a la carpeta de este proyecto.
+- Crear el archivo .jar de la aplicación con el comando `./mvnw package`
+- NOTA: Si tenemos Maven instalado, se puede ejecutar el comando `mvn package`
+- Si todo va bien, se habrá creado nuestro archivo .jar en el subdirectorio target
+- Accedemos al subdirectorio target: `cd target`
+- Ahora podemos ejecutar nuestra aplicación con el siguiente comando: `java -jar <nombre_fichero_jar>`
+- Vamos al navegador a las siguientes rutas para comprobar que funciona: `http://localhost:8080/`, `http://localhost:8080/workout`, `http://localhost:8080/fortune`
+- Cancelar la ejecución de la aplicación en el terminal pulsando Ctrl+C
+
+- **EJECUCIÓN CON SPRING BOOT MAVEN PLUGIN**
+- En una terminal acceder a la carpeta de este proyecto.
+- Ejecutar el siguiente comando: `./mvnw spring-boot:run`
+- Vamos al navegador a las siguientes rutas para comprobar que funciona: `http://localhost:8080/`, `http://localhost:8080/workout`, `http://localhost:8080/fortune`
+- Cancelar la ejecución de la aplicación en el terminal pulsando Ctrl+C
