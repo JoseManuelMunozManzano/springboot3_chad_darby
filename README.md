@@ -87,4 +87,15 @@ De nuevo un ejemplo usando el fichero application.properties
     }
   ```
 
-- Probar la siguiente ruta: `http://localhost:8080/teaminfo`
+- Probar la siguiente ruta: `http://localhost:8080/teaminfo` (ya no funcionará esta ruta. Seguir leyendo)
+
+Vamos a realizar aquí también configuraciones a Spring Boot a través del fichero de properties.
+
+Para ver todas las properties disponibles:
+
+`https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties`
+
+- Modificar el puerto por defecto del servidor: `server.port=7070`
+- Modificar el path de contexto de nuestra aplicación: `server.servlet.context-path=/mycoolapp`
+- Al ejecutar el proyecto aparecerá algo del tipo: `Tomcat started on port(s): 7070 (http) with context path '/mycoolapp'`
+- Probar la siguiente ruta: `http://localhost:7070/mycoolapp/teaminfo`
