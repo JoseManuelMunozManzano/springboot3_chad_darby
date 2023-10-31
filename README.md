@@ -64,3 +64,27 @@ Para ello:
 - Ejecutar el siguiente comando: `./mvnw spring-boot:run`
 - Vamos al navegador a las siguientes rutas para comprobar que funciona: `http://localhost:8080/`, `http://localhost:8080/workout`, `http://localhost:8080/fortune`
 - Cancelar la ejecución de la aplicación en el terminal pulsando Ctrl+C
+
+### 06-properties-demo
+
+De nuevo un ejemplo usando el fichero application.properties
+
+- Añadimos nuestras propiedades personalizadas al fichero applicaction.properties. Ejemplo: `coach.name=Mickey Mouse`
+- Si se indican que esas propiedades son desconocidas, en VSCode, pulsando Cmd+. podemos añadirlas a las metadata
+- En nuestro controller inyectamos las propiedades usando la anotación @Value, por ejemplo:
+
+  ```
+    @Value("${coach.name}")
+    private String coachName;
+  ```
+
+- Exponemos un nuevo endpoint:
+
+  ```
+    @GetMapping("/teaminfo")
+    public String getTeamInfo() {
+      return "Coach: " + coachName + ", Team name: " + teamName;
+    }
+  ```
+
+- Probar la siguiente ruta: `http://localhost:8080/teaminfo`
