@@ -148,3 +148,12 @@ Que veremos:
 - Configurar la inyección de dependencia usando la anotación @Autowired
 - Indicando @Autowired, se puede inyectar una dependencia en cualquier método, no necesariamente un setter
 - Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
+
+### 04-qualifiers
+
+Proyecto donde vemos como gestionar la inyección de dependencias cuando hay varias implementaciones de una interface.
+
+- Veremos la anotación @Qualifier para ser específico sobre que bean inyectar
+- Veremos esta anotación tanto para inyección usando el constructor como usando un setter
+- La forma de usarla es: `@Qualifier("miClase")` donde el primer carácter (m) es en minúsculas
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
