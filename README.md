@@ -122,3 +122,10 @@ Que veremos:
   - Se usa la anotación @Autowired en el constructor, pero si solo tenemos un constructor, esta anotación es opcional
   - Añadir un endpoint: @GetMapping("/dailyworkout")
 - Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
+
+### 02-component-scanning
+
+Proyecto donde vamos a ver un ejemplo de escaneo de componentes en distintos packages.
+
+- Se ha creado una serie de packages (rest y common) dentro del package springcoredemo
+  - Dentro del package springcoredemo los componentes son escaneados automáticamente por Spring Boot
