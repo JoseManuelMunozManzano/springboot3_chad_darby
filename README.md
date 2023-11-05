@@ -157,3 +157,14 @@ Proyecto donde vemos como gestionar la inyección de dependencias cuando hay var
 - Veremos esta anotación tanto para inyección usando el constructor como usando un setter
 - La forma de usarla es: `@Qualifier("miClase")` donde el primer carácter (m) es en minúsculas
 - Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
+
+### 05-primary
+
+Proyecto donde vemos una solución alternativa para gestionar la inyección de dependencias cuando hay varias implementaciones de una interface.
+
+- Cuando no nos importa que bean se va a inyectar, cogemos la que tenga la anotación @Primary
+- Solo una clase de las que implementan la interface puede tener la anotación @Primary
+- Con esto, se hace innecesario usar la anotación @Qualifier en el controlador
+- Es posible mezclar el uso de @Qualifier y @Primary, solo hay que tener en cuenta que @Qualifier tiene prioridad
+- En general, se recomienda usar @Qualifier porque es más específica sobre que bean se va a inyectar
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
