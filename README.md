@@ -137,3 +137,14 @@ Proyecto donde vamos a ver un ejemplo de escaneo de componentes en distintos pac
       	scanBasePackages = {"com.neimerc.springcoredemo", "com.neimerc.util"}
       )
     ```
+
+### 03-setter-injection
+
+Proyecto donde vamos a ver un ejemplo de Inversión de Control (IoC) e Inyección de Dependencias usando el método setter para inyectar las dependencias.
+
+Que veremos:
+
+- Crear un método setter en la clase controller para realizar la inyección
+- Configurar la inyección de dependencia usando la anotación @Autowired
+- Indicando @Autowired, se puede inyectar una dependencia en cualquier método, no necesariamente un setter
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
