@@ -99,3 +99,15 @@ Para ver todas las properties disponibles:
 - Modificar el path de contexto de nuestra aplicación: `server.servlet.context-path=/mycoolapp`
 - Al ejecutar el proyecto aparecerá algo del tipo: `Tomcat started on port(s): 7070 (http) with context path '/mycoolapp'`
 - Probar la siguiente ruta: `http://localhost:7070/mycoolapp/teaminfo`
+
+## 02-spring-boot-spring-core
+
+Páginas web:
+
+```
+  https://www.vojtechruzicka.com/field-dependency-injection-considered-harmful/
+```
+
+### 01-constructor-injection
+
+Proyecto donde vamos a ver un ejemplo de Inversión de Control (IoC) e Inyección de Dependencias usando el constructor para inyectar las dependencias.
