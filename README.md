@@ -111,3 +111,14 @@ Páginas web:
 ### 01-constructor-injection
 
 Proyecto donde vamos a ver un ejemplo de Inversión de Control (IoC) e Inyección de Dependencias usando el constructor para inyectar las dependencias.
+
+Que veremos:
+
+- Definición de interfaz de dependencia y clase
+  - Se usa la anotación @Component en la clase para marcarla como un bean de Spring
+- Crear un REST Controller
+  - Se usa la anotación @RestController
+  - Crear un constructor para realizar la inyección de dependencias
+  - Se usa la anotación @Autowired en el constructor, pero si solo tenemos un constructor, esta anotación es opcional
+  - Añadir un endpoint: @GetMapping("/dailyworkout")
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
