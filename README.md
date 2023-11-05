@@ -129,3 +129,11 @@ Proyecto donde vamos a ver un ejemplo de escaneo de componentes en distintos pac
 
 - Se ha creado una serie de packages (rest y common) dentro del package springcoredemo
   - Dentro del package springcoredemo los componentes son escaneados automáticamente por Spring Boot
+- Se ha creado un package llamado util fuera del package springcoredemo
+  - Si llevo los fuentes de springcoredemo/common a /util, veo que no se realiza el escaneo de componentes y falla
+  - Para que Spring Boot escanee el package util hay que indicarselo de la siguiente forma:
+    ```
+      @SpringBootApplication(
+      	scanBasePackages = {"com.neimerc.springcoredemo", "com.neimerc.util"}
+      )
+    ```

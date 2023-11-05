@@ -1,4 +1,4 @@
-package com.neimerc.springcoredemo.common;
+package com.neimerc.util;
 
 import org.springframework.stereotype.Component;
 
