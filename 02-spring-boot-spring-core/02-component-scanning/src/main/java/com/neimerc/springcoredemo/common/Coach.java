@@ -1,4 +1,4 @@
-package com.neimerc.util;
+package com.neimerc.springcoredemo.common;
 
 public interface Coach {
 

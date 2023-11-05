@@ -3,7 +3,7 @@ package com.neimerc.springcoredemo.rest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.neimerc.util.Coach;
+import com.neimerc.springcoredemo.common.Coach;
 
 @RestController
 public class DemoController {
