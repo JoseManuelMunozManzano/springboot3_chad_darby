@@ -190,10 +190,11 @@ Proyecto donde vemos como hacer que los beans no se inicialicen al ejecutarse la
 Proyecto donde vemos el ciclo de vida de un bean, cuánto vive un bean, cuántas intancias se crean y como se comparte.
 
 - Podemos cambiar el scope en cada una de las clases (beans) que implementa la interface Coach de la siguiente forma:
-  - @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 - El scope por defecto es singleton. Crea una instancia compartida
-  - @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+  - @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 - El scope prototype crea una nueva instancia de bean en cada inyección realizada
+  - @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+  - IMPORTANTE: Los bean con scope prototype son lazy por defecto. No hace falta usar @Lazy
 - El scope request se usa solo para aplicaciones web. Alcance a una solicitud web HTTP
 - El scope session se usa solo para aplicaciones web. Alcance a una sesión web HTTP
 - El scope global-session se usa solo para aplicaciones web. Alcance a una sesión web HTTP global
@@ -210,3 +211,4 @@ Proyecto donde vemos como añadir código personalizado durante la inicializaci�
   - @PostConstruct seguida del método que contiene la lógica de lo que se quiera hacer después de crearse el bean
   - @PreDestroy seguida del método que contiene la lógica de lo que se quiera hacer antes de destruirse el bean
 - Testear en la consola de Spring al arrancar y parar el proyecto
+- IMPORTANTE: Para un bean con scope prototype, Spring no llama al método destroy
