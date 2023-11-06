@@ -212,3 +212,20 @@ Proyecto donde vemos como añadir código personalizado durante la inicializaci�
   - @PreDestroy seguida del método que contiene la lógica de lo que se quiera hacer antes de destruirse el bean
 - Testear en la consola de Spring al arrancar y parar el proyecto
 - IMPORTANTE: Para un bean con scope prototype, Spring no llama al método destroy
+
+### 09-java-config-bean
+
+Proyecto donde, en vez de usar la anotación @Component (u otra) para indicar que es un bean de Spring, se configura via código Java.
+
+- Hay que crear una clase de configuración e indicar la anotación @Configuration
+- Se crean métodos de creación de instancia a los que se le indica la anotación @Bean
+  - Si llamamos al método swimCoach entonces el id del bean, por defecto, será swimCoach
+  - Se puede cambiar el id del bean indicándolo en la misma anotación @Bean, por ejemplo: @Bean("aquatic")
+- Ya podemos inyectar el bean en nuestro controlador usando, si fuera necesario, la anotación @Qualifier y el id del bean
+  - @Qualifer("swimCoach") o @Qualifier("aquatic"), dependiendo del id del bean que hayamos indicado
+
+¿Cuándo se usan estas clases de configuración de beans de Spring?
+
+- Cuando queremos hacer disponible para Spring una clase de terceros, ya que no tenemos acceso al código fuente
+
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout` y también mirando la consola de Spring
