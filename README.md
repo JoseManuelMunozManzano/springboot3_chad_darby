@@ -198,3 +198,15 @@ Proyecto donde vemos el ciclo de vida de un bean, cuánto vive un bean, cuántas
 - El scope session se usa solo para aplicaciones web. Alcance a una sesión web HTTP
 - El scope global-session se usa solo para aplicaciones web. Alcance a una sesión web HTTP global
 - Testear en la siguiente ruta: `http://localhost:8080/check`
+
+### 08-bean-lifecycle-methods
+
+Proyecto donde vemos como añadir código personalizado durante la inicialización de un bean y durante su destrucción.
+
+- Podemos añadir código para:
+  - Llamar a métodos personalizados que contengan lógica de negocio
+  - Configuraciones/Limpieza de recursos tales como db, sockets, ficheros...
+- Para añadir este código, en las clases que implementan la interface Coach se añade la anotación:
+  - @PostConstruct seguida del método que contiene la lógica de lo que se quiera hacer después de crearse el bean
+  - @PreDestroy seguida del método que contiene la lógica de lo que se quiera hacer antes de destruirse el bean
+- Testear en la consola de Spring al arrancar y parar el proyecto
