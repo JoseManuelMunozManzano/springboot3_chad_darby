@@ -168,3 +168,33 @@ Proyecto donde vemos una solución alternativa para gestionar la inyección de d
 - Es posible mezclar el uso de @Qualifier y @Primary, solo hay que tener en cuenta que @Qualifier tiene prioridad
 - En general, se recomienda usar @Qualifier porque es más específica sobre que bean se va a inyectar
 - Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
+
+### 06-lazy-initialization
+
+Proyecto donde vemos como hacer que los beans no se inicialicen al ejecutarse la aplicación.
+
+- Por defecto, al comenzar la aplicación, todos los beans son inicializados
+- Es decir, Spring crea una instancia de cada uno de ellos (anotados con @Component...) para que estén disponibles
+- Probaremos que se inician usando getClass().getSimpleName() en el constructor de cada implementación de la interface Coach
+- Usando lazy initialization, un bean se inicializará solo en los siguientes casos:
+  - Si se necesita por una inyección de dependencia
+  - Si es requerido explicitamente
+- Un bean tendrá lazy initialization si se usa la anotación @Lazy en la implementanción del bean
+- Como puede haber muchas clases, se puede indicar lazy initialization como una propiedad de configuración global
+  - spring.main.lazy-initialization=true
+  - Todas las clases, incluido nuestro controlador (tiene la anotación @RestController) son lazy
+- Testear en la siguiente ruta: `http://localhost:8080/dailyworkout`
+
+### 07-bean-scopes
+
+Proyecto donde vemos el ciclo de vida de un bean, cuánto vive un bean, cuántas intancias se crean y como se comparte.
+
+- Podemos cambiar el scope en cada una de las clases (beans) que implementa la interface Coach de la siguiente forma:
+  - @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+- El scope por defecto es singleton. Crea una instancia compartida
+  - @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+- El scope prototype crea una nueva instancia de bean en cada inyección realizada
+- El scope request se usa solo para aplicaciones web. Alcance a una solicitud web HTTP
+- El scope session se usa solo para aplicaciones web. Alcance a una sesión web HTTP
+- El scope global-session se usa solo para aplicaciones web. Alcance a una sesión web HTTP global
+- Testear en la siguiente ruta: `http://localhost:8080/check`
