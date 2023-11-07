@@ -314,3 +314,41 @@ Para quitar el banner de Spring Boot y reducir el nivel de logging para mostrar 
   spring.main.banner-mode=off
   logging.level.root=warn
 ```
+
+**Proceso de Desarrollo JPA**
+
+1. Anotar Clase Java
+2. Desarrollar código Java para realizar operaciones de BD
+
+- Entity Class: Clase Java que está mapeada a una tabla de BD. Usamos ORM (Object-to-Relational Mapping)
+  - Debe ser anotada con @Entity
+  - Debe tener un constructor public o protected sin argumentos. La clase puede tener otros constructores
+- Con respecto a las anotaciones Java
+  - Mapeamos la clase a una tabla de BD
+  - Mapeamos los campos a columnas de la BD
+
+Ejemplo:
+
+```
+  @Entity
+  @Table(name="student")
+  public class Student {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
+    private int id;
+
+    @Column(name="first_name")
+    private String firstName;
+
+    ...
+  }
+```
+
+**NOTAS**
+La anotación @Column es opcional. Si no se especifica, el nombre de la columna es el mismo que el del campo Java. Pero se recomienda indicarlo siempre.
+Igual para la anotación @Table, si no se indica el nombre de la tabla en BD es el mismo que el de la clase. Mejor ser explícito e indicarlo.
+
+Se indica @GeneratedValue(strategy=GenerationType.IDENTITY) para generar los id.
+Si es necesaria una estrategia de generación de ids personalizada, también se puede. Hay que crear una implementación personalizada de la interface `org.hibernate.id.IdentifierGenerator` y hacer override al método `public Serializable generate(...)`
