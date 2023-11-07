@@ -307,3 +307,10 @@ Para ello:
 Este método se crea en nuestro fuente main y se ejecuta tras haberse cargado nuestros Spring Beans.
 
 - Para probar, ejecutar el proyecto y se debe ver el texto Hello World! en la terminal de ejecución
+
+Para quitar el banner de Spring Boot y reducir el nivel de logging para mostrar solo warnings y errores (esto es porque es una app muy pequeña donde queremos ver el resultado en el terminal), en el fichero application.properties añadir lo siguiente:
+
+```
+  spring.main.banner-mode=off
+  logging.level.root=warn
+```
