@@ -257,7 +257,7 @@ Hibernate / JPA usa JDBC para todas las comunicaciones de BBDD, es decir, Hibern
 
 ### 01-cruddemo-student
 
-Para el proyecto se usa MySQL y hay que ejecutar para crear el usuario y las tablas de trabajo los siguientes scripts, que se encuentran en la carpeta 00-starter-sql-scripts:
+Para el proyecto se usa MariaDB y hay que ejecutar para crear el usuario y las tablas de trabajo los siguientes scripts, que se encuentran en la carpeta 00-starter-sql-scripts:
 
 - 01-create-user.sql
 - 02-student-tracker.sql
@@ -282,11 +282,11 @@ Para ver la información que vayamos guardando en esta app ejecutar: `select * f
 
 - Configurar el proyecto con Spring Initialzr (yo uso VSCode para ello)
 - Añadir dependencias al POM:
-  - MySQL Driver: `mysql-connector-j`
+  - MariaDB Driver: `mariadb-java-client`
   - Spring Data JPA: `spring-boot-starter-data-jpa`
 - Añadir la configuración de conexión a BD en el fichero `application.properties`
   ```
-    spring.datasource.url=jdbc:mysql://localhost:3306/student_tracker
+    spring.datasource.url=jdbc:mariadb://localhost:3306/student_tracker
     spring.datasource.username=springstudent
     spring.datasource.password=springstudent
   ```
@@ -305,3 +305,5 @@ Para ello:
 ```
 
 Este método se crea en nuestro fuente main y se ejecuta tras haberse cargado nuestros Spring Beans.
+
+- Para probar, ejecutar el proyecto y se debe ver el texto Hello World! en la terminal de ejecución
