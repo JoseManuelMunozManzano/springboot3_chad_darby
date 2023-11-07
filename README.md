@@ -229,3 +229,79 @@ Proyecto donde, en vez de usar la anotación @Component (u otra) para indicar qu
 - Cuando queremos hacer disponible para Spring una clase de terceros, ya que no tenemos acceso al código fuente
 
 - Testear en la siguiente ruta: `http://localhost:8080/dailyworkout` y también mirando la consola de Spring
+
+## 03-spring-boot-hibernate-jpa-crud
+
+Hibernate maneja todo el SQL de bajo nivel y minimiza la cantidad de código JDBC que tenemos que desarrollar.
+
+Hibernate también ofrece ORM (Object-to-Relational Mapping)
+
+El desarrollador define el mapeo entre la clase de Java y la tabla en BBDD. Este mapeo se configura via fichero XML o anotaciones.
+
+JPA (Jakarta Persistence API) es una especificación, la API estándar para ORM.
+
+Define un conjunto de interfaces y requiere una implementación para ser usada (Hibernate es una implementación de JPA)
+
+Los beneficios de usar JPA es que no estamos limitados por la implementación de un proveedor y podemos mantener un código flexible y portable implementando las interfaces de JPA.
+
+El cambio de un proveedor a otro conllevará un mínimo de cambio de código porque estamos escribiendo código para la implementación estandar.
+
+Hibernate / JPA usa JDBC para todas las comunicaciones de BBDD, es decir, Hibernate / JPA es otra capa de abstracción por encima de JDBC.
+
+- `EntityManager` es un componente especial de JPA que se usa para crear queries...
+- Basado en las configuraciones, Spring Boot creará automáticamente los beans: DataSource, EntityManager...
+- Podremos entonces inyectarlas en la app, por ejemplo en nuestros DAO
+- Para guardar en BD: `entityManager.persist(mi_objeto);`
+- Para recuperar de BD usando la primary key: `Student myStudent = entityManager.find(Student.class, theID)`
+- Hay otras formas de recuperar objetos de BD...
+
+### 01-cruddemo-student
+
+Para el proyecto se usa MySQL y hay que ejecutar para crear el usuario y las tablas de trabajo los siguientes scripts, que se encuentran en la carpeta 00-starter-sql-scripts:
+
+- 01-create-user.sql
+- 02-student-tracker.sql
+
+Nota: Yo he usado una imagen de Docker de MariaDB. El comando que he utilizado ha sido el siguiente:
+
+```
+  docker container run \
+  -e MARIADB_USER=springstudent \
+  -e MARIADB_PASSWORD=springstudent \
+  -e MARIADB_ROOT_PASSWORD=springstudentroot \
+  -e MARIADB_DATABASE=student_tracker \
+  -dp 3306:3306 \
+  --name student_tracker \
+  --volume student_tracker:/var/lib/mysql \
+  mariadb:jammy
+```
+
+Y para gestionar la BBDD uso el programa SQuirreL.
+
+Para ver la información que vayamos guardando en esta app ejecutar: `select * from student_tracker.student;`
+
+- Configurar el proyecto con Spring Initialzr (yo uso VSCode para ello)
+- Añadir dependencias al POM:
+  - MySQL Driver: `mysql-connector-j`
+  - Spring Data JPA: `spring-boot-starter-data-jpa`
+- Añadir la configuración de conexión a BD en el fichero `application.properties`
+  ```
+    spring.datasource.url=jdbc:mysql://localhost:3306/student_tracker
+    spring.datasource.username=springstudent
+    spring.datasource.password=springstudent
+  ```
+- No hace falta indicar el nombre del driver JDBC porque Spring Boot lo detectará automáticamente, basado en la URL
+
+Para empezar sencillo, y poder centrarnos en Hibernate/JPA, se hará una app de línea de comandos con Spring Boot.
+Para ello:
+
+```
+  @Bean
+  public CommandLineRunner commandLineRunner(String[] args) {
+    return runner -> {
+      System.out.println("Hello World!");
+    };
+  }
+```
+
+Este método se crea en nuestro fuente main y se ejecuta tras haberse cargado nuestros Spring Beans.
