@@ -416,3 +416,17 @@ Si ahora queremos resetear los valores del AUTO_INCREMENT a 1
 ```
 
 Con truncate se elimina toda la data de la tabla de BD y se resetea AUTO_INCREMENT para que empiece en 1 de nuevo.
+
+**Recuperar/Leer un objeto con JPA**
+
+En este ejemplo vamos a leer de la tabla de BD usando la primary key, recuperando el id 1.
+
+Usamos el objeto entityManager y la clase Entity de la siguiente manera: `Student myStudent = entityManager.find(Student.class, 1);`
+
+Si no encontrara un registro con el id 1 devuelve null.
+
+Los pasos para codificar esta lectura con JPA consisten en:
+
+- Añadir un nuevo método a nuestra interface DAO
+- Implementar este nuevo método en nuestra implementación del DAO (No hace falta @Transactional en lecturas)
+- Actualizar nuestra app main

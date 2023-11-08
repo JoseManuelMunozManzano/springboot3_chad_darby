@@ -6,4 +6,7 @@ import com.neimerc.cruddemo.entity.Student;
 public interface StudentDAO {
   
   void save(Student theStudent);
+
+  // Indicamos Integer en vez de int porque el id podría ser null y un primitivo no puede ser null
+  Student findById(Integer id);
 }

@@ -23,8 +23,31 @@ public class CruddemoApplication {
 		return runner -> {
 			// createStudent(studentDAO);
 
-			createMultipleStudents(studentDAO);
+			// createMultipleStudents(studentDAO);
+
+			readStudent(studentDAO);
 		};
+	}
+
+	private void readStudent(StudentDAO studentDAO) {
+		// crear un objeto student
+		System.out.println("Creating new student object ...");
+		Student tempStudent = new Student("Daffy", "Duck", "daffy@xxx.com");
+
+		// guardar el objeto student
+		System.out.println("Saving the student...");
+		studentDAO.save(tempStudent);
+
+		// mostrar id del student guardado
+		int theId = tempStudent.getId();
+		System.out.println("Saved student. Generate id: " + theId);
+
+		// recuperar student basado en el id: primary key
+		System.out.println("Retrieving student with id: " + theId);
+		Student myStudent = studentDAO.findById(theId);
+
+		// mostrar student
+		System.out.println("Found the student: " + myStudent);
 	}
 
 	// El objetivo de este método es probar la generación automática, por parte de MariaDB, de la columna id (que es la primary key)
