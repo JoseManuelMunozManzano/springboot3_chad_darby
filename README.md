@@ -352,3 +352,51 @@ Igual para la anotación @Table, si no se indica el nombre de la tabla en BD es 
 
 Se indica @GeneratedValue(strategy=GenerationType.IDENTITY) para generar los id.
 Si es necesaria una estrategia de generación de ids personalizada, también se puede. Hay que crear una implementación personalizada de la interface `org.hibernate.id.IdentifierGenerator` y hacer override al método `public Serializable generate(...)`
+
+**Grabar un Objeto Java con JPA**
+
+Vamos a hacer un CRUD application, es decir, Create, Read, Update y Delete.
+
+Para ellos usaremos un DAO (Data Access Object) que es responsable de hacer de interfaz con la BBDD. Es un patrón de diseño muy común.
+
+Crearemos métodos:
+
+- save()
+- findById()
+- findAll()
+- findByLastName()
+- update()
+- delete()
+- deleteAll()
+
+Nuestro DAO necesita un JPA Entity Manager, que es un componente principal para guardar/recuperar entidades.
+
+Nuestro JPA Entity Manager necesita un Data Source. La Data Source define la información para la conexión con la BBDD.
+
+Tanto el JPA Entity Manager como el Data Source son creados automáticamente por Spring Boot, basado en la información especificada en el fichero application.properties (JDBC URL, user id, password, ...)
+
+Podemos inyectar (autowired) el JPA Entity Manager en nuestro Student DAO.
+
+```
+  Student DAO   <------>   Entity Manager   <------>   Data Source   <------>   BBDD
+```
+
+Para realizar todo esto, los pasos son:
+
+- Definir nuestra interface DAO
+- Definir la implementación del DAO, inyectando el Entity Manager
+- Actualizar nuestra app main
+
+Otras cosas necesarias son:
+
+- Spring proporciona la anotación @Transactional. Automáticamente comienza y termina una transacción para el código JPA. No hay necesidad de hacerlo explicitamente en el código
+
+Anotaciones especiales para DAO
+
+- @Repository, que sería como una "sub-anotación" de @Component pero aplicada a implmentaciones DAO
+  - Spring registrará automáticamente la implementación DAO gracias al escaneo de componentes
+  - Spring también traducirá cualquier excepción checked de JDBC a excepciones unchecked
+
+En cuanto a nuestro app main
+
+- Inyectaremos StudentDAO en nuestro método commandLineRunner y crearemos otro método para crear un Student usando new, grabarlo y mostrarlo
