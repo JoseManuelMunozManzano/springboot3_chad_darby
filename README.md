@@ -430,3 +430,28 @@ Los pasos para codificar esta lectura con JPA consisten en:
 - Añadir un nuevo método a nuestra interface DAO
 - Implementar este nuevo método en nuestra implementación del DAO (No hace falta @Transactional en lecturas)
 - Actualizar nuestra app main
+
+**Hacer queries de varios objetos**
+
+JPA tiene un lenguaje de queries (JPQL) para recuperar objetos, similar en concepto a SQL, con la diferencia que JPQL es basado en nombres de entidades y campos de entidades en vez de nombres de tablas y columnas de tablas.
+
+Usamos el objeto entityManager y la Entity (clase, nombre y campos) de la siguiente manera:
+
+```
+  TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student WHERE lastName='Munoz'", Student.class);
+  List<Student> students = theQuery.getResultList();
+```
+
+Se pueden usar parámetros de nombre en las consultas JPQL de la siguiente forma:
+
+```
+  TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student WHERE lastName=:theData", Student.class);
+  theQuery.setParameter("theData", "Munoz");
+  List<Student> students = theQuery.getResultList();
+```
+
+Los pasos para codificar estas sentencias JPQL usando JPA consisten en:
+
+- Añadir un nuevo método a nuestra interface DAO
+- Implementar este nuevo método en nuestra implementación del DAO (No hace falta @Transactional en lecturas)
+- Actualizar nuestra app main

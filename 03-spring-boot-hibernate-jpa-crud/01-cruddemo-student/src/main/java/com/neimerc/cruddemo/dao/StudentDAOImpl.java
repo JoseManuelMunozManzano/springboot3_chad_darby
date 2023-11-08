@@ -1,11 +1,14 @@
 package com.neimerc.cruddemo.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neimerc.cruddemo.entity.Student;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 // Anotación @Repository
 //  Es una anotación especializada para DAO, una "sub-anotación" de @Component
@@ -37,6 +40,16 @@ public class StudentDAOImpl implements StudentDAO {
   @Override
   public Student findById(Integer id) {
     return entityManager.find(Student.class, id);
+  }
+
+  @Override
+  public List<Student> findAll() {
+    // crear la query
+    // Se usa JPQL, basado en el nombre de la entity (no de la tabla) y de los campos de la entity (no las columnas de la tabla)
+    TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student ORDER BY lastName", Student.class);
+
+    // devolver los resultados de la query
+    return theQuery.getResultList();
   }
 
 }
