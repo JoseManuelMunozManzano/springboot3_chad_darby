@@ -1,5 +1,6 @@
 package com.neimerc.cruddemo;
 
+import org.checkerframework.checker.units.qual.s;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,8 +22,25 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
 		return runner -> {
-			createStudent(studentDAO);
+			// createStudent(studentDAO);
+
+			createMultipleStudents(studentDAO);
 		};
+	}
+
+	// El objetivo de este método es probar la generación automática, por parte de MariaDB, de la columna id (que es la primary key)
+	private void createMultipleStudents(StudentDAO studentDAO) {
+		// crear muchos students
+		System.out.println("Creating 3 student objects ...");
+		Student tempStudent1 = new Student("Adriana", "López", "alopez@xxx.com");
+		Student tempStudent2 = new Student("Tania", "Gómez", "tgomez@xxx.com");
+		Student tempStudent3 = new Student("Ferney", "Pérez", "fperez@xxx.com");
+
+		// guardar los objetos student
+		System.out.println("Saving the students ...");
+		studentDAO.save(tempStudent1);
+		studentDAO.save(tempStudent2);
+		studentDAO.save(tempStudent3);
 	}
 
 	private void createStudent(StudentDAO studentDAO) {
