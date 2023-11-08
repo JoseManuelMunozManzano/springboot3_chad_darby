@@ -400,3 +400,19 @@ Anotaciones especiales para DAO
 En cuanto a nuestro app main
 
 - Inyectaremos StudentDAO en nuestro método commandLineRunner y crearemos otro método para crear un Student usando new, grabarlo y mostrarlo
+
+**Cambiar el index autoincremental para que empiece en otro número**
+
+```
+  ALTER TABLE student_tracker.student AUTO_INCREMENT=3000;
+```
+
+Si volvemos a ejecutar la app, y seleccionamos en SQuirreL todos los student, veremos que el index ha pasado a empezar en el 3000
+
+Si ahora queremos resetear los valores del AUTO_INCREMENT a 1
+
+```
+  TRUNCATE student_tracker.student;
+```
+
+Con truncate se elimina toda la data de la tabla de BD y se resetea AUTO_INCREMENT para que empiece en 1 de nuevo.
