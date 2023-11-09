@@ -249,3 +249,28 @@ Los pasos para actualizar son:
 - Añadir un nuevo método a nuestra interface DAO
 - Implementar este nuevo método en nuestra implementación del DAO (con anotación @Transactional al ser actualización)
 - Actualizar nuestra app main
+
+**Eliminar objetos con JPA**
+
+Primero encontramos el objeto a eliminar y lo eliminamos, siempre usando nuestro objeto entityManager.
+
+```
+  int id = 1;
+  Student theStudent = entityManager.find(Student.class, id);
+
+  entityManager.remove(theStudent);
+```
+
+Para eliminar muchos objetos de una vez podemos usar JPQL. El método executeUpdate() devuelve el número de filas eliminadas.
+
+```
+  int numRowsDeleted = entityManager.createQuery(
+        "DELETE FROM Student WHERE lastName = 'Smith'")
+        .executeUpdate();
+```
+
+Los pasos para eliminar son:
+
+- Añadir un nuevo método a nuestra interface DAO
+- Implementar este nuevo método en nuestra implementación del DAO (con anotación @Transactional al ser eliminación)
+- Actualizar nuestra app main
