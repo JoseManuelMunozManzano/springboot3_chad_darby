@@ -223,3 +223,29 @@ Los pasos para codificar estas sentencias JPQL usando JPA consisten en:
 - Añadir un nuevo método a nuestra interface DAO
 - Implementar este nuevo método en nuestra implementación del DAO (No hace falta @Transactional en lecturas)
 - Actualizar nuestra app main
+
+**Actualizar objetos con JPA**
+
+Primero encontramos el objeto a actualizar, cambiamos alguno de los campos de la entity y actualizamos el entity, siempre usando nuestro objeto entityManager.
+
+```
+  Student theStudent = entityManager.find(Student.class, 1);
+
+  theStudent.setFirstName("Scooby");
+
+  entityManager.merge(theStudent);
+```
+
+Para actualizar muchos objetos de una vez podemos usar JPQL. El método executeUpdate() devuelve el número de filas actualizadas.
+
+```
+  int numRowsUpdated = entityManager.createQuery(
+              "UPDATE Student SET lastName='Tester'")
+              .executeUpdate();
+```
+
+Los pasos para actualizar son:
+
+- Añadir un nuevo método a nuestra interface DAO
+- Implementar este nuevo método en nuestra implementación del DAO (con anotación @Transactional al ser actualización)
+- Actualizar nuestra app main
