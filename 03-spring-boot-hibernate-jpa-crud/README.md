@@ -274,3 +274,38 @@ Los pasos para eliminar son:
 - Añadir un nuevo método a nuestra interface DAO
 - Implementar este nuevo método en nuestra implementación del DAO (con anotación @Transactional al ser eliminación)
 - Actualizar nuestra app main
+
+**Crear Tablas de Base de Datos desde Código Java**
+
+En este proyecto creamos las tablas de BD ejecutando un script SQL en SQuirreL.
+
+Hay otra opción, consistente en crear las tablas de Base de Datos con código Java, en concreto usando anotaciones JPA/Hibernate.
+
+Lo que hay que hacer es:
+
+- Eliminar la tabla desde SQuirreL: `drop table student_tracker.student;`
+- Fichero application.properties: `spring.jpa.hibernate.ddl-auto=create`
+  - Esto significa que, cada vez que se ejecute la aplicación, Hibernate eliminará las tablas y las creará de nuevo
+  - También son necesarias anotaciones en el código Java (las que pusimos en el fuente anotado con @Entity)
+- Otras propiedades:
+
+  ```
+    # Add logging configs to display SQL statements. Very good for diagnostics
+    logging.level.org.hibernate.SQL=debug
+
+    # To see the actual values that are being assigned for these statements
+    logging.level.org.hibernate.orm.jdbc.bind=trace
+  ```
+
+Si queremos crear las tablas una vez y mantener la data: `spring.jpa.hibernate.ddl-auto=update`
+
+Pero cuidado, porque la BD se alterará basada en las últimas actualizaciones de código. Esto puede afectar a otras apps que uses esta Base de Datos.
+De nuevo, usar esto SOLO para proyectos muy básicos.
+
+Esto es muy útil para:
+
+- Pruebas de integración de BD con BD en memoria (H2)
+- Proyectos básicos, pequeños, hechos por diversión
+
+**MUCHO CUIDADO EN PRODUCCIÓN. NO HACER ESTO EN PROD**
+Para Producción es siempre mejor ejecutar scripts SQL para crear las tablas de bases de datos.
