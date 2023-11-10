@@ -60,3 +60,16 @@ Por tanto para pasar de JSON a POJO, Jackson NO accede a campos privados de form
 Cuando se construyen aplicaciones REST con Spring, Spring gestiona automáticamente la integración con Jackson.
 
 Cualquier data JSON pasada a un controlador REST es automáticamente convertida a un POJO. Y cualquier objeto Java devuelto desde un controlador REST será convertido automáticamente a JSON.
+
+**Spring Boot REST POJO**
+
+Vamos a crear un nuevo Service que devuelva como response una lista de estudiantes ante la request /api/students
+
+Esta lista de estudiantes será convertida a un array JSON, con la ayuda de Jackson.
+
+Para esto:
+
+- Crearemos una clase Java POJO (campos, constructores, getters y setters) para Student
+- Crearemos un Spring REST Service usando la anotación @RestController
+
+Para probar este ejemplo, desde Postman hacer la siguiente request: `http://localhost:8080/api/students`
