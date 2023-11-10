@@ -9,3 +9,5 @@ Curso realizado usando JDK17 y VSCode
 ## 02-spring-boot-spring-core
 
 ## 03-spring-boot-hibernate-jpa-crud
+
+## 04-spring-boot-rest-crud-api
