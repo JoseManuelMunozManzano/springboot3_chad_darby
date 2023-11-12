@@ -130,3 +130,45 @@ Para poder devolver esta respuesta, los pasos son los siguientes:
 - Añadir un método de manejo de excepciones en nuestro REST Service usando la anotación @ExceptionHandler. En el ejemplo el método se llama handleException
   - Este manejo de excepciones devolverá un ResponseEntity, que es un wrapper para un objeto HTTP de respuesta
   - ResponseEntity provee el control para especificar: HTTP status code, HTTP headers y Response body
+
+**Global Exception Handling**
+
+El código de un Exception handler es solo para un controlador REST específico y no puede reutilizarse por otros controladores.
+
+Esto es un problema, porque en proyectos largos suele haber muchos controladores.
+
+Idealmente, lo que necesitamos son exception handlers globales. Esto sirve para:
+
+- Promociona la reutilización
+- Centraliza el manejo de excepciones
+
+Para poder hacer esto:
+
+- Usaremos la anotación @ControllerAdvice, que es similar a un interceptor/filtro. Este es un ejemplo de AOP (Aspect Oriented Programming)
+- Con esto, pre-procesamos peticiones en controladores
+- Y post-procesamos respuestas para manejar excepciones
+- Perfecto como manejador global de excepciones
+
+La arquitectura es:
+
+```
+___________                           ______________         _____________
+|  REST   |  /api/students/9999       | Controller |         |  REST     |
+|  Client |  --------------------->   |   Advice   |  ---->  |  Service  |
+|         |                           |            |         |           |
+|         |  <---------------------   |  Exception |  <----  |      Throw|exception
+|         |   {"status": 404, ...}    |  Handlers  |         |           |
+|_________|                       ->  |____________|         |___________|
+                                 |
+                               Global
+                               exception
+                               handling
+```
+
+Proceso de desarrollo:
+
+- Crear un nuevo @ControllerAdvice, llamado en el ejemplo StudentRestExceptionHandler
+- Refactorizar nuestro REST service ... eliminar el código de manejo de excepciones
+- Añadir el código de manejo de excepciones al @ControllerAdvice
+
+Esto es una buena práctica.
