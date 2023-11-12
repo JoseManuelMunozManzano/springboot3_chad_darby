@@ -73,3 +73,60 @@ Para esto:
 - Crearemos un Spring REST Service usando la anotación @RestController
 
 Para probar este ejemplo, desde Postman hacer la siguiente request: `http://localhost:8080/api/students`
+
+**Path Variables**
+
+Vamos a recuperar un student por el id usando el siguiente endpoint `/api/students/{studentId}`, donde {studentId} es lo que se llama un path variable, y será sustituido por un valor concreto.
+
+Para desarrollar esto:
+
+- Vincularemos un path variable a un method parameter usando la anotación @PathVariable
+
+```
+  @GetMapping("/students/{studentId}")
+  public Student getStudent(@PathVariable int studentId) {
+    ...
+  }
+```
+
+Para probar este ejemplo, desde Postman hacer la siguiente request: `http://localhost:8080/api/students/0`
+
+**Exception Handling**
+
+Si hacemos la siguiente petición en Postman: `http://localhost:8080/api/students/9999` veremos el siguiente error:
+
+```
+{
+    "timestamp": "2023-11-12T06:01:56.068+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/api/students/9999"
+}
+```
+
+Y en la terminal de ejecución de Spring veremos: `exception [Request processing failed: java.lang.IndexOutOfBoundsException: Index 9999 out of bounds for length 3] with root cause`
+
+Lo que realmente tenemos que hacer es manejar la excepción y devolver un error en formato JSON que nos indique el motivo del error. Algo así:
+
+```
+{
+  "status": 404,
+  "message": "Student id not found - 9999",
+  "timeStamp": 15261496
+}
+```
+
+Para poder devolver esta respuesta, los pasos son los siguientes:
+
+- Crear una clase de respuesta de errores personalizada
+  - Esta respuesta es la que se envíará al cliente como JSON en el método de manejo de excepciones
+  - Es una clase Java POJO con los campos de la respuesta, llamada, en el ejemplo, StudentErrorResponse
+  - Jackson la convertirá a JSON
+- Crear una clase de excepción personalizada
+  - Esta excepción personalizada de student la usará nuestro REST Service
+  - En el ejemplo la llamaremos StudentNotFoundException y extiende de RuntimeException
+- Actualizar el REST Service para hacer un throw de la excepción si no se encuentra el student
+  - Se hará un throw new StudentNotFoundException
+- Añadir un método de manejo de excepciones en nuestro REST Service usando la anotación @ExceptionHandler. En el ejemplo el método se llama handleException
+  - Este manejo de excepciones devolverá un ResponseEntity, que es un wrapper para un objeto HTTP de respuesta
+  - ResponseEntity provee el control para especificar: HTTP status code, HTTP headers y Response body
