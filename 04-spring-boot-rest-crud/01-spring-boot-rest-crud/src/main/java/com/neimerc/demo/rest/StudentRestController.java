@@ -77,4 +77,21 @@ public class StudentRestController {
     //    Indicamos el body (la variable error) y el status code
     return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
   }
+
+  // Añadir un exception handler genérico, para gestionar cualquier tipo de excepción.
+  //  Utilizamos como parámetro la clase genérica Exception
+  @ExceptionHandler
+  public ResponseEntity<StudentErrorResponse> handleException(Exception exc) {
+    // crear un StudentErrorResponse
+    //    Jacson convertirá estos datos a JSON
+    StudentErrorResponse error = new StudentErrorResponse();
+
+    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    error.setMessage(exc.getMessage());
+    error.setTimestamp(System.currentTimeMillis());
+
+    // retornar un ResponseEntity
+    //    Indicamos el body (la variable error) y el status code
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
 }
