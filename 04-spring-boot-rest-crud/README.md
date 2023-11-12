@@ -172,3 +172,67 @@ Proceso de desarrollo:
 - Añadir el código de manejo de excepciones al @ControllerAdvice
 
 Esto es una buena práctica.
+
+### 02-spring-boot-rest-crud-employee
+
+Vamos a crear un REST API con Spring Boot que se conecta a una base de datos.
+
+En concreto, es una REST API para un Employee Directory.
+
+El cliente REST podrá:
+
+- Obtener una lista de employees
+- Obtener un employee por su id
+- Añadir un nuevo employee
+- Actualizar un employee
+- Eliminar un employee
+
+Los métodos HTTP, endpoints y acción CRUD son:
+
+```
+POST          /api/employees                    Crear un nuevo employee
+GET           /api/employees                    Leer una lista de employees
+GET           /api/employees/{employeeId}       Leer un employee
+PUT           /api/employees                    Actualizar un employee existente
+DELETE        /api/employees/{employeeId}       Eliminar un employee existente
+```
+
+El proceso de desarrollo será el siguiente:
+
+- Configurar el entorno de BBDD de desarrollo
+- Crear el proyecto Spring Boot usando VSCode
+- Crear un nuevo employee
+- Leer una lista de employees
+- Leer un employee
+- Actualizar un employee existente
+- Eliminar un employee existente
+
+La arquitectura será la siguiente:
+
+```
+  Employee               Employee             Employee
+    REST       <------>  Service   <------->    DAO      <------>  BBDD
+  Controller
+```
+
+**Configuración de BBDD**
+
+Para el proyecto se usa MariaDB y uso esta imagen Docker:
+
+```
+  docker container run \
+  -e MARIADB_USER=springstudent \
+  -e MARIADB_PASSWORD=springstudent \
+  -e MARIADB_ROOT_PASSWORD=springstudentroot \
+  -e MARIADB_DATABASE=student_tracker \
+  -dp 3306:3306 \
+  --name student_tracker \
+  --volume student_tracker:/var/lib/mysql \
+  mariadb:jammy
+```
+
+Y para gestionar la BBDD uso el programa SQuirreL.
+
+Ejecutar las consultas del archivo `employee-directory.sql` para crear una nueva tabla de BBDD llamada employee y poblarla de datos de prueba.
+
+El archivo se encuentra en el directorio `spring-boot-employee-sql-script`
