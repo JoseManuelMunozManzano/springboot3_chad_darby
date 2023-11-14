@@ -319,3 +319,14 @@ Vamos a implementar los siguientes métodos en la capa Service:
 - Añadir un nuevo employee
 - Actualizar un employee existente
 - Eliminar un employee existente
+
+**Métodos REST en Controlador: Add, Update, Delete**
+
+Vamos a implementar los siguientes métodos en el controlador:
+
+- Obtener un employee por ID
+- Añadir un nuevo employee
+- Actualizar un employee existente
+- Eliminar un employee existente
+
+- Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee.postman_collection.json
