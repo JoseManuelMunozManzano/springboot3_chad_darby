@@ -236,3 +236,36 @@ Y para gestionar la BBDD uso el programa SQuirreL.
 Ejecutar las consultas del archivo `employee-directory.sql` para crear una nueva tabla de BBDD llamada employee y poblarla de datos de prueba.
 
 El archivo se encuentra en el directorio `spring-boot-employee-sql-script`
+
+**REST DAO**
+
+- Usamos la anotación @Repository para nuestra implementación de la interface EmployeeDAO. Nuestra implementación se llama EmployeeDAOJpaImpl
+- Añadimos el campo EntityManager
+- Creamos un constructor al que le inyectamos el EntityManager (automáticamente gracias a Spring Boot)
+
+```
+  @Repository
+  public class EmployeeDAOJpaImpl implements EmployeeDAO {
+
+    private EntityManager entityManager;
+
+    @Autowired
+    public EmployeeDAOJpaImpl(EntityManager theEntityManager) {
+      entityManager = theEntityManager;
+    }
+
+    ...
+  }
+```
+
+- Desarrollaremos los métodos CRUD usando JPQL
+
+Proceso de desarrollo:
+
+- Actualizar la configuración de BD en nuestro fichero application.properties
+- Crear una entidad Employee (anotación @Entity)
+- Crear una interface DAO
+- Crear la implementación DAO (anotación @Repository)
+- Crear el controlador REST para usar nuestro DAO (anotación @RestController)
+
+- Testing: `http://localhost:8080/api/employees`
