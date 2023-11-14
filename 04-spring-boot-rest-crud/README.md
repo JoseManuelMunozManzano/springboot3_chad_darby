@@ -269,3 +269,27 @@ Proceso de desarrollo:
 - Crear el controlador REST para usar nuestro DAO (anotación @RestController)
 
 - Testing: `http://localhost:8080/api/employees`
+
+**Capa Service**
+
+Vamos a definir servicios con la anotación @Service
+
+Esta capa se encuentra entre nuestro EmployeeRestController y nuestro EmployeeDAO.
+
+El propósito detrás de la creación de una Capa de Servicio es:
+
+- Aplicar el patrón de diseño Service Facade
+- Tener una capa intermedia para la lógica de negocio
+- Integrar data desde múltiples fuentes (DAO/repositorios) Con esto proveemos al controlador con una única vista de la data que integramos desde distintos fuentes de datos de backend.
+
+Aplicar una capa de servicio que llame a una capa DAO es una buena práctica.
+
+La anotación @Service es una anotación especializada para servicios, "hija" de la anotación @Component
+
+Spring registrará automáticamente la implementación Service gracias al escaneo de componentes habilitado tras anotar con @Service
+
+Proceso de desarrollo:
+
+- Definir la interface Service (EmployeeService)
+- Definir la implementación Service (EmployeeServiceImpl y anotarla con @Service)
+  - Inyectar el DAO (EmployeeDAO)
