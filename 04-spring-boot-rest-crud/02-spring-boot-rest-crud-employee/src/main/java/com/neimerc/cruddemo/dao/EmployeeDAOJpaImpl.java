@@ -34,5 +34,36 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
     // devolver el resultado
     return employees;
   }
+
+  @Override
+  public Employee findById(int theId) {
+    // obtener employee
+    Employee theEmployee = entityManager.find(Employee.class, theId);
+
+    // devolver employee
+    return theEmployee;
+  }
+
+  // Si se usan la capa Service y la capa DAO juntas, las buenas prácticas 
+  // indican que la anotación @Transactional se indique en la capa Service.
+  @Override
+  public Employee save(Employee theEmployee) {
+    // grabar/actualizar employee dependiendo de si el id es 0 (grabar) o está informado (actualizar)
+    Employee dbEmployee = entityManager.merge(theEmployee);
+
+    // devolver dbEmployee
+    return dbEmployee;
+  }
+
+  // Si se usan la capa Service y la capa DAO juntas, las buenas prácticas 
+  // indican que la anotación @Transactional se indique en la capa Service.
+  @Override
+  public void deleteById(int theId) {
+    // encontrar employee por el id
+    Employee theEmployee = entityManager.find(Employee.class, theId);
+
+    // eliminar employee
+    entityManager.remove(theEmployee);
+  }
   
 }

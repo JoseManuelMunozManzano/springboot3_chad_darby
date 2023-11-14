@@ -301,3 +301,12 @@ Capa de servicio: Mejor práctica:
 - Para implementar este código:
   - Aplicar anotación @Transactional en los métodos del servicio
   - Eliminar anotación @Transactional en los métodos del DAO si ya existían
+
+**DAO: Add, Update, Delete**
+
+Vamos a implementar los siguientes métodos DAO:
+
+- Obtener un employee por ID
+- Añadir un nuevo employee
+- Actualizar un employee existente
+- Eliminar un employee existente
