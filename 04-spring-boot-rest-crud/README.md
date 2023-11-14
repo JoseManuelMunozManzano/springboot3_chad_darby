@@ -293,3 +293,11 @@ Proceso de desarrollo:
 - Definir la interface Service (EmployeeService)
 - Definir la implementación Service (EmployeeServiceImpl y anotarla con @Service)
   - Inyectar el DAO (EmployeeDAO)
+
+Capa de servicio: Mejor práctica:
+
+- Aplicar transaccionalidad en la capa de servicio
+- Es responsabilidad de la capa de servicio gestionar la transaccionalidad
+- Para implementar este código:
+  - Aplicar anotación @Transactional en los métodos del servicio
+  - Eliminar anotación @Transactional en los métodos del DAO si ya existían
