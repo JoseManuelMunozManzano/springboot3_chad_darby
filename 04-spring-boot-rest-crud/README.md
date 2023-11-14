@@ -310,3 +310,12 @@ Vamos a implementar los siguientes métodos DAO:
 - Añadir un nuevo employee
 - Actualizar un employee existente
 - Eliminar un employee existente
+
+**Service: Add, Update, Delete**
+
+Vamos a implementar los siguientes métodos en la capa Service:
+
+- Obtener un employee por ID
+- Añadir un nuevo employee
+- Actualizar un employee existente
+- Eliminar un employee existente
