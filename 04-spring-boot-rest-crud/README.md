@@ -451,3 +451,188 @@ The reason why DAO and Spring Data cannot be compared is simply because Spring D
 ```
 
 - Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee.postman_collection.json
+
+### 04-spring-boot-rest-crud-employee-with-spring-data-rest
+
+¿Podemos aplicar lo que hemos visto de Spring Data JPA a los REST APIs?
+
+El problema:
+
+- Hemos visto como crear un API REST para Employee (con su anotación @RestController, etc.)
+- ¿Que pasa si necesitamos crear otro API REST para otra entity?
+  - Customer, Student, Product, Book...
+- ¿Necesitamos repetir el mismo código de nuevo? Es bastante
+
+Lo que me gustaría:
+
+- Me gustaría decirle a Spring que creara por mi un REST API
+- Que use my JpaRepository (entity, primary key) existente
+- Que me de, ya hecho, las funciones básicas de un REST API CRUD
+
+Solución:
+
+- Spring Data REST. Es un proyecto Spring separado que puede usarse con Spring o Spring Boot y que mejora el JpaRepository existente y nos da una implementación REST CRUD.
+
+Con esta solución reducimos bastante el código REST y no se necesita nuevo código para configurarlo.
+
+Spring Data REST expondrá estos endpoints automáticamente:
+
+```
+  POST    /employees
+  GET     /employees
+  GET     /employees/{employeeId}
+  PUT     /employees/{employeeId}
+  DELETE  /employees/{employeeId}
+```
+
+¿Cómo funciona?
+
+- Spring Data REST escaneará el proyecto en busca de JpaRepository
+- Expondrá REST APIs para cada entity type de nuestro JpaRepository de la siguiente forma
+- Simple pluralized form
+
+  - Primer carácter de la Entity type en minúsculas
+  - Añade una 's' a la entity
+  - Ejemplo:
+
+  ```
+    public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+    }
+  ```
+
+  En este caso el endpoint es /employees
+
+Proceso de desarrollo
+
+- Añadir Spring Data REST al fichero Maven POM... y ya esta!!
+
+Resumen de qué necesitamos:
+
+- La entity: Employee
+- JpaRepository: EmployeeRepository extends JpaRepository
+- Dependencia Maven POM para: spring-boot-starter-data-rest
+
+La arquitectura pasa de:
+
+```
+  Employee               Employee                Employee
+    REST       <------>  Service   <------->    Repository     <------>  BBDD
+  Controller                                  Spring Data JPA
+```
+
+A:
+
+```
+  Spring Data               Employee
+    REST       <------>    Repository      <------>  BBDD
+  /employees             Spring Data JPA
+
+```
+
+Los endpoints Spring Data REST son cumplimentan HATEOAS (Hypermedia as the Engine of Application State)
+
+Hypermedia-driven sites proveen información para acceder a interfaces REST.
+
+Es mejor pensar en ello como metadata para la data REST devuelta por estos REST APIs (la response).
+
+Ejemplo de response para: GET /employees/3
+
+```
+{
+  "firstName": "Avani",
+  "lastName": "Gupta",
+  "email": "avani@luv2code.com",
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/employees/3"
+    },
+    "employee": {
+      "href": "http://localhost/8080/employees/3"
+    }
+  }
+}
+```
+
+Donde firstName, lastName y email es la data de Employee y \_links es la response metadata que viene con los links a la data, que describe la data.
+
+Para una colección, la metadata incluye el tamaño de página, elementos totales, páginas...
+
+Ejemplo de response para: GET /employees
+
+```
+{
+  "_embedded": {
+    "employees": [
+      {
+        "firstName": "Avani",
+        ...
+      },
+      ...
+    ]
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 5,
+    "totalPages": 1,
+    "number": 0
+  }
+}
+```
+
+HATEOAS también usa el formato de datos Hypertext Application Language (HAL), que es también el formato de data JSON.
+
+Características avanzadas:
+
+- Paginación, ordenación y búsqueda
+- Se puede extender añadiendo queries personalizadas con JPQL
+- Query Domain Specific Language (Query DSL)
+- Definición de métodos personalizados (código de bajo nivel) para cosas concretas que necesitemos
+
+Notas importantes:
+
+```
+> > What is the practical use case of Spring Data REST?
+
+1. Rapid API Development: Spring Data REST allows you to quickly create a fully functional RESTful API for your data models without writing a lot of boilerplate code. This can significantly speed up the development process.
+
+2. Data Exposition: If you want to make your data accessible to external consumers or other parts of your application via a RESTful interface, Spring Data REST provides a convenient way to do so. This is particularly useful when building microservices or exposing data for consumption by mobile apps or web clients.
+
+3. Simplified CRUD Operations: Spring Data REST provides default endpoints and operations for creating, reading, updating, and deleting (CRUD) resources, which can save you from writing repetitive code for these common operations.
+
+In summary, Spring Data REST is a valuable tool for quickly creating RESTful APIs, especially when you have data models managed by Spring Data repositories. It simplifies API development and adheres to RESTful principles, making it a practical choice for building web services and APIs.
+
+
+> > When to use Spring Data JPA Vs Spring Data REST?
+
+Spring Data JPA and Spring Data REST are two different components within the Spring Data framework, and they serve distinct purposes. You would typically use them in different scenarios based on your project requirements:
+
+Spring Data JPA:
+
+Use Spring Data JPA when you want to simplify the data access layer of your application, particularly when working with relational databases. Spring Data JPA provides a set of abstractions and helper methods to interact with your database, making it easier to work with JPA (Java Persistence API) entities.
+
+It is suitable for applications where you need to define and manage your data model using Java entities and need to perform CRUD operations on these entities.
+
+Spring Data JPA is the right choice when you want to take advantage of JPA's object-relational mapping features, such as entity relationships, querying, and transaction management.
+
+Spring Data JPA is typically used for building the persistence layer of your application, allowing you to store and retrieve data from a database.
+
+
+Spring Data REST:
+
+Use Spring Data REST when you want to quickly expose your data models managed by Spring Data repositories as a RESTful API. Spring Data REST generates a RESTful API for your data models without the need to write extensive API endpoints and controllers.
+
+It is suitable for applications where you need to make your data accessible over HTTP, either for external clients (e.g., mobile apps, web applications) or for integrating multiple services in a microservices architecture.
+
+Spring Data REST is a higher-level abstraction that builds on top of Spring Data JPA (or other Spring Data modules) to create a RESTful API. You typically use Spring Data JPA or another Spring Data module to define your data model and use Spring Data REST to expose that model as a REST API.
+
+Spring Data REST is focused on building the presentation layer of your application, allowing clients to interact with your data via HTTP, following REST principles.
+
+In many cases, you may use both Spring Data JPA and Spring Data REST together within the same application. Spring Data JPA is used to define and manage your data model, while Spring Data REST is used to expose that data model as a RESTful API. This combination can provide a powerful and efficient way to build full-stack applications where you need both data persistence and a web API for data access.
+
+To summarize, Spring Data JPA is used for the data access and persistence layer, while Spring Data REST is used for quickly exposing your data models as RESTful APIs. The choice between them depends on your project's architectural and functional requirements.
+```
+
+- Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee-with-spring-data-rest.postman_collection.json
+
+Para personalizar el endpoint se puede usar la siguiente property: `spring.data.rest.base-path=/magic-api`
