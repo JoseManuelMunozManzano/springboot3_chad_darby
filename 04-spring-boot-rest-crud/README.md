@@ -636,3 +636,65 @@ To summarize, Spring Data JPA is used for the data access and persistence layer,
 - Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee-with-spring-data-rest.postman_collection.json
 
 Para personalizar el endpoint se puede usar la siguiente property: `spring.data.rest.base-path=/magic-api`
+
+**Spring Data REST configuraciones, paginación y ordenación**
+
+Antes hemos visto que:
+
+- Simple pluralized form
+
+  - Primer carácter de la Entity type en minúsculas
+  - Añade una 's' a la entity
+  - Ejemplo:
+
+  ```
+    public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+    }
+  ```
+
+  En este caso el endpoint es /employees
+
+¿Pero que pasa con los plurales complejos? Por ejemplo: Person --> People
+
+Spring Data REST no maneja las formas plurales complejas. En el caso del ejemplo, necesitamos especificar el plural.
+
+Además, ¿Qué ocurre si queremos exponer un nombre de recurso diferente? Por ejemplo: en vez de /employees --> queremos usar /members
+
+La solución es indicar el nombre plural/path con una anotación
+
+```
+  @RepositoryRestResource(path="members")
+  public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+  }
+```
+
+Con respecto a la paginación, Spring Data REST devuelve por defecto 20 elementos, es decir: `Page size = 20`
+
+Podemos navegar a diferentes páginas de data usando query param
+
+```
+  http://localhost:8080/employees?page=0
+
+  http://localhost:8080/employees?page=1
+```
+
+Donde page empieza en 0.
+
+Configuración usando el fichero properties:
+
+- spring.data.rest.base-path
+- spring.data.rest.default-page-size
+- spring.data.rest.max-page-size
+- ...
+
+Con respecto a la ordenación, podemos ordenar por los nombres de propiedades de nuestra entidad (ascendente por defecto)
+
+```
+  http://localhost:8080/employees?sort=lastName
+
+  http://localhost:8080/employees?sort=firstName,desc
+
+  http://localhost:8080/employees?sort=lastName,firstName,asc
+```

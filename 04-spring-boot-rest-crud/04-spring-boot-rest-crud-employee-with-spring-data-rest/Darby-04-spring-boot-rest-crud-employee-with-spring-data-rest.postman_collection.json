@@ -126,6 +126,32 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get all employees sorting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/magic-api/employees?sort=lastName,desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"magic-api",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "lastName,desc"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
