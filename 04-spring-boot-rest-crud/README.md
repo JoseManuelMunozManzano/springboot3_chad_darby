@@ -330,3 +330,124 @@ Vamos a implementar los siguientes métodos en el controlador:
 - Eliminar un employee existente
 
 - Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee.postman_collection.json
+
+### 03-spring-boot-rest-crud-employee-with-spring-data-jpa
+
+Hasta ahora en el curso se ha utilizado el API JPA standard en nuestra capa DAO.
+
+Vamos a cambiar para usar Spring Data JPA en nuestra capa DAO.
+
+El problema:
+
+- Vimos como crear un DAO para Employee
+- ¿Qué hacemos si necesitamos crear un DAO para otra entity?
+  - Customer, Student, Product, Book...
+- ¿Necesitamos repetir el mismo código de nuevo? Es bastante
+
+Hemos visto que hay un patrón a la hora de crear un DAO. El código de los DAOs es básicamente el mismo, cambiando solo el tipo de Entity y la primary key.
+
+Lo que me gustaría:
+
+- Me gustaría decirle a Spring que creara por mi un DAO
+- Que enchufe el tipo de Entity y la primary key
+- Que me de, ya hecho, las funciones básicas de un CRUD
+
+Solución:
+
+- Spring Data JPA. Creamos un DAO y enchufamos el tipo de entity y la primary key, y Spring nos da una implementación CRUD
+
+Con esta solución reducimos hasta en un 70% de código DAO, dependiendo del caso.
+
+Spring Data JPA proporciona una interface, JpaRepository, que expone ciertos métodos (findAll(), findById(), save(), deleteById()...)
+
+Proceso de desarrollo:
+
+- Extender nuestra interface DAO de la interface JpaRepository
+- Usar el repository en nuestra app
+- No es necesario una clase de implementación de nuestra interface DAO
+
+```
+  public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+    // Ya está... No es necesario escribir ningún código
+
+  }
+```
+
+Indicamos el tipo de Entity (Employee) y el tipo de nuestra primary key (Integer)
+
+Para usar nuestro repository en la app:
+
+```
+  @Service
+  public class EmployeeServiceImpl implements EmployeeServ {
+
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    public EmployeeServiceImpl(EmployeeRepository theEmployeeRepository) {
+      employeeRepository = theEmployeeRepository;
+    }
+
+    @Override
+    public List<Employee> findAll() {
+
+      // Podemos usar los métodos que nos regala JpaRepository
+      return employeeRepository.findAll();
+    }
+
+  }
+```
+
+Recordar:
+
+- Usamos Spring Data JPA porque nos ayuda a reducir la cantidad de código para crear un DAO
+  - Sin Spring Data JPA: tenemos que crear una interface DAO con los métodos que necesitamos y luego una clase DAO de implementación de esos métodos (2 ficheros y más de 30 líneas de código)
+  - Con Spring Data JPA: en nuestra interface extendemos JpaRepository y ya (1 fichero y 3 líneas de código)
+
+Características avanzadas:
+
+- Se puede extender añadiendo queries personalizadas con JPQL
+- Query Domain Specific Language (Query DSL)
+- Definición de métodos personalizados (código de bajo nivel) para cosas concretas que necesitemos
+
+Por si acaso, indicar que el patrón DAO y el patrón Repository no son lo mismo.
+
+Notas importantes:
+
+```
+You can't compare DAO and Spring Data JPA.
+
+DAO (Data Access Object): The DAO pattern is used for encapsulating the interaction with a data source, such as a database. The primary purpose of the DAO is to abstract away the details of data storage and retrieval, providing a clean interface for the rest of the application to work with data. DAOs contain methods for performing CRUD (Create, Read, Update, Delete) operations on data entities. In modern Spring applications, the DAO pattern is often implemented using technologies like Spring Data JPA, which provides a higher-level and more convenient way to work with databases.
+
+
+Spring Data JPA is a subproject of the larger Spring Data framework that simplifies and enhances the interaction with databases in Java applications, specifically in the context of Java Persistence API (JPA)-compliant data access. It aims to provide a more convenient and productive way to work with databases while reducing the amount of boilerplate code that developers need to write. Spring Data JPA integrates the features of Spring Framework and JPA, offering a higher-level abstraction for data access operations.
+
+Here are some key aspects and features of Spring Data JPA:
+
+JPA Integration: Spring Data JPA builds on top of the Java Persistence API (JPA), which is a standard API for object-relational mapping (ORM). JPA defines the standard for mapping Java objects to relational database tables and performing CRUD operations using entity classes and annotations.
+
+Repository Abstraction: The central feature of Spring Data JPA is the repository abstraction. It provides a set of interfaces that you can extend in your application to create repositories for your data entities. These repositories offer common database operations such as CRUD (Create, Read, Update, Delete) operations, pagination, sorting, and custom query methods.
+
+Query Methods: Spring Data JPA allows you to create query methods by simply defining method names according to a specific naming convention. For example, you can define a method like findByLastName(String lastName) in your repository interface, and Spring Data JPA will automatically generate the appropriate SQL query for you based on the method name.
+
+Custom Queries: In addition to query methods, Spring Data JPA supports the creation of custom queries using the @Query annotation or method naming conventions. This allows you to write more complex queries when needed.
+
+Pagination and Sorting: Spring Data JPA provides built-in support for paginating and sorting query results. You can specify the page size, the current page number, and the sorting criteria directly in your repository methods.
+
+Auditing: Spring Data JPA offers auditing capabilities that automatically populate audit fields like creation date, modification date, and user information without explicit coding.
+
+Integration with Spring Boot: Spring Data JPA seamlessly integrates with Spring Boot applications, making it easy to set up and configure. Spring Boot provides auto-configuration for data source connections and transaction management.
+
+Native Queries: While Spring Data JPA encourages the use of JPQL (Java Persistence Query Language), it also supports native SQL queries when necessary.
+
+Overall, Spring Data JPA streamlines database interactions and reduces the need for writing low-level database-related code. It simplifies the development process, improves code quality, and enhances productivity by providing a consistent and powerful way to work with data in Spring applications.
+```
+
+```
+DAO is still used today because if you want to have your code tested, and more control over the library it is much better to Hibernate and define your own methods and what they are going to return. Yes, you can use Spring DATA for similar things, but if you reach a point where you might need to use EntityManager for something or try to handle your own transactions which you cannot do with Spring Data because it uses too much magic. Anything that uses too much magic under the hood is not good, which will lock you down with that specific library and in case something happens will make debugging impossible.
+
+The reason why DAO and Spring Data cannot be compared is simply because Spring Data is a repository pattern it is not a DAO pattern.
+```
+
+- Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee.postman_collection.json
