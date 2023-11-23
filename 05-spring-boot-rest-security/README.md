@@ -144,3 +144,53 @@ Para añadir los usuarios, password y roles, para empezar los vamos a añadir en
 Al añadirlos usando la clase de configuración, Spring Boot no usará el usuario/password del fichero properties.
 
 Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
+
+Restringir endpoints basados en Roles
+
+![alt text](./images/RestringirEndpointsBasadoEnRoles.png)
+
+- Sintaxis básica
+
+```
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+    http.authorizeHttpRequests(configurer ->
+                  configurer
+                      .requestMatchers("/api/employees")
+                        .hasRole("ADMIN")
+
+                      .requestMatchers(HttpMethod.DELETE, "/api/employees")
+                        .hasRole("ADMIN")
+
+                      // ** indica todos los sub-paths
+                      .requestMatchers(HttpMethod.GET, "/api/employees/**")
+                        .hasAnyRole("EMPLOYEE", "ADMIN"));
+
+    // HTTP autenticación básica
+    // Tenemos que indicar el tipo de autenticación forzosamente
+    http.httpBasic(Customizer.withDefaults());
+
+    // deshabilitar CSRF si procede
+    http.csrf(csrf -> csrf.disable());
+
+    return http.build();
+  }
+```
+
+Cross-Site Request Forgery (CSRF)
+
+- Spring Security puede proteger contra ataques CSRF
+- Embebe autenticación adicional data/token en los formularios HTML
+- En siguientes peticiones, la web app verificará el token antes de procesar
+- El ejemplo más claro de todo esto son las aplicaciones web tradicionales (HTML forms, etc.)
+
+¿Cuándo usar protección contra CSRF?
+
+- Para peticiones normales hechas desde el navegador
+- Web apps tradicionales con formularios HTML que añaden/modifican data
+- Pero REST API para clientes que no es el navegador se puede deshabilitar la protección CSRF.
+- En general, esta protección no es requerida para REST APIs sin estado
+  - POST, PUST, DELETE y/o PATCH
+
+Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
