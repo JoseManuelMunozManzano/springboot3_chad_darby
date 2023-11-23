@@ -95,3 +95,18 @@ Y para gestionar la BBDD uso el programa SQuirreL.
 Ejecutar las consultas del archivo `employee-directory.sql` para crear una nueva tabla de BBDD llamada employee y poblarla de datos de prueba.
 
 El archivo se encuentra en el directorio `spring-boot-employee-sql-script`
+
+Añadimos la dependencia al POM
+
+```
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+```
+
+Y para testear vamos a la ruta `http://localhost:8080/api/employees`
+
+Sin modificar application.properties. Nos saldrá una página de login donde el usuario es user y el password aparece en la consola al ejecutar la app.
+
+Modificando application.properties podemos indicar el usuario y el password que queramos.
