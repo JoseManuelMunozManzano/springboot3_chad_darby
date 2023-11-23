@@ -110,3 +110,37 @@ Y para testear vamos a la ruta `http://localhost:8080/api/employees`
 Sin modificar application.properties. Nos saldrá una página de login donde el usuario es user y el password aparece en la consola al ejecutar la app.
 
 Modificando application.properties podemos indicar el usuario y el password que queramos.
+
+Configuración Básica
+
+- Vamos a crear 3 usuarios con sus roles
+- Vamos a crear una Configuración de Spring Security (con la anotación @Configuration)
+- Añadimos esos usuarios, password y sus roles
+
+En Spring Security los passwords se almacenan usando un formato específico `{id}encodedPassword`
+
+Donde id puede valer:
+
+- noop -> password en texto plano
+- bcrypt -> hashing de password BCrypt
+
+Ejemplo: {noop}test123
+
+Para añadir los usuarios, password y roles, para empezar los vamos a añadir en memoria.
+
+- Se crea un método en la clase de configuración (la anotada con @Configuration) que devuelve un InMemoryUserDetailsManager
+- Se usa una clase UserDetails de la siguiente forma
+
+```
+  UserDetails mary = User.builder()
+            .username("mary")
+            .password("{noop}test123")
+            .roles("EMPLOYEE", "MANAGER")
+            .build();
+
+  return new InMemoryUserDetailsManager(mary);
+```
+
+Al añadirlos usando la clase de configuración, Spring Boot no usará el usuario/password del fichero properties.
+
+Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
