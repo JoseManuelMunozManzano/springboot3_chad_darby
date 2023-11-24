@@ -74,7 +74,7 @@ Usuarios, passwords y roles se pueden configurar en:
 
 En esta sección se va a cubrir el password almacenado en BD como texto plano y encriptado.
 
-### 00-spring-boot-rest-security-employee-starter-code
+## 00-spring-boot-rest-security-employee-starter-code
 
 Para el proyecto se usa MariaDB y uso esta imagen Docker:
 
@@ -316,3 +316,13 @@ It's important to note that the storage engine and character set used for a tabl
 
 When creating a table, you can omit the ENGINE and DEFAULT CHARSET statements if you want to use the default storage engine and character set specified in the MySQL configuration. However, it's generally considered good practice to explicitly specify these settings to ensure consistency and avoid any potential issues when migrating or sharing the database schema.
 ```
+
+## 01-spring-boot-rest-security-custom-tables-jpa-hibernate
+
+Como añadir seguridad usando JPA/Hibernate en vez de JDBC.
+
+Tenemos un pdf llamado `bonus-lecture-spring-boot-rest-security-jpa-hibernate-bcrypt.pdf`.
+
+Seguirlo para comprender bien el proyecto.
+
+Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security-custom.postman_collection`
