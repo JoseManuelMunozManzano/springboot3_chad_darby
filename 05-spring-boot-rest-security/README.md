@@ -194,3 +194,56 @@ Cross-Site Request Forgery (CSRF)
   - POST, PUST, DELETE y/o PATCH
 
 Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
+
+Cuentas de usuario almacenadas en la BD
+
+Vamos a guardar los usuarios/passwords/roles en BD
+
+- Spring Security puede leer cuentas de usuario de la BD
+- Para ello, por defecto, tenemos que seguir los esquemas de tabla predefinidos por Spring Security
+
+![alt text](./images/PredefinedTableSchemasForSpringSecurity.png)
+
+- También pueden personalizarse los esquemas de tablas
+- Esto es muy útil si tenemos tablas personalizadas y específicas para nuestro proyecto
+- Entonces seremos los responsables de desarrollar el código para acceder a la data
+  - JDBC, JPA/Hibernate, etc...
+
+Proceso de desarrollo:
+
+- Desarrollar Scripts SQL para configurar tablas de BD
+  - Ver carpeta sql-scripts en este proyecto, fichero 04-setup-spring-security-demo-database-plaintext.sql
+  - Ejecutar en SQuirreL
+- Añadir soporte de BD al fichero POM Maven
+- Crear fichero de propiedades JDBC
+- Actualizar Spring Security Configuration para usar JDBC para autenticación y autorización
+  - En el fuente DemoSecurityConfig.java
+  - Inyectaremos DataSource, que ya viene autoconfigurado por Spring Boot
+  - Le diremos a Spring Security que use autenticación JDBC con nuestra dataSource: `return new JdbcUserDetailsManager(dataSource);`
+
+El esquema de BD que Spring Security da por defecto es:
+
+![alt text](./images/DefaultSpringSecurityDatabaseSchema.png)
+
+Hay que usar esos nombres de tabla y de columnas. En la tabla authorities es donde se indican los roles.
+
+Para los roles, internamente Spring Security usa el prefijo "ROLE\_", por tanto, para un rol "ADMIN", hay que informar "ROLE_ADMIN"
+
+Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
+
+QUESTIONS:
+
+```
+why ENGINE=InnoDB DEFAULT CHARSET=LATIN1; For creating table??
+
+In MySQL, the statement ENGINE=InnoDB DEFAULT CHARSET=LATIN1 is used to specify the storage engine and character set for a table when creating it.
+In simple terms,
+
+ENGINE=InnoDB: This part specifies the storage engine for the table. InnoDB is a popular and widely used storage engine in MySQL. It provides features such as transactions, foreign key constraints, and crash recovery, making it suitable for applications that require data integrity and reliability.
+
+DEFAULT CHARSET=LATIN1: This part specifies the default character set for the table. The character set determines how text data is stored and interpreted. In this case, the character set is set to LATIN1, also known as ISO 8859-1, which supports a range of Western European languages.
+
+It's important to note that the storage engine and character set used for a table can be customized based on the specific requirements of your application. InnoDB and LATIN1 are just examples, and you can choose different options depending on your needs. For instance, you could use MyISAM or MEMORY as the storage engine, and you could select a different character set such as UTF8 or UTF8MB4 if you need to support a broader range of languages or special characters.
+
+When creating a table, you can omit the ENGINE and DEFAULT CHARSET statements if you want to use the default storage engine and character set specified in the MySQL configuration. However, it's generally considered good practice to explicitly specify these settings to ensure consistency and avoid any potential issues when migrating or sharing the database schema.
+```
