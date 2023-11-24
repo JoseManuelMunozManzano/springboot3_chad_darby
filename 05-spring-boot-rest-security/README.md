@@ -326,3 +326,70 @@ Tenemos un pdf llamado `bonus-lecture-spring-boot-rest-security-jpa-hibernate-bc
 Seguirlo para comprender bien el proyecto.
 
 Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security-custom.postman_collection`
+
+## 02-spring-boot-rest-security-jpa-hibernate-bcrypt-registration
+
+The example has a new endpoint for /register. See details below.
+
+---
+
+This example shows the basic process for registering a new user using a REST API.
+
+The application exposes the public endpoint: /register
+
+It expects the following JSON
+
+- Endpoint: /register
+- HTTP Method: POST
+
+```
+{
+  "userName" : "theUserName",
+  "password" : "thePassword",
+  "roleName" : "ROLE_MANAGER"
+}
+```
+
+This will add a new user to the database with the role of MANAGER.
+
+Successful requests will return a 200 status code (ok).
+
+The app checks if the username already exists, if so then it will return 400 status code (bad request). The app also checks for a valid role. Note, at the moment, you can create any user with any role, including ADMIN. You may want to add a code check to not allow users to register new users with ADMIN. But, I will leave it up to you to decide.
+
+Database Set Up
+
+1. Run the following database scripts
+   - sql-scripts/01-employee-directory.sql
+   - 02-setup-spring-security-demo-database-hibernate-bcrypt.sql
+
+Test the App
+
+1. Run the Spring Boot application: `CruddemoApplication.java`
+2. Run POSTMAN
+3. Send the following request
+
+   - POST http://localhost:8080/register
+   - Body: raw -> JSON
+
+```
+ {
+  "userName" : "scott",
+  "password" : "tiger123",
+  "roleName" : "ROLE_MANAGER"
+ }
+```
+
+4. This will return status code of 200
+
+You now have a new user in the database with the role of MANAGER.
+
+Congratulations :-)
+
+To review the source code, make note of the files:
+
+- RegistrationController.java
+- UserService.java and UserServiceImpl.java
+- UserDao.java and UserDaoImpl.java
+- RoleDao.java and RoleDaoImpl.java
+
+Testing it importing Postman file: `Darby-05-spring-boot-rest-security-jpa-hibernate-register.postman_collection.json`
