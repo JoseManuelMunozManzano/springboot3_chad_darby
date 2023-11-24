@@ -231,6 +231,45 @@ Para los roles, internamente Spring Security usa el prefijo "ROLE\_", por tanto,
 
 Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security.postman_collection`
 
+Encriptación BCrypt
+
+Hasta ahora estamos guardando el password en texto plano. Para empezar está bien, pero esto no vale para producción.
+
+Las buenas prácticas indican almacenar los passwords en formato encriptado.
+
+Así, si nuestra BD queda comprometida por hackers, estos no podrán conocer las passwords de nuestros usuarios.
+
+Spring Security recomienda usar el popular algoritmo BCrypt.
+
+- BCrypt lleva a cabo un hash encriptado de una vía
+- Añade una semilla aleatoria al password para una protección adicional
+- Incluye soporte para evitar ataques de fuerza bruta
+- Ver webs:
+  - `https://danboterhoven.medium.com/why-you-should-use-bcrypt-to-hash-passwords-af330100b861`
+  - `https://en.wikipedia.org/wiki/Bcrypt`
+  - `https://crackstation.net/hashing-security.htm`
+
+Como obtener un password con BCrypt
+
+- Opción 1: Usar un sitio web para realizar la encriptación. La haremos ahora
+  - Ir a la ruta `https://www.bcryptcalculator.com/`
+  - Escribimos el password en texto plano
+  - La utilidad web nos generará un password BCrypt
+  - Usaremos esos passwords encriptados, añadiéndolos a las cuentas de usuario en nuestra BD
+- Opción 2: Escribir código Java para realizar la encriptación. Se hará más adelante
+
+Proceso de desarrollo
+
+- Ejecutar el Script SQL que contiene los passwords encriptados `sql-scripts/05-setup-spring-security-demo-database-bcrypt.sql`
+  - Tenemos que modificar la DDL para el campo password, ya que la longitud tiene que ser como mínimo de 68 caracteres, correspondientes a 8 caracteres para {bcrypt} y 60 caracteres para el password codificado
+  - El password encriptado es: fun123
+
+Proceso de Login de Spring Security
+
+![alt text](./images/SpringSecurityLoginProcess.png)
+
+Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security-bcrypt.postman_collection`
+
 QUESTIONS:
 
 ```
