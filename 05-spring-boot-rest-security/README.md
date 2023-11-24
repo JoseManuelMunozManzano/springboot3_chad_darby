@@ -327,6 +327,24 @@ Seguirlo para comprender bien el proyecto.
 
 Para testear desde Postman importar el archivo `Darby-05-spring-boot-rest-security-custom.postman_collection`
 
+### Internal Flow of Spring Security
+
+There are some interface which we need to provide when we want to override the function. Like Password encoder, we have override the bean Bcrypt passwordEncoder class.
+
+Then we implement some of the spring security class like UserService and override the loadUserByUserName method of it.
+
+then we auto wire the new user-Dao class and user serviceImpl class.
+
+To understand this , you need to understand the internal flow of spring security. In this flow we choose which class to be overridden for the custom implementation.
+
+![alt text](./images/InternalFlowSpringSecurity.png)
+
+In above, when we go to the authentication provider, we have option to write our own providers which in turn implement the userDetails service and password encoder.
+
+Reference:
+
+`https://howtodoinjava.com/spring-security/inmemory-jdbc-userdetails-service/`
+
 ## 02-spring-boot-rest-security-jpa-hibernate-bcrypt-registration
 
 The example has a new endpoint for /register. See details below.
@@ -393,3 +411,16 @@ To review the source code, make note of the files:
 - RoleDao.java and RoleDaoImpl.java
 
 Testing it importing Postman file: `Darby-05-spring-boot-rest-security-jpa-hibernate-register.postman_collection.json`
+
+## REST API JDBC Authentication with API Gateway
+
+With API Gateway we could ensure REST API security for multiple services instead of just one.
+
+We can add security to using an API Gateway service. Spring provides the Spring Cloud Gateway that supports securing services. Here are resources for you.
+
+- Official project site for Spring Cloud Gateway
+  - `https://spring.io/projects/spring-cloud-gateway`
+- Short youtube video (30 mins): Protect Your Microservices with Spring Cloud Gateway
+  - `https://www.youtube.com/watch?v=HY4kTCNKwxk`
+- Much longer youtube video (1 hour): Spring Cloud Gateway: Resilience, Security, and Observability
+  - `https://www.youtube.com/watch?v=UXcCHX_ymag`
