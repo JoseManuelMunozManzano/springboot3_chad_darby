@@ -19,10 +19,25 @@ public class DemoSecurityConfig {
   
 
   // Añadir soporte para JDBC ... no más usuarios hardcode!
+  // Se usan tablas personalizadas de usuarios y roles que no son los que define Spring Security por defecto.
   @Bean
   public UserDetailsManager userDetailsManager(DataSource dataSource) {
-    // Indica a Spring Security que use autenticación JDBC con nuestro dataSource
-    return new JdbcUserDetailsManager(dataSource);
+    // Indica a Spring Security que use autenticación JDBC con nuestro dataSource    
+    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+
+    // Definir query para recuperar un user por el nombre de usuario
+    // Es JDBC, se usa un SQL normal
+    // La marca ? se sustituye por el nombre de usuario que viene del login
+    jdbcUserDetailsManager.setUsersByUsernameQuery(
+      "select user_id, pw, active from members where user_id = ?"
+    );
+
+    // Definir query para recuperar los authorities/roles por el nombre de usuario
+    jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+      "select user_id, role from roles where user_id = ?"
+    );
+
+    return jdbcUserDetailsManager;
   }
 
   // Restringir acceso basado en roles
