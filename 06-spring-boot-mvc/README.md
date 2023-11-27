@@ -75,3 +75,31 @@ Uso de Librerías CSS como Bootstrap
     - ![alt text](./images/ReferenciarFicheroBootstrap.png)
 - Uso de fichero Bootstrap CDN
   - ![alt text](./images/BootstrapRemoto.png)
+
+Componentes de una aplicación Spring MVC
+
+- WEB PAGES: Páginas Web para diseñar componentes UI
+- BEANS: Una colección de Spring Beans (controllers, services, etc...)
+- SPRING CONFIGURATION: Configuración Spring (XML, Anotaciones o Java)
+
+![alt text](./images/ComoFuncionaMVC.png)
+
+Leer Datos de Formulario con Spring MVC
+
+![alt text](./images/FormDataApplicationFlow.png)
+
+La clave es entender que vamos a usar un controlador (HelloWorldController) para manejar dos peticiones.
+
+![alt text](./images/FormDataController.png)
+
+Proceso de desarrollo:
+
+- Crear clase Controller
+- Mostrar formulario HTML
+  - Crear método en el controlador para mostrar formulario HTML
+  - Crear View para el formulario HTML
+- Procesar formulario HTML
+  - Crear método en el controlador para procesar formulario HTML
+  - Desarrollar View de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
