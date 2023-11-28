@@ -119,12 +119,19 @@ Como ejemplo:
 - Queremos crear un nuevo método para procesar data de formulario
 - Leemos la data del formulario: student's name
   - HttpServletRequest request
-  - request.getParametr("studentName");
+  - request.getParameter("studentName");
 - Convertimos el nombre a mayúsculas
 - Añadimos la versión en mayúsculas al model
   - model.addAttribute("message", result);
 - En la plantilla View obtenemos el dato que añadimos antes al model. Notar que el atributo (message) tiene que ser el mismo
   - <span th:text="${message}" />
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
+
+Leer data de formulario HTML con la anotación @RequestParam
+
+- En vez de usar HttpServletRequest y luego request.getParameter utilizamos otra técnica propia de Spring
+  - @RequestParam("studentName") String theName
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
 

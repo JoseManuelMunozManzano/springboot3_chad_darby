@@ -3,6 +3,7 @@ package com.jmmunoz.springboot.thymeleafdemo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -33,6 +34,22 @@ public class HelloWorldController {
 
     // crear message
     String result = "Yo! " + theName;
+    
+    // añadir message al modelo
+    model.addAttribute("message", result);
+
+    return "helloworld";
+  }
+
+  // método para leer data del formulario y añadir data al modelo
+  @RequestMapping("/processFormVersionThree")
+  public String processFormVersionThree(@RequestParam("studentName") String theName, Model model) {
+    
+    // convertir la data a mayúsculas
+    theName = theName.toUpperCase();
+
+    // crear message
+    String result = "Hey My Friend from v3! " + theName;
     
     // añadir message al modelo
     model.addAttribute("message", result);
