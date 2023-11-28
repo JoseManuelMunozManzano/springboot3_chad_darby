@@ -6,6 +6,8 @@ MVC con Thymeleaf.
 
 Vamos a ver estas secciones de MVC sin prestar tanta atención a Thymeleaf porque mi objetivo es usar React o Angular.
 
+Tutorial Patrón DTO, que no se ve en el curso: `https://www.youtube.com/watch?v=5yquJa2x3Ko`
+
 Todo lo que pueda aprender de Thymeleaf bienvenido sea, pero no quiero profundizar mucho.
 
 Pasos:
@@ -103,3 +105,89 @@ Proceso de desarrollo:
   - Desarrollar View de confirmación
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
+
+Añadir data al Model Spring MVC
+
+- El Model es un contenedor para los datos de la aplicación
+- En el controlador:
+  - Se puede poner cualquier cosa en el modelo
+  - cadenas, objetos, info de la BD, etc...
+- La página View puede acceder a la data desde el model.
+
+Como ejemplo:
+
+- Queremos crear un nuevo método para procesar data de formulario
+- Leemos la data del formulario: student's name
+  - HttpServletRequest request
+  - request.getParametr("studentName");
+- Convertimos el nombre a mayúsculas
+- Añadimos la versión en mayúsculas al model
+  - model.addAttribute("message", result);
+- En la plantilla View obtenemos el dato que añadimos antes al model. Notar que el atributo (message) tiene que ser el mismo
+  - <span th:text="${message}" />
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
+
+```
+In Spring MVC, when a request is made to a controller method, the framework is responsible for creating instances of certain objects and passing them as arguments to the method. This process is known as argument resolution.
+
+Here are some commonly used objects that can be passed as method parameters in a Spring MVC controller:
+
+1. Model: The Model interface is provided by Spring to pass data between the controller and the view. When you include a Model parameter in your controller method, Spring automatically provides an instance of it.
+
+@Controller
+public class MyController {
+
+    @RequestMapping("/example")
+    public String example(Model model) {
+        // Use the model to add attributes
+        model.addAttribute("message", "Hello, World!");
+        return "example-view";
+    }
+}
+
+
+2. HttpServletRequest and HttpServletResponse: You can include HttpServletRequest and HttpServletResponse as parameters in your method to gain access to the raw HTTP request and response.
+
+@RequestMapping("/example")
+public String example(HttpServletRequest request, HttpServletResponse response) {
+    // Access request and response objects
+    // ...
+    return "example-view";
+}
+
+
+3. @RequestParam: Use @RequestParam to extract values from query parameters or form data.
+
+@RequestMapping("/example")
+public String example(@RequestParam String name) {
+    // Use the value of the 'name' parameter
+    // ...
+    return "example-view";
+}
+
+
+4. @PathVariable: Extract values from URI templates.
+
+@RequestMapping("/example/{id}")
+public String example(@PathVariable Long id) {
+    // Use the value of the 'id' path variable
+    // ...
+    return "example-view";
+}
+
+
+5. @RequestBody: Extract the entire request body.
+
+@PostMapping("/example")
+public String example(@RequestBody String requestBody) {
+    // Process the entire request body
+    // ...
+    return "example-view";
+}
+
+
+The instances of these objects are typically created and managed by the Spring MVC framework through various resolvers. Spring uses reflection and other mechanisms to populate these parameters with the appropriate values before invoking the controller method.
+
+The actual creation and population depend on the specific resolver used, and Spring has default resolvers for common types. You can also customize this process by creating custom argument resolvers if needed.
+```
