@@ -135,6 +135,27 @@ Leer data de formulario HTML con la anotación @RequestParam
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
 
+GetMapping y PostMapping
+
+- Con un método HTTP GET, la data del formulario se añade al final de la URL en la forma nombre/pares de valores
+  - theUrl?field1=value1&field2=value2...
+  - @RequestMappint("/endpoint") sirve para manejar el envío de datos de formulario, para todos los tipos de métodos HTTP
+  - @GetMapping("/processForm") solo maneja métodos HTTP GET
+- Cuándo usar GET
+  - Bueno para hace debug
+  - Marcador o email URL
+  - Limitaciones en la longitud de la data (1000 caractéres)
+- Enviar data con un método HTTP POST
+  - La data se envía en el body del mensaje de la petición HTTP
+  - Ejemplo solo para POST: @RequestMapping(path="/processForm", method=RequestMethod.POST)
+  - @PostMapping("/processForm") solo maneja métodos HTTP POST
+- Cuándo usar POST
+  - No se puede marcar o email URL
+  - No tiene limitaciones en la longitud de la data
+  - Puede enviarse código binario
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
+
 ```
 In Spring MVC, when a request is made to a controller method, the framework is responsible for creating instances of certain objects and passing them as arguments to the method. This process is known as argument resolution.
 
