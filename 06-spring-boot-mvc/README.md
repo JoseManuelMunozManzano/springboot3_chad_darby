@@ -156,6 +156,29 @@ GetMapping y PostMapping
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showForm`
 
+Spring MVC Form Data Binding - Campos de Texto
+
+![alt text](./images/FormTextFieldsController.png)
+
+- Los formularios de Spring MVC pueden hacer uso de data binding
+- Esto es, automáticamente establecen / recuperan data de un objeto / bean de Java
+- En nuestro controller de Spring
+  - Antes de mostrar el formulario, debes añadir un model attribute
+  - Esto es un bean que retiene datos del formulario para el data binding
+  - ![alt text](./images/ModelAttribute.png)
+- ![alt text](./images/FormIsLoaded.png)
+- ![alt text](./images/FormIsSubmitted.png)
+
+Proceso de desarrollo:
+
+- Crear clase Student
+- Cerar clase controlador StudentController
+- Crear formulario HTML
+- Crear código de procesamiento de formulario
+- Crear página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showStudentForm`
+
 ```
 In Spring MVC, when a request is made to a controller method, the framework is responsible for creating instances of certain objects and passing them as arguments to the method. This process is known as argument resolution.
 
