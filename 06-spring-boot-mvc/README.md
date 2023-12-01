@@ -388,3 +388,17 @@ Más información sobre @InitBinder: `https://www.logicbig.com/tutorials/spring-
 Más información sobre editores de propiedades personalizadas: `https://www.baeldung.com/spring-mvc-custom-property-editor`
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Rango de números: @Min y @Max
+
+- Añadir un nuevo campo de entrada en el formulario: Free Passes
+- El usuario podrá introducir un valor entre 0 y 10
+
+Proceso de desarrollo:
+
+- Añadir una regla de validación a Customer
+- Mostrar un mensaje de error en el formulario HTML
+- Realizar validación en la clase Controller
+- Actualizar la página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
