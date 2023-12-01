@@ -235,6 +235,15 @@ Proceso de desarrollo:
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showStudentForm`
 
+Si queremos que los valores no aparezcan hardcodeados en la página HTML, podemos ponerlos en el fichero properties y leerlos de ahí.
+
+- Añadir lista de Sistemas Operativos al fichero application.properties
+- Inyectar los Sistemas Operativos en StudentController usando la anotación @Value
+- Añadir la lista de Sistemas Operativos al model
+- En el formulario HTML, generar lista de tags <input> para los Sistemas Operativos
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showStudentForm`
+
 ```
 In Spring MVC, when a request is made to a controller method, the framework is responsible for creating instances of certain objects and passing them as arguments to the method. This process is known as argument resolution.
 
