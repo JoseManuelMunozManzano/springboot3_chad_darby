@@ -202,6 +202,18 @@ Proceso de desarrollo:
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showStudentForm`
 
+Spring MVC Form Data Binding - Radio buttons
+
+![alt text](./images/RadioButtons.png)
+
+Proceso de desarrollo:
+
+- Actualizar formulario HTML
+- Actualizar clase Student - añadir getter/setter para la nueva property
+- Actualizar página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/showStudentForm`
+
 ```
 In Spring MVC, when a request is made to a controller method, the framework is responsible for creating instances of certain objects and passing them as arguments to the method. This process is known as argument resolution.
 
