@@ -365,3 +365,26 @@ Proceso de desarrollo:
 - Crear página de confirmación
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Anotación @InitBinder
+
+El ejemplo anterior tiene el problema de que, si indicamos lastName con espacios en blanco, pasa la validación y no deberia.
+
+Para evitar esto tenemos que hacer un trim de los campos de entrada.
+
+- La anotación @InitBinder funciona como un pre-procesador
+- Pre-procesará primero cada petición web que vaya a nuestro controller
+- Por tanto, un método anotado con @InitBinder se ejecutará lo primero de todo, pre-procesará la data de la petición y seguirá por el controller
+
+Lo vamos a usar en este ejemplo para:
+
+- Eliminar espacios en blanco por delante y por detrás
+- Si un String solo tiene espacios en blanco lo convertiremos en null
+
+Con esto, sin indicamos lastName solo con espacios en blanco, se convertirá en null y la validación no pasará.
+
+Más información sobre @InitBinder: `https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-custom-property-editor.html`
+
+Más información sobre editores de propiedades personalizadas: `https://www.baeldung.com/spring-mvc-custom-property-editor`
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
