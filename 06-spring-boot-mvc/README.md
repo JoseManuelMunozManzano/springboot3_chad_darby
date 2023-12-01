@@ -307,3 +307,45 @@ The instances of these objects are typically created and managed by the Spring M
 
 The actual creation and population depend on the specific resolver used, and Spring has default resolvers for common types. You can also customize this process by creating custom argument resolvers if needed.
 ```
+
+## 02-validationdemo
+
+Spring MVC Form Validation
+
+Necesitamos validar la información que el usuario ha informado en el formulario:
+
+- Campos requeridos
+- Números válidos en un rango
+- Formato válido (código postal por ejemplo)
+- Nuestras propias reglas de negocio
+
+- Java incluye una API estándar de Validaciones de Beans
+  - https://beanvalidation.org/
+- Define un modelo de metadata y una API para validación de entidades
+- Spring Boot y Thimeleaf también soportan este API de Validaciones de Beans
+
+Características disponibles en la Validación de Beans
+
+- Requerido
+- Validar longitud
+- Validar números
+- Validar con expresiones regulares
+- Validaciones personalizadas
+
+Anotaciones usadas en las validaciones
+
+- @NotNull - Chequea que el valor no sea null
+- @Min - El número indicado debe ser >= valor
+- @Max - El número indicado debe ser <= valor
+- @Size - El tamaño debe ser el indicado
+- @Pattern - Para expresiones regulares
+- @Future/@Past - Una fecha debe estar en el futuro o pasado de otra dada
+- ...
+
+Nuestra hoja de ruta
+
+- Configurar nuestro entorno de desarrollo
+- Escribir código para comprobar un campo requerido
+- Validar un rango numérico: min, max
+- Validar usando expresiones regulares (regexp)
+- Validación personalizada
