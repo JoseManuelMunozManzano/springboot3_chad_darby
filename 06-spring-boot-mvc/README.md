@@ -349,3 +349,19 @@ Nuestra hoja de ruta
 - Validar un rango numérico: min, max
 - Validar usando expresiones regulares (regexp)
 - Validación personalizada
+
+Campos Requeridos
+
+Proceso de desarrollo:
+
+- Crear clase Customer y añadir reglas de validación
+  - Haremos el campo lastName requerido
+- Añadir código del Controller para mostrar el formulario HTML
+  - Usaremos Model para compartir información entre el Controller y las Views
+- Desarrollar formulario HTML y añadir soporte de validación
+- Realizar validación en la clase Controller
+  - Usaremos anotaciones @Valid y @ModelAttribute para indicar a Spring MVC que realice validaciones
+  - El resultado de las validaciones irá a un BindingResult
+- Crear página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
