@@ -449,3 +449,26 @@ Trucos de Debug para Errores de Nombres Personalizados en fichero messages.prope
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/` e indicar Last name y un texto en Free passes, y pulsar el botón Submit.
 
 Con esto obtenemos el tipo de error typeMismatch.customer.freePasses que es el que podemos incluir en el fichero messages.properties. Ver la parte codes [...]
+
+Validación Personalizada
+
+- Nos permite realizar validaciones personalizadas basadas en nuestras reglas de negocio
+- Spring MVC llama a nuestra validación personalizada
+- La validación personalizada devuelve un valor booleano para paso/fallo (true/false)
+
+Vamos a crear una anotación Java personalizada desde cero llamada @CourseCode que se aplicará a un campo dado.
+
+![alt text](./images/CustomJavaAnnotation.png)
+
+Proceso de desarrollo:
+
+- Crear una regla de validación personalizada
+  - Crear anotación @CourseCode
+    - ![alt text](./images/CourseCodeAnnotation.png)
+  - Crear CourseCodeConstraintValidator, que es una clase Helper donde pondremos nuestras reglas de negocio
+    - ![alt text](./images/CourseCodeConstraintValidator.png)
+- Añadir regla de validación a la clase Customer
+- Mostrar mensaje de error en el formulario HTML
+- Actualizar la página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
