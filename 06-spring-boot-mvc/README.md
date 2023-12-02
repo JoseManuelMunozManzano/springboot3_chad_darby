@@ -438,3 +438,14 @@ Para resolver este problema:
   - El fichero tiene que ubicarse y llamarse así: `src/resources/messages.properties`
   - typeMismatch.customer.freePasses=Invalid number
   - Indicamos tipo de error (typeMismatch), el nombre del model (customer), el nombre del campo (freePasses) y el mensaje personalizado (Invalid number)
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Trucos de Debug para Errores de Nombres Personalizados en fichero messages.properties
+
+- Añadimos a CustomerController logs para inspeccionar el objeto bindingResult en la consola
+- Este objeto tiene mucha información que podemos usar para descifrar lo que ocurre durante el proceso de validación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/` e indicar Last name y un texto en Free passes, y pulsar el botón Submit.
+
+Con esto obtenemos el tipo de error typeMismatch.customer.freePasses que es el que podemos incluir en el fichero messages.properties. Ver la parte codes [...]
