@@ -402,3 +402,18 @@ Proceso de desarrollo:
 - Actualizar la página de confirmación
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Aplicar Expresiones Regulares
+
+`https://docs.oracle.com/javase/tutorial/essential/regex/`
+
+- Vamos a usar expresiones regulares para validar un código postal
+- El usuario puede introducir solo 5 caracteres / dígitos
+
+Proceso de desarrollo:
+
+- Añadir una regla de validación a Customer
+- Mostrar un mensaje de error en el formulario HTML
+- Actualizar la página de confirmación
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`

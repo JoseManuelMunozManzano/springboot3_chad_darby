@@ -36,6 +36,13 @@
 
       <br /><br />
 
+      Postal Code: <input type="text" th:field="*{postalCode}" />
+
+      <!-- Añadir mensaje de error (si hay) -->
+      <span th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}" class="error"> </span>
+
+      <br /><br />
+
       <input type="submit" value="Submit" />
     </form>
   </body>
