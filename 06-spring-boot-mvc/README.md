@@ -417,3 +417,13 @@ Proceso de desarrollo:
 - Actualizar la página de confirmación
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Campos Integer requeridos
+
+Para que esto funcione, se cambia, en la clase Customer, el campo fressPasses, de ser un primitivo int a la clase Integer.
+
+Esto es para evitar el fallo de no poder convertir una propiedad de tipo String a un int primitivo.
+
+No olvidar cambiar también los métodos getter / setter
+
+Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
