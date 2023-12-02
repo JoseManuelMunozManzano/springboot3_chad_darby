@@ -427,3 +427,14 @@ Esto es para evitar el fallo de no poder convertir una propiedad de tipo String 
 No olvidar cambiar también los métodos getter / setter
 
 Para testear ejecutar el proyecto e ir a la ruta: `http://localhost:8080/`
+
+Manejar Strings por campos Integer y mensajes personalizados
+
+Si en el campo de formulario Free Passes introducimos texto y pulsamos el botón submit, como ese campo esperaba un entero, falla indicando que no puede convertir un String a un Integer. Es un error muy feo que debemos personalizar.
+
+Para resolver este problema:
+
+- Vamos a crear un mensaje de error personalizado en un nuevo fichero de mensajes
+  - El fichero tiene que ubicarse y llamarse así: `src/resources/messages.properties`
+  - typeMismatch.customer.freePasses=Invalid number
+  - Indicamos tipo de error (typeMismatch), el nombre del model (customer), el nombre del campo (freePasses) y el mensaje personalizado (Invalid number)
