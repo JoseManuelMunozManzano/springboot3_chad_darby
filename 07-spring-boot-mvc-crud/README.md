@@ -64,3 +64,11 @@ Actualizar Employee
   - Pasamos al controller el @RequestParam("employeeId") int theId y con el precargamos el formulario
 - Procesar la data del formulario
   - Usamos la misma funcionalidad que al añadir employee. No hay que hacer nada nuevo
+
+Borrar Employee
+
+- Añadir un botón para borrar el registro
+  - El botón incluye el employee id, y se pasa en la url
+  - Se añade, en el onclick, un poco de JavaScript para confirmar el borrado
+- Añadir el código del Delete al controller
+  - Se hace un redirect para evitar intentar borrar dos veces
