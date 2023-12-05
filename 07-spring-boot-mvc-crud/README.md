@@ -42,3 +42,16 @@ Para testear ejecutar el proyecto y:
       <meta http-equiv="refresh" content="0; URL='employees/list'" />
   ```
   Y nos lleva a Get Employees.
+-
+
+Añadir Employee
+
+- Nuevo botón Add Employee en list-employees.html
+  - Al pulsar el botón iremos a la ruta: /employees/showFormForAdd
+- Crear formulario HTML para nuevo employee
+- Procesar los datos de formulario para guardar el employee
+  - Irá a la ruta: /employees/save
+  - Se hace un redirect para evitar hacer el POST más de una vez. Es el llamado patrón Post/Redirect/Get
+    ```
+      return "redirect:/employees/list";
+    ```
