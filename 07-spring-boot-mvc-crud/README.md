@@ -55,3 +55,12 @@ Añadir Employee
     ```
       return "redirect:/employees/list";
     ```
+
+Actualizar Employee
+
+- Añadir un botón para actualizar el registro
+  - El botón incluye el employee id, y se pasa en la url
+- Precargar el formulario
+  - Pasamos al controller el @RequestParam("employeeId") int theId y con el precargamos el formulario
+- Procesar la data del formulario
+  - Usamos la misma funcionalidad que al añadir employee. No hay que hacer nada nuevo

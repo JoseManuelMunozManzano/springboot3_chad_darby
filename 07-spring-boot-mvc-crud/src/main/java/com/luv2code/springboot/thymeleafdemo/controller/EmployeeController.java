@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.luv2code.springboot.thymeleafdemo.entity.Employee;
 import com.luv2code.springboot.thymeleafdemo.service.EmployeeService;
@@ -45,6 +46,19 @@ public class EmployeeController {
 
     theModel.addAttribute("employee", theEmployee);
 
+    return "employees/employee-form";
+  }
+
+  @GetMapping("/showFormForUpdate")
+  public String showFormForUpdate(@RequestParam("employeeId") int theId, Model theModel) {
+
+    // obtener el employee del service
+    Employee theEmployee = employeeService.findById(theId);
+
+    // Llevar employee al model para precargar el formulario
+    theModel.addAttribute("employee", theEmployee);
+
+    // enviar a nuestro formulario
     return "employees/employee-form";
   }
 
