@@ -15,3 +15,7 @@ Curso realizado usando JDK17 y VSCode
 ## 05-spring-boot-rest-api-security
 
 ## 06-spring-boot-mvc
+
+## 07-spring-boot-mvc-crud
+
+## 08-spring-boot-mvc-security
