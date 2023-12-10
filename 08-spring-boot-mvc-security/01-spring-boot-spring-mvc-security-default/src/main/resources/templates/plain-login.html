@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom Login Page</title>
+
+    <style>
+      .failed {
+        color: red;
+      }
+    </style>
   </head>
   <body>
     <h3>My Custom Login Page</h3>
 
     <form action="#" th:action="@{/authenticateTheUser}" method="post">
+      <!-- Chequear error de login -->
+      <div th:if="${param.error}">
+        <i class="failed">Sorry! You entered invalid username/password.</i>
+      </div>
+
       <!-- Spring Security Filters leerá los datos del formulario y autenticará el usuario -->
       <!-- Recordar que hay que usar los name: username y password -->
       <p>User name: <input type="text" name="username" /></p>

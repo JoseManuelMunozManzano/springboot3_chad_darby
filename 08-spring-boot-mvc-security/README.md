@@ -187,3 +187,25 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 Notar que si indicamos un passord erroneo no indica ningún tipo de error.
 
 Esto es porque hemos decidido hacer el login personalizado, y eso incluye el tratamiento de errores.
+
+**Formulario de Login Mensajes de Error**
+
+Cuando el login falla, por defecto Spring Security:
+
+- Devuelve al usuario a la página de login
+- Añade a la url un parámetro error: ?error
+
+![alt text](./images/FailedLogin.png)
+
+Proceso de desarrollo:
+
+- Modificar el formulario de login personalizado
+  - Chequear el parámetro error
+  - Si el parámetro error existe, mostrar un mensaje de error
+
+![alt text](./images/CheckForError.png)
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password uno erroneo, por ejemplo: 1234
