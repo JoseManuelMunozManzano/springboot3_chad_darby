@@ -209,3 +209,30 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 
 - Indicar como usuario: john
 - Indicar como password uno erroneo, por ejemplo: 1234
+
+**Formulario de Login personalizado con Bootstrap**
+
+Nuestro formulario de login personalizado es muy feo. Lo vamos a mejorar usando Bootstrap.
+
+Se ha descargado del curso el template de login con nombre: `fancy-login.html`
+
+Proceso de desarrollo:
+
+- Modificar el formulario para apuntar a nuestra URL de procesamiento de login
+- Verificar que los campos del formulario se llaman username y password
+- Cambiar nuestro controlador para usar nuestro formulario de login hecho en Bootstrap
+
+Documentación de Bootstrap:
+
+- https://www.w3schools.com/bootstrap/
+- https://getbootstrap.com/docs/5.3/getting-started/introduction/
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password uno erroneo, por ejemplo: 1234
+
+Luego:
+
+- Indicar como usuario: john
+- Indicar como password el correcto: test123
