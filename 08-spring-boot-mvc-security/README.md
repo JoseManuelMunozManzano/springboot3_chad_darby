@@ -156,3 +156,34 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 
 - Indicar como usuario: john
 - Indicar como password: test123
+
+**Formulario con Login personalizado**
+
+Proceso de desarrollo:
+
+- Modificar la configuración de Spring Security para que vaya a nuestro formulario de login personalizado
+  - ![alt text](./images/HttpSecurity.png)
+- Desarrollar un Controller que muestre el formulario de login personalizado
+  - Dada nuestra imagen anterior, el controller tendrá un @GetMapping("/showMyLoginPage")
+  - No hace falta un request mapping para "/authenticateTheUser". Lo hace Spring automáticamente
+- Crear el formulario de login personalizado
+  - HTML (CSS opcional)
+  - Mandaremos a procesar la data indicada en el login a la URL /authenticateTheUser, que fue la indicada en la imagen. No hace falta hacer ningún código ya que lo maneja Spring Security automáticamente
+
+A la hora de crear el formulario de login personalizado hay que tener en cuenta que:
+
+- Spring Security define nombres por defecto para los campos del formulario de login
+  - Campo nombre del usuario: username
+  - Campo password: password
+  - Spring Security Filters leerá la data del formulario y autenticará el usuario
+
+![alt text](./images/CustomLoginForm2.png)
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
+
+Notar que si indicamos un passord erroneo no indica ningún tipo de error.
+
+Esto es porque hemos decidido hacer el login personalizado, y eso incluye el tratamiento de errores.
