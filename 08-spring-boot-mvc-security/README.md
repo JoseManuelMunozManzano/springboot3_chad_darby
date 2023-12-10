@@ -117,3 +117,42 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/common-applicatio
 
 Just search for "server.servlet.session"
 ```
+
+**Configurar Seguridad Básica**
+
+Proceso de desarrollo:
+
+- Crear una clase de configuración de Spring Security
+  - Usar anotación @Configuration
+- Añadir usuarios, passwords y roles
+
+En Spring Security los passwords se almacenan usando un formato específico `{id}encodedPassword`
+
+Donde id puede valer:
+
+- noop -> password en texto plano
+- bcrypt -> hashing de password BCrypt
+
+Ejemplo: {noop}test123
+
+Para añadir los usuarios, password y roles, para empezar los vamos a añadir en memoria.
+
+- Se crea un método en la clase de configuración (la anotada con @Configuration) que devuelve un InMemoryUserDetailsManager
+- Se usa una clase UserDetails de la siguiente forma
+
+```
+  UserDetails mary = User.builder()
+            .username("mary")
+            .password("{noop}test123")
+            .roles("EMPLOYEE", "MANAGER")
+            .build();
+
+  return new InMemoryUserDetailsManager(mary);
+```
+
+Al añadirlos usando la clase de configuración, Spring Boot no usará el usuario/password del fichero properties.
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
