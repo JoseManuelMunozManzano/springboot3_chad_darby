@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>luv2code Company Home Page</title>
   </head>
   <body>
-    <h2>luv2code Company Home Page - Yoohoo!!!</h2>
+    <h2>luv2code Company Home Page</h2>
     <hr />
-    Welcome to the luv2code company home page!
+    <p>Welcome to the luv2code company home page!</p>
+
+    <!-- Añadir un botón logout -->
+    <form action="#" th:action="@{/logout}" method="POST">
+      <input type="submit" value="Logout" />
+    </form>
   </body>
 </html>

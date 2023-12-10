@@ -193,7 +193,7 @@ Esto es porque hemos decidido hacer el login personalizado, y eso incluye el tra
 Cuando el login falla, por defecto Spring Security:
 
 - Devuelve al usuario a la página de login
-- Añade a la url un parámetro error: ?error
+- Añade a la url un parámetro error: `?error`
 
 ![alt text](./images/FailedLogin.png)
 
@@ -236,3 +236,67 @@ Luego:
 
 - Indicar como usuario: john
 - Indicar como password el correcto: test123
+
+**Logout**
+
+Añadiremos un botón de Logout. Al pulsarlo se limpiará la sesión del usuario y se redireccionará a la página de login.
+
+Proceso de desarrollo:
+
+- Añadir el soporte de logout a la Configuración de Spring Security
+  - `.logout(logout -> logout.permitAll());`
+  - El URL por defecto es /logout
+  - La URL de logout la manejará automáticamente Spring Security Filters
+- Añadir un botón de logout a home.html
+  - Envía la data a la URL por defecto /logout
+  - El método es POST (Get está deshabilitado por defecto)
+  - Es necesario un formulario para poder hacer el logout (th:action y el method)
+- Actualizar nuestro formulario de login para mostrar un mensaje "logged out"
+
+En un proceso de Logout Spring Security hará:
+
+- Invalidar la sesión HTTP del usuario y eliminar los cookies de la sesión, etc.
+- Devolver al usuario a la página de login
+- Añadir un parámetro de logout: `?logout`
+  - Podemos chequear este parámetro para mostrar un mensaje de logout
+
+![alt text](./images/Logout.png)
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
+- Pulsar el botón logout
+
+```
+>> We don't need to write the redirect to the login page? How this logout works?
+
+This support is built into Spring Security by default. Spring Security will automatically log out and send to the login page.
+
+>> Can I change it to other directory?
+
+Yes, you can. Add a config for the logoutSuccessUrl(...). Here's an example
+
+                .logout(logout ->
+                        logout
+                                .permitAll()
+                                .logoutSuccessUrl("/")
+                )
+
+This will send to the root of your application (assuming it is unsecured). You can send to an unsecured location of your application.
+
+>> Login success, we are redirect to the root ("/") directory automatically?
+
+Login success will redirect to root ("/") directory automatically ... however, if the user attempted to access another protected path, then it will redirect to that path instead.
+
+>> Can I change it?
+
+Yes, you can. Add a config for the defaultSuccessUrl(...). Here's an example
+
+                .formLogin(form ->
+                        form
+                                .loginPage("/showMyLoginPage")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .permitAll()
+                                .defaultSuccessUrl("/home", true)
+```

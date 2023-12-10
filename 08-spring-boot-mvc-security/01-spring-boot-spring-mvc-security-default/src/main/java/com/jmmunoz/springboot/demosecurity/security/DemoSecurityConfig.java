@@ -40,14 +40,15 @@ public class DemoSecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(configurer ->
             configurer
-                .anyRequest().authenticated()   // cualquier petición a la app debe estar autenticada (logged in)                 
+                .anyRequest().authenticated()   // cualquier petición a la app debe estar autenticada (logged in)
     )
     .formLogin(form -> 
             form
                   .loginPage("/showMyLoginPage")
                   .loginProcessingUrl("/authenticateTheUser")
                   .permitAll()
-    );
+    )
+    .logout(logout -> logout.permitAll());
 
     return http.build();
   }
