@@ -95,7 +95,9 @@ Veremos el formulario login por defecto suministrado por Spring Security.
 - Usuario: user
 - Password: aparece en la consola donde se ejecuta Spring
 
-NOTA: En las herramientas de desarrollador ir a la pestaña Application y luego, en la parte izquierda seleccionar Cookies y eliminar la entrada con el usuario y password si queremos que nos vuelva a salir la pantalla de login. Si no, tras hacer login la primera vez, el usuario aparecerá como loggeado siempre, ya que está basado en una sesión de navegador.
+NOTA: En las herramientas de desarrollador ir a la pestaña Application y luego, en la parte izquierda seleccionar Cookies y eliminar la entrada con el usuario y password, asociada a la ejecución de nuestra app, si queremos que nos vuelva a salir la pantalla de login. Si no, tras hacer login la primera vez, el usuario aparecerá como loggeado siempre, ya que está basado en una sesión de navegador.
+
+![alt text](./images/DeleteEntryCookie.png)
 
 Esto es un problema que solo se da durante desarrollo y testing. No se da en producción.
 
