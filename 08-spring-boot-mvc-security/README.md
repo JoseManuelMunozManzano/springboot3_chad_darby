@@ -605,3 +605,17 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 - Usuario con acceso a Leadership Meeting y IT Systems Meeting
 - Indicar como usuario: susan
 - Indicar como password: test123
+
+**Página personalizada de acceso denegado**
+
+Proceso de desarrollo
+
+- Configurar página personalizada para acceso denegado
+  - .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"));
+- Crear código en el controller y view
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
+- Pulsar Leadership Meeting
