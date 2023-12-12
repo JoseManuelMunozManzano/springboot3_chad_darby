@@ -300,3 +300,280 @@ Yes, you can. Add a config for the defaultSuccessUrl(...). Here's an example
                                 .permitAll()
                                 .defaultSuccessUrl("/home", true)
 ```
+
+**Mostrar User ID y Roles**
+
+Spring Security da soporte para acceder al id de usuario y sus roles
+
+Proceso de desarrollo:
+
+- XML Namespace
+  - xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+- Mostrar User ID
+  - sec:authentication="principal.username"
+- Mostrar roles de usuario
+  - sec:authentication="principal.authorities"
+  - authorities es lo mismo que user roles
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: mary
+- Indicar como password: test123
+
+```
+Let's assume you have an additional field on the User entity:
+
+@Column(name = "email")
+private String email;
+
+You would also like to display the user's email in the application.
+
+---
+
+Create a Custom AuthenticationSuccessHandler
+
+You can create a custom AuthenticationSuccessHandler. The AuthenticationSuccessHandler is an interface that allows you to customize the behavior that occurs after a successful authentication attempt. When a user successfully logs in, Spring Security invokes the onAuthenticationSuccess method of the AuthenticationSuccessHandler implementation you provide. This gives you the opportunity to perform certain actions or redirect the user to a specific page after they have been successfully authenticated.
+
+In our case, we will place the User object in the HTTP session. This will allow to access it later to display on Thymeleaf pages or use in other areas of our application.
+
+Here's the code for the AuthenticationSuccessHandler
+
+package com.luv2code.springboot.demosecurity.security;
+
+import java.io.IOException;
+
+import com.luv2code.springboot.demosecurity.entity.User;
+import com.luv2code.springboot.demosecurity.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    private UserService userService;
+
+    public CustomAuthenticationSuccessHandler(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
+
+        System.out.println("\n\nIn customAuthenticationSuccessHandler\n\n");
+
+        String userName = authentication.getName();
+
+        System.out.println("userName=" + userName);
+
+        User theUser = userService.findByUserName(userName);
+
+        // now place in the session
+        HttpSession session = request.getSession();
+        session.setAttribute("user", theUser);
+
+        // forward to home page
+
+        response.sendRedirect(request.getContextPath() + "/");
+    }
+}
+
+
+The key section of code is this:
+
+		User theUser = userService.findByUserName(userName);
+
+		// now place in the session
+		HttpSession session = request.getSession();
+		session.setAttribute("user", theUser);
+
+We retrieve the User from the database and store it in the HttpSession.
+
+
+
+----
+
+Configure SpringSecurity to use Custom AuthenticationSuccessHandler
+
+In the Spring Security config, you need to configure a reference to the custom AuthenticationSuccessHandler
+
+File: DemoSecurityConfig.java
+
+Add this snippet
+
+                .formLogin(form ->
+                        form
+                                .loginPage("/showMyLoginPage")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .successHandler(new CustomAuthenticationSuccessHandler(userService))
+                                .permitAll()
+                )
+
+Make note of the entry
+
+                                .successHandler(new CustomAuthenticationSuccessHandler(userService))
+
+Here's the full code for the security config
+
+
+package com.luv2code.springboot.demosecurity.security;
+
+import com.luv2code.springboot.demosecurity.service.UserService;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
+
+@Configuration
+public class DemoSecurityConfig {
+
+    //bcrypt bean definition
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    //authenticationProvider bean definition
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService); //set the custom user details service
+        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
+        return auth;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
+
+        http.authorizeHttpRequests(configurer ->
+                        configurer
+                                .requestMatchers("/").hasRole("EMPLOYEE")
+                                .requestMatchers("/leaders/**").hasRole("MANAGER")
+                                .requestMatchers("/systems/**").hasRole("ADMIN")
+                                .requestMatchers("/register/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(form ->
+                        form
+                                .loginPage("/showMyLoginPage")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .successHandler(new CustomAuthenticationSuccessHandler(userService))
+                                .permitAll()
+                )
+                .logout(logout -> logout.permitAll()
+                )
+                .exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied")
+                );
+
+        return http.build();
+    }
+
+}
+
+
+----
+
+Display User information in Thymeleaf template
+Now that the User info is in the HttpSession, we can use this to display it in the Thymeleaf template.
+
+File: home.html
+
+<!-- display first name, last name and email -->
+<div th:if="${session.user}" >
+    <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
+</div>
+
+Notice this uses ${session.user.email} and similar thing for firstName and lastName. You can access any property that is defined on your User entity. During your design phase, you can add more properties to your User Entity such as company, city, state, whatever you would like based on your database table.
+
+```
+
+```
+I have a problem with method findByUserName()
+
+User theUser = userService.findByUserName(userName)
+
+Can I get an access to it by extending some kind of interface or do I have to write this method on my own using JPA and SQL query?
+
+
+Here is the code for UserService.java and UserServiceImpl.java. This will give you access to the method: findByUserName()
+
+
+
+File: UserService.java
+
+package com.luv2code.springboot.demosecurity.service;
+
+import com.luv2code.springboot.demosecurity.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends UserDetailsService {
+
+	public User findByUserName(String userName);
+
+}
+
+
+File: UserServiceImpl.java
+
+package com.luv2code.springboot.demosecurity.service;
+
+import com.luv2code.springboot.demosecurity.dao.RoleDao;
+import com.luv2code.springboot.demosecurity.dao.UserDao;
+import com.luv2code.springboot.demosecurity.entity.Role;
+import com.luv2code.springboot.demosecurity.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	private UserDao userDao;
+
+	private RoleDao roleDao;
+
+	@Autowired
+	public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
+		this.userDao = userDao;
+		this.roleDao = roleDao;
+	}
+
+	@Override
+	public User findByUserName(String userName) {
+		// check the database if the user already exists
+		return userDao.findByUserName(userName);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User user = userDao.findByUserName(userName);
+		if (user == null) {
+			throw new UsernameNotFoundException("Invalid username or password.");
+		}
+		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+				mapRolesToAuthorities(user.getRoles()));
+	}
+
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+	}
+}
+
+```
