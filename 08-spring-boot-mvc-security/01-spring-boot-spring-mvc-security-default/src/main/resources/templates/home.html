@@ -21,19 +21,21 @@
       Role(s): <span sec:authentication="principal.authorities"></span>
     </p>
 
-    <hr />
-
     <!-- Añadir un link que apunte a /leaders ... esto es para los managers -->
-    <p>
-      <a th:href="@{/leaders}">Leadership Meeting</a>
-      (Only for Manager peeps)
-    </p>
+    <div sec:authorize="hasRole('MANAGER')">
+      <p>
+        <a th:href="@{/leaders}">Leadership Meeting</a>
+        (Only for Manager peeps)
+      </p>
+    </div>
 
     <!-- Añadir un link que apunte a /systems ... esto es para los admins -->
-    <p>
-      <a th:href="@{/systems}">IT Systems Meeting</a>
-      (Only for Admin peeps)
-    </p>
+    <div sec:authorize="hasRole('ADMIN')">
+      <p>
+        <a th:href="@{/systems}">IT Systems Meeting</a>
+        (Only for Admin peeps)
+      </p>
+    </div>
 
     <hr />
 

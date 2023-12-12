@@ -619,3 +619,27 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 - Indicar como usuario: john
 - Indicar como password: test123
 - Pulsar Leadership Meeting
+
+**Mostrar contenido basado en roles**
+
+No tenemos que mostrar contenido (links en nuestro ejemplo) para los que distintos usuarios no tengan acceso, basado en su rol.
+
+```
+  <div sec:authorize="hasRole('MANAGER')">
+      .....
+  </div>
+```
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Usuario sin acceso
+- Indicar como usuario: john
+- Indicar como password: test123
+
+- Usuario con acceso a Leadership Meeting
+- Indicar como usuario: mary
+- Indicar como password: test123
+
+- Usuario con acceso a Leadership Meeting y IT Systems Meeting
+- Indicar como usuario: susan
+- Indicar como password: test123
