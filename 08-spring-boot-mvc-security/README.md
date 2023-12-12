@@ -577,3 +577,31 @@ public class UserServiceImpl implements UserService {
 }
 
 ```
+
+**Restringir URLs basado en roles**
+
+![alt text](./images/RestrictUrlsBasedOnRoles.png)
+
+Proceso de desarrollo
+
+- Crear código en el controller y views
+- Restringir acceso basado en roles
+  - Actualizar el fuente de configuración (.java) de Spring Security
+  - Sintaxis General Un Role: `requestMatchers(<< add path to match on >>).hasRole(<< authorized role >>)`
+    Ejemplo: requestMatchers("/leaders/\*\*").hasRole("MANAGER")
+  - Sintaxis General Varios Roles: `requestMatchers(<< add path to match on >>).hasAnyRole(<< list of authorized roles >>)`
+    - Ejemplo: .hasAnyRole("ADMIN", "DEVOLOPER", "VIP")
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Usuario sin acceso
+- Indicar como usuario: john
+- Indicar como password: test123
+
+- Usuario con acceso a Leadership Meeting
+- Indicar como usuario: mary
+- Indicar como password: test123
+
+- Usuario con acceso a Leadership Meeting y IT Systems Meeting
+- Indicar como usuario: susan
+- Indicar como password: test123
