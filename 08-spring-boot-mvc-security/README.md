@@ -759,3 +759,39 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 
 - Indicar como usuario: mary
 - Indicar como password: fun123
+
+**Spring Security - Autenticación JDBC - Tablas Personalizadas**
+
+Hasta ahora hemos usado los esquemas de BD por defecto de Spring Security, es decir, las tablas users y authorities.
+
+Funcionan bien, pero es restrictivo. ¿Qué pasa si en la empresa en la que trabajamos ya tiene sus propias tablas de BD de usuarios y roles, u otros nombres de campos?
+
+Con Spring Security podemos usar, sin problema, nuestras propias tablas. Para ello:
+
+- Tenemos que indicarle a Spring como consultar nuestras tablas personalizadas
+- Proporcionar una query para encontrar un user por el nombre de usuario
+- Proporcionar una query para encontrar authorities / roles por el nombre del usuario
+
+Proceso de desarrollo:
+
+- Si existen, eliminar las tablas authorities y users (en este orden)
+  - drop table authorities;
+  - drop table users;
+- Crear nuestras tablas personalizadas con SQL
+  - Ejecutar en SQuirreL el archivo `sql-scripts/06-setup-spring-security-demo-database-bcrypt-custom-table-names.sql`
+    - Tabla de usuarios: members
+      - El password encriptado es: fun123
+    - Tabla de roles: roles
+  - Actualizar la configuración de Spring Security (nuestro fuente DemoSecurityConfig.java)
+    - Proporcionar una query para encontrar el user por el nombre de usuario
+    - Proporcionar una query para encontrar authorities / roles por el nombre del usuario
+
+![alt text](./images/CustomTablesWithSQL.png)
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: fun123
+
+- Indicar como usuario: mary
+- Indicar como password: fun123

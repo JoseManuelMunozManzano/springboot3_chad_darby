@@ -15,14 +15,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class DemoSecurityConfig {
 
-
   // añadir soporte para JDBC ... no más usuarios hardcode !!
   // Inyectamos un DataSource que es auto-configurado por Spring Boot
+  // Tablas personalizadas
   @Bean
   public UserDetailsManager userDetailsManager(DataSource dataSource) {
-    // Indica a Spring Security que use autenticación JDBC con nuestro data source.
-    // Spring Security buscará las tablas con nombre por defecto users y authorities
-    return new JdbcUserDetailsManager(dataSource);
+
+    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+
+    // definir consulta para recuperar un usuario por username
+    // El signo ? será el nombre de usuario indicado en el login
+    jdbcUserDetailsManager.setUsersByUsernameQuery(
+      "select user_id, pw, active from members where user_id = ?");
+
+    // definir consulta para recuperar los authorities / roles por username
+    jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+      "select user_id, role from roles where user_id = ?");
+
+    return jdbcUserDetailsManager;
   }
 
   // Configuración para que Spring Security referencia a nuestro formulario de login personalizado.
@@ -46,6 +56,17 @@ public class DemoSecurityConfig {
 
     return http.build();
   }
+
+/*
+  // añadir soporte para JDBC ... no más usuarios hardcode !!
+  // Inyectamos un DataSource que es auto-configurado por Spring Boot
+  @Bean
+  public UserDetailsManager userDetailsManager(DataSource dataSource) {
+    // Indica a Spring Security que use autenticación JDBC con nuestro data source.
+    // Spring Security buscará las tablas con nombre por defecto users y authorities
+    return new JdbcUserDetailsManager(dataSource);
+  }
+*/
 
 /*
   @Bean
