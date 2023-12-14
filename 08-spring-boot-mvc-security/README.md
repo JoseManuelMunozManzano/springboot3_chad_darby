@@ -643,3 +643,119 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 - Usuario con acceso a Leadership Meeting y IT Systems Meeting
 - Indicar como usuario: susan
 - Indicar como password: test123
+
+**JDBC Authentication - Cuentas de usuario almacenadas en BD - Texto Plano**
+
+Para el proyecto se usa MariaDB y uso esta imagen Docker:
+
+```
+  docker container run \
+  -e MARIADB_USER=springstudent \
+  -e MARIADB_PASSWORD=springstudent \
+  -e MARIADB_ROOT_PASSWORD=springstudentroot \
+  -e MARIADB_DATABASE=student_tracker \
+  -dp 3306:3306 \
+  --name student_tracker \
+  --volume student_tracker:/var/lib/mysql \
+  mariadb:jammy
+```
+
+Y para gestionar la BBDD uso el programa SQuirreL.
+
+Configuración de SQuirreL
+
+![alt text](./images/SquirrelConfig.png)
+
+La contraseña es: `springstudent`
+
+Hasta ahora, nuestras cuentas de usuario han sido hardcodeadas en el código fuente Java, para hacerlo más sencillo.
+
+Vamos a añadir acceso a BD.
+
+- Spring Security puede leer información de cuentas de usuario de BD, directamente
+- Por defecto, hay que seguir los esquemas de tabla predefinidos por Spring Security
+- De esta forma, hay muy poco código que escribir.
+
+![alt text](./images/SpringSecurityJDBC.png)
+
+- También se puede personalizar los esquemas de tabla
+- Esto es útil si tenemos tablas personalizadas específicas para nuestro proyecto
+- Seremos entonces los responsables de desarrollar el código para acceder a la data
+  - JDBC, JPA / Hibernate...
+
+En este ejemplo seguiremos los esquemas de tabla predefinidos por Spring Security.
+
+![alt text](./images/DefaultSpringSecuritySchema.png)
+
+Proceso de desarrollo
+
+- Desarrollar Scripts SQL para configurar las tablas de BD
+  - Por ahora guardaremos el password en texto plano, pero luego usaremos bcrypt
+  - Para los roles, Spring Security utiliza el prefijo ROLE\_
+  - Ver carpeta `sql-scripts` en este proyecto, fichero `04-setup-spring-security-demo-database-plaintext.sql` y ejecutarlo en SQuirreL
+  - Consultas:
+    - `select * from employee_directory.employee`
+    - `select * from employee_directory.users`
+    - `select * from employee_directory.authorities`
+- Añadir soporte de BD al fichero POM Maven
+  - Usaremos MariaDB
+  ```
+  		<dependency>
+  			<groupId>org.mariadb.jdbc</groupId>
+  			<artifactId>mariadb-java-client</artifactId>
+        <scope>runtime</scope>
+  	</dependency>
+  ```
+- Crear propiedades JDBC en el fichero properties
+  ```
+    spring.datasource.url=jdbc:mariadb://localhost:3306/employee_directory
+    spring.datasource.username=springstudent
+    spring.datasource.password=springstudent
+  ```
+- Actualizar Spring Security Configuration para usar JDBC
+  - Comentamos la parte en la que trabajábamos con usuarios en memoria
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
+
+- Indicar como usuario: mary
+- Indicar como password: test123
+
+**JDBC Authentication - Cuentas de usuario almacenadas en BD - Encriptación BCrypt**
+
+- Spring Security recomienda usar el algoritmo BCrypt
+- BCrypt realiza una encriptación hash de una vía
+- Añade un salt aleatorio al password para proporcionar una protección adicional
+- Incluye soporte para evitar un ataque por fuerza bruta
+- Por qué deberíamos usar BCrypt: https://danboterhoven.medium.com/why-you-should-use-bcrypt-to-hash-passwords-af330100b861
+- Descripción detallada del algoritmo BCrypt: https://en.wikipedia.org/wiki/Bcrypt
+- Buenas prácticas de Password Hashing: https://crackstation.net/hashing-security.htm
+
+Como obtener un password con BCrypt
+
+- Opción 1: Usar un sitio web para realizar la encriptación. La haremos ahora
+  - Ir a la ruta `https://www.bcryptcalculator.com/`
+  - Escribimos el password en texto plano
+  - La utilidad web nos generará un password BCrypt
+  - Usaremos esos passwords encriptados, añadiéndolos a las cuentas de usuario en nuestra BD
+- Opción 2: Escribir código Java para realizar la encriptación.
+
+Proceso de desarrollo
+
+- Ejecutar el Script SQL que contiene los passwords encriptados `sql-scripts/05-setup-spring-security-demo-database-bcrypt.sql`
+  - Tenemos que modificar la DDL para el campo password, ya que la longitud tiene que ser como mínimo de 68 caracteres, correspondientes a 8 caracteres para {bcrypt} y 60 caracteres para el password codificado
+  - El password encriptado es: fun123
+
+Proceso de Login de Spring Security
+
+![alt text](./images/SpringSecurityLoginProcess.png)
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: fun123
+
+- Indicar como usuario: mary
+- Indicar como password: fun123
