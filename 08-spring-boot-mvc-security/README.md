@@ -795,3 +795,19 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 
 - Indicar como usuario: mary
 - Indicar como password: fun123
+
+## 02-spring-boot-spring-mvc-security-jpa-hibernate-bcrypt
+
+Como añadir seguridad usando JPA/Hibernate en vez de JDBC.
+
+Tenemos un pdf llamado `bonus-lecture-spring-boot-spring-mvc-security-security-jpa-hibernate-bcrypt.pdf`.
+
+Seguirlo para comprender bien el proyecto.
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: fun123
+
+- Indicar como usuario: mary
+- Indicar como password: fun123
