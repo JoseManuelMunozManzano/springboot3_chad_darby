@@ -811,3 +811,129 @@ Para testear ir a la siguiente URL: `http://localhost:8080`
 
 - Indicar como usuario: mary
 - Indicar como password: fun123
+
+## 03-spring-boot-spring-mvc-security-user-registration
+
+Se añaden nuevos usuarios usando un formulario de registro de Users
+
+Tenemos un pdf llamado `bonus-lecture-spring-boot-spring-mvc-security-user-registration`
+
+Seguirlo para comprender bien el proyecto.
+
+También leer la siguiente web para validación de datos de formulario: https://stackabuse.com/spring-boot-thymeleaf-form-data-validation-with-bean-validator/
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Pulsar el botón Register New User
+- Indicar como username: jmmunoz
+- Indicar como password: fun123
+
+Luego hacer login con ese usuario
+
+En SQuirreL se pueden hacer los siguientes SQL:
+
+- select \* from employee_directory.user
+- select \* from employee_directory.role
+- select \* from employee_directory.users_roles
+
+Un TODO sería configurar el programa para, si el user tiene el campo enabled a false, lo indique al hacer login.
+
+```
+Hibernate, JPA, Spring JDBC, and Spring Data JPA are all technologies related to database access and object-relational mapping (ORM) in Java applications. Each of these technologies serves a specific purpose and offers different features. Let's explore each of them:
+
+- Hibernate: Hibernate is a popular open-source ORM framework that simplifies database access in Java applications. It provides a way to map Java objects to database tables, allowing developers to work with objects rather than writing raw SQL queries. Hibernate handles tasks like data retrieval, persistence, and caching. It supports features like automatic schema generation, transaction management, and caching mechanisms. Hibernate is a JPA implementation, which means it provides an implementation of the Java Persistence API specification.
+
+- JPA (Java Persistence API): JPA is a specification that defines a standard interface for Java objects to be persisted into relational databases. It provides a common set of annotations and APIs for working with objects and databases. JPA itself is not an implementation but rather a set of guidelines. Frameworks like Hibernate, EclipseLink, and OpenJPA provide implementations of the JPA specification. JPA allows developers to write database-agnostic code, making it easier to switch between different JPA providers.
+
+- Spring JDBC: Spring JDBC is a part of the Spring Framework and provides a simplified way to work with JDBC (Java Database Connectivity). It wraps the standard JDBC API and provides higher-level abstractions, such as JdbcTemplate, to handle common database operations without the need for boilerplate code. Spring JDBC focuses on providing a clean and efficient way to execute SQL queries and manage connections, but it doesn't involve complex ORM features like Hibernate or JPA.
+
+- Spring Data JPA: Spring Data JPA is a part of the Spring Data project, which aims to simplify data access in Spring applications. Spring Data JPA builds on top of JPA and provides additional abstractions to further reduce the amount of code required to interact with databases. It offers repository interfaces that define common database operations (like CRUD) using method signatures. Spring Data JPA also supports query creation from method names, custom queries, and pagination. Under the hood, it uses JPA implementations like Hibernate.
+
+In summary:
+
+Hibernate is a full-fledged ORM framework that provides powerful mapping, caching, and persistence capabilities.
+
+JPA is a specification that defines the standard interface for ORM in Java applications, and implementations like Hibernate follow this specification.
+
+Spring JDBC simplifies JDBC operations and is suitable for cases where you want more control over your SQL queries and database interactions.
+
+Spring Data JPA builds on top of JPA and Spring, providing high-level abstractions for common data access tasks and enabling developers to write less boilerplate code.
+
+
+
+Here are the simplified examples meant to illustrate the basic concepts of each technology.
+
+1. Hibernate
+
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // ... other fields, getters, setters
+}
+
+// Saving a student using Hibernate
+Session session = sessionFactory.openSession();
+Transaction transaction = session.beginTransaction();
+
+Student student = new Student();
+student.setName("John Doe");
+
+session.save(student);
+
+transaction.commit();
+session.close();
+
+
+2. JPA
+
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // ... other fields, getters, setters
+}
+
+// Saving a student using JPA
+EntityManager entityManager = entityManagerFactory.createEntityManager();
+EntityTransaction transaction = entityManager.getTransaction();
+transaction.begin();
+
+Student student = new Student();
+student.setName("Jane Smith");
+
+entityManager.persist(student);
+
+transaction.commit();
+entityManager.close();
+
+
+3. Spring JDBC
+
+// Using Spring JDBC to insert a record
+JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+String sql = "INSERT INTO students (name) VALUES (?)";
+jdbcTemplate.update(sql, "Alice Johnson");
+
+
+4.  Spring Data JPA
+
+public interface StudentRepository extends JpaRepository<Student, Long> {
+    // No need to write implementations for common CRUD operations
+}
+
+// Using Spring Data JPA to save a student
+@Autowired
+private StudentRepository studentRepository;
+
+Student student = new Student();
+student.setName("Michael Brown");
+
+studentRepository.save(student);
+
+```
