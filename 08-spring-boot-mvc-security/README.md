@@ -838,6 +838,19 @@ En SQuirreL se pueden hacer los siguientes SQL:
 
 Un TODO sería configurar el programa para, si el user tiene el campo enabled a false, lo indique al hacer login.
 
+## 04-spring-boot-spring-mvc-security-landing-page
+
+Proyecto con una landing page accesible a todo el mundo y en la que el usuario puede seleccionar hacer login o registrarse.
+
+Tenemos un pdf llamado `bonus-lecture-spring-boot-spring-mvc-security-landing-page`
+
+Seguirlo para comprender bien el proyecto.
+
+Para testear ir a la siguiente URL: `http://localhost:8080`
+
+- Indicar como usuario: john
+- Indicar como password: test123
+
 ```
 Hibernate, JPA, Spring JDBC, and Spring Data JPA are all technologies related to database access and object-relational mapping (ORM) in Java applications. Each of these technologies serves a specific purpose and offers different features. Let's explore each of them:
 
