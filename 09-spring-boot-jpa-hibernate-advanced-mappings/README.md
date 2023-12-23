@@ -316,3 +316,13 @@ If the bean implements certain interfaces (InitializingBean, DisposableBean) or 
 
 The application starts executing, and the beans are available for use.
 ```
+
+**Encontrar instructor por id**
+
+Crear nuevo método findInstructorById() en nuestra interfase AppDAO e implementarlo.
+
+También recupera automáticamente el objeto instructor_details, debido a que el comportamiento fetch por defecto de un @OneToOne es eager.
+
+En el main, se ha comentado createInstructor() y se ha creado findInstructor(appDAO)
+
+Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructor y de instructor_detail.
