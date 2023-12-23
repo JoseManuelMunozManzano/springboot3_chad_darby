@@ -120,6 +120,7 @@ Esto nos creará las tablas instructor e instructor_detail
 Podemos ver como han quedado:
 
 ```
+  use `hb-01-one-to-one-uni`;
   SELECT * FROM instructor;
   SELECT * FROM instructor_detail;
 ```
@@ -151,6 +152,7 @@ También veremos que realmente se inserta primero instructor_details (la entidad
 En SQuirreL, ejecutando
 
 ```
+  use `hb-01-one-to-one-uni`;
   SELECT * FROM instructor;
   SELECT * FROM instructor_detail;
 ```
@@ -340,6 +342,35 @@ Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos
 Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se han borrado:
 
 ```
+  use `hb-01-one-to-one-uni`;
   SELECT * FROM instructor;
   SELECT * FROM instructor_detail;
 ```
+
+## 02-jpa-one-to-one-bi
+
+Hibernate one-to-one bidireccional.
+
+Cuando cargamos InstructorDetail también queremos obtener su asociado Instructor.
+
+Esto no lo podemos hacer con la relación unidireccional que tenemos actualmente. Ahora solo podemos empezar obteniendo Instructor y movernos a InstructorDetail.
+
+La solución es crear una relación bidireccional. Con ella podemos ir de Instructor a InstructorDetail o de InstructorDetail a Instructor.
+
+Podemos mantener el esquema de BD existente, es decir, no hace falta realizar cambios en BD (no tocamos application.properties)
+
+Lo único que tenemos que hacer es actualizar el código Java.
+
+Proceso de desarrollo:
+
+- Actualizar la clase InstructorDetail
+  - Añadir un nuevo campo que haga referencia a Instructor
+  - Añadir los métodos getter/setter para ese campo Instructor
+  - Añadir la anotación @OneToOne(mappedBy="instructorDetail"), para poder señalar de nuevo a InstructorDetail desde Instructor, usando la @JoinColumn existente
+- Definir la interface DAO findInstructorDetailById() y su implementación. Recupera tanto InstructorDetail como el objeto instructor, gracias al comportamiento por defecto @OneToOne
+- Crear la App Main
+  - Inyectamos AppDAO y creamos un método findInstructorDetail()
+
+En el main, se ha comentado createInstructor(), findInstructor() y deleteInstructor() y se ha creado el método findInstructorDetail(appDAO)
+
+Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructorDetail y del instructor.
