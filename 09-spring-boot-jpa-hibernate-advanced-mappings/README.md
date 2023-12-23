@@ -123,3 +123,17 @@ Podemos ver como han quedado:
   SELECT * FROM instructor;
   SELECT * FROM instructor_detail;
 ```
+
+Como es una app de consola, para no tener que estar viendo en cada ejecución el banner de Spring Boot y logs que no nos interesan (warnings y errores si que aparecen), vamos a añadir las siguientes properties:
+
+```
+  # Turn off the Spring Boot banner
+  spring.main.banner-mode=off
+
+  # Reduce logging level. Set loggin level to warn
+  logging.level.root=warn
+```
+
+Ejecutar el proyecto para probar y veremos en la consola de ejecución de Spring el resultado `Hello World`
+
+Una vez ha escrito el texto, la aplicación termina, ya que es una sencilla app de consola.
