@@ -32,5 +32,16 @@ public class AppDAOImpl implements AppDAO {
     // También recuperará instructor_detail porque el comportamiento fetch por defecto de @OneToOne es eager
     return entityManager.find(Instructor.class, theId);
   }
+
+  @Override
+  @Transactional
+  public void deleteInstructorById(int theId) {
+    // recuperar instructor
+    Instructor tempInstructor = findInstructorById(theId);
+
+    // eliminar instructor
+    // También elimina automáticamente el objeto instructor_details, debido al comportamiento CascadeType.ALL.
+    entityManager.remove(tempInstructor);
+  }
   
 }

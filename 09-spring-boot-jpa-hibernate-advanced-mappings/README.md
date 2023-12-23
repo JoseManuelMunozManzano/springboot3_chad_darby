@@ -326,3 +326,20 @@ También recupera automáticamente el objeto instructor_details, debido a que el
 En el main, se ha comentado createInstructor() y se ha creado findInstructor(appDAO)
 
 Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructor y de instructor_detail.
+
+**Eliminar instructor por id**
+
+Crear nuevo método deleteInstructorById() en nuestra interfase AppDAO e implementarlo.
+
+También elimina automáticamente el objeto instructor_details, debido al comportamiento CascadeType.ALL.
+
+En el main, se ha comentado createInstructor() y findInstructor() y se ha creado deleteInstructor(appDAO)
+
+Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructor eliminado.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se han borrado:
+
+```
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+```
