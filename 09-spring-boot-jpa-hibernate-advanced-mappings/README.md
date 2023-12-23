@@ -374,3 +374,19 @@ Proceso de desarrollo:
 En el main, se ha comentado createInstructor(), findInstructor() y deleteInstructor() y se ha creado el método findInstructorDetail(appDAO)
 
 Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructorDetail y del instructor.
+
+**Eliminación en Cascada**
+
+Se va a eliminar de la entidad InstructorDetail y, gracias a la cascada, también su asociado de la entidad Instructor.
+
+En el main, se ha comentado createInstructor(), findInstructor() y deleteInstructor(), findInstructorDetail() y se ha creado el método deleteInstructorDetail(appDAO)
+
+Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructor eliminado.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se han borrado:
+
+```
+  use `hb-01-one-to-one-uni`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+```
