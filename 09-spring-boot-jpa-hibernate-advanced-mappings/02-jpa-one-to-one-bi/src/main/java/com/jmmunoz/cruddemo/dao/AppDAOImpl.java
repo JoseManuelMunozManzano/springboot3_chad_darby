@@ -50,7 +50,7 @@ public class AppDAOImpl implements AppDAO {
     return entityManager.find(InstructorDetail.class, theId);
   }
 
-  @Override
+/*   @Override
   @Transactional
   public void deleteInstructorDetailById(int theId) {
     // recuperar instructor detail
@@ -59,5 +59,19 @@ public class AppDAOImpl implements AppDAO {
     // eliminar instructor detail
     // También elimina automáticamente el objeto instructor, debido al comportamiento CascadeType.ALL.
     entityManager.remove(tempInstructorDetail);
-  }  
+  } */
+
+  @Override
+  @Transactional
+  public void deleteInstructorDetailById(int theId) {
+    // recuperar instructor detail
+    InstructorDetail tempInstructorDetail = findInstructorDetailById(theId);
+
+    // eliminar la referencia al objeto asociado
+    // romper el enlace bi-direccional
+    tempInstructorDetail.getInstructor().setInstructorDetail(null);
+
+    // eliminar instructor detail (no elimina Instructor)
+    entityManager.remove(tempInstructorDetail);
+  }
 }

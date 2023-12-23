@@ -390,3 +390,23 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor;
   SELECT * FROM instructor_detail;
 ```
+
+**Solo eliminación de Instructor Detail**
+
+Vamos a eliminar de la entidad InstructorDetail, pero manteniendo el valor asociado de la entidad Instructor.
+
+Para esto tenemos que modificar el tipo de cascade en la entidad InstructorDetail.
+
+Y en la implementación de deleteInstructorDetailById() tenemos que romper la referencia al objeto Instructor asociado.
+
+`tempInstructorDetail.getInstructor().setInstructorDetail(null);`
+
+Para probar, ejecutar el proyecto Spring Boot y obtendremos en consola los datos del instructor eliminado.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha borrado:
+
+```
+  use `hb-01-one-to-one-uni`;
+  SELECT * FROM instructor;           -- De aquí NO se debe haber borrado
+  SELECT * FROM instructor_detail;
+```

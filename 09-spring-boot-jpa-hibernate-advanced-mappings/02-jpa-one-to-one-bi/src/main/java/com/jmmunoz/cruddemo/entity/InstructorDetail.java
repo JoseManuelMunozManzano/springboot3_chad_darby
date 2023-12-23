@@ -30,7 +30,12 @@ public class InstructorDetail {
   // add @OneToOne annotation (bi-directional)
   // El nombre que aparece en mappedBy tiene que ser el mismo que tenemos en la entity Instructor, 
   // al campo que referencia a InstructorDetail.
-  @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+  //
+  // @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+  //
+  // Si queremos eliminar InstructorDetail pero no su asociado en Instructor.
+  // Seleccionamos todos los cascades posibles menos el de REMOVE.
+   @OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   private Instructor instructor;
 
   // create constructors

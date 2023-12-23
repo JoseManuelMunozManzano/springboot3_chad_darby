@@ -36,7 +36,8 @@ public class CruddemoApplication {
 
 	private void deleteInstructorDetail(AppDAO appDAO) {
 
-		int theId = 2;
+		// Este id puede cambiar. Elegir el apropiado según los registros de nuestra BD.
+		int theId = 3;
 		System.out.println("Deleting instructor detail id: " + theId);
 
 		appDAO.deleteInstructorDetailById(theId);
