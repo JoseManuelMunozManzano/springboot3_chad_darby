@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 // annotate the class as an entity and map to db table
 @Entity
-@Table(name = "instructor")
+@Table(name = "instructor_detail")
 public class InstructorDetail {
   
   // define the fields
@@ -19,7 +19,7 @@ public class InstructorDetail {
   @Column(name = "id")
   private int id;
   
-  @Column(name = "youtube_channer")
+  @Column(name = "youtube_channel")
   private String youtubeChannel;
   
   @Column(name = "hobby")

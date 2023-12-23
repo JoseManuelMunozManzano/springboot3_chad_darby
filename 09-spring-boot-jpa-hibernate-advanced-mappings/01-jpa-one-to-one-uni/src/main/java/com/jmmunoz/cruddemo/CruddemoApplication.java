@@ -5,6 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.jmmunoz.cruddemo.dao.AppDAO;
+import com.jmmunoz.cruddemo.entity.Instructor;
+import com.jmmunoz.cruddemo.entity.InstructorDetail;
+
 @SpringBootApplication
 public class CruddemoApplication {
 
@@ -15,10 +19,45 @@ public class CruddemoApplication {
 	// Definimos el bean para crear una app de línea de comandos.
 	// CommandLineRunner viene de Spring Boot y este método se ejecuta tras haberse cargado los Spring Beans.
 	@Bean
-	public CommandLineRunner commandLineRunner(String[] args) {
+	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		
 		return runner -> {
-			System.out.println("Hello World");
+			createInstructor(appDAO);
 		};
+	}
+
+	private void createInstructor(AppDAO appDAO) {
+
+		/* Primer instructor guardado (y luego comentado)
+		// create the instructor
+		Instructor tempInstructor = new Instructor("José M.", "Muñoz", "jmmunoz@mail.com");
+
+		// create the instructor detail
+		InstructorDetail tempInstructorDetail = new InstructorDetail("http://www.luv2code.com/youtube", "Luv 2 Code!!!");
+
+		// associate the objects
+		tempInstructor.setInstructorDetail(tempInstructorDetail);
+		*/
+
+		// Segundo instructor guardado
+		// create the instructor
+		Instructor tempInstructor = new Instructor("Tania", "Muñoz", "tmunoz@mail.com");
+
+		// create the instructor detail
+		InstructorDetail tempInstructorDetail = new InstructorDetail("http://www.luv2code.com/youtube", "Her children");
+
+		// associate the objects
+		tempInstructor.setInstructorDetail(tempInstructorDetail);
+
+
+		// save the instructor
+		//
+		// NOTE: this will ALSO save the details object
+		// because of CascadeType.ALL
+		//
+		System.out.println("Saving instructor: " + tempInstructor);
+		appDAO.save(tempInstructor);
+
+		System.out.println("Done!");
 	}
 }

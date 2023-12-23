@@ -1,10 +1,13 @@
 package com.jmmunoz.cruddemo.dao;
 
+import org.springframework.stereotype.Repository;
+
 import com.jmmunoz.cruddemo.entity.Instructor;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
+@Repository
 public class AppDAOImpl implements AppDAO {
 
   // define field for entity manager

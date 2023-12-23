@@ -134,9 +134,30 @@ Como es una app de consola, para no tener que estar viendo en cada ejecución el
   logging.level.root=warn
 ```
 
-Ejecutar el proyecto para probar y veremos en la consola de ejecución de Spring el resultado `Hello World`
+También vamos a añadir logs de JPA/Hibernate, en concreto, vamos a hacer el log de las sentencias SQL y de los valores de las sentencias SQL.
 
-Una vez ha escrito el texto, la aplicación termina, ya que es una sencilla app de consola.
+Esto solo para desarrollo.
+
+```
+  # Show JPA/Hibernate logging messages
+  logging.level.org.hibernate.sql=trace
+  logging.level.org.hibernate.orm.jdbc.bind=trace
+```
+
+Ejecutar el proyecto para probar y veremos en la consola de ejecución de Spring el resultado `Saving instructor: ` y el instructor, seguido del texto `Done!`.
+
+También veremos que realmente se inserta primero instructor_details (la entidad asociada) y esto es porque debido a la foreign key, la entidad instructor necesita saber el id asignado a instructor_details.
+
+En SQuirreL, ejecutando
+
+```
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+```
+
+veremos que tenemos los datos del instructor.
+
+Tras esto, la aplicación termina, ya que es una sencilla app de consola.
 
 ```
 Scenario where Singleton & prototype bean scope are required
