@@ -137,3 +137,161 @@ Como es una app de consola, para no tener que estar viendo en cada ejecución el
 Ejecutar el proyecto para probar y veremos en la consola de ejecución de Spring el resultado `Hello World`
 
 Una vez ha escrito el texto, la aplicación termina, ya que es una sencilla app de consola.
+
+```
+Scenario where Singleton & prototype bean scope are required
+
+1. Singleton Bean Scope:
+
+Default Scope: Singleton is the default scope in Spring. When you define a bean without specifying a scope, it becomes a Singleton by default.
+
+Behavior: Singleton scope means that there will be a single instance of the bean shared across the entire Spring container.
+
+Use Case: Use Singleton scope when you want to share a single instance of a bean throughout your application. This is suitable for stateless beans, such as services, repositories, and utility classes.
+
+Example:
+
+@Service
+public class SingletonService {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+
+In this example, a SingletonService is defined as a Singleton bean. When you inject this service into multiple components, they all share the same instance.
+
+@Controller
+public class MyController {
+    private final SingletonService singletonService;
+
+    @Autowired
+    public MyController(SingletonService singletonService) {
+        this.singletonService = singletonService;
+    }
+}
+Usage: In this case, any controller using SingletonService will work with the same instance, and changes to the instance's state will be visible across the entire application.
+
+
+
+2. Prototype Bean Scope:
+
+Behavior: Prototype scope creates a new instance of the bean every time it is requested from the Spring container.
+
+Use Case: Use Prototype scope when you want a new instance of a bean each time it's requested. This is suitable for stateful beans, like HTTP request-specific objects or beans with mutable state.
+
+Example:
+
+@Component
+@Scope("prototype")
+public class PrototypeBean {
+    private int counter = 0;
+
+    public int increment() {
+        return ++counter;
+    }
+}
+In this example, PrototypeBean is defined as a Prototype bean with a scope annotation. When you request this bean from the Spring container, a new instance is created.
+
+@Service
+public class MyService {
+    private final PrototypeBean prototypeBean;
+
+    @Autowired
+    public MyService(PrototypeBean prototypeBean) {
+        this.prototypeBean = prototypeBean;
+    }
+}
+Usage: Any service using PrototypeBean will get a new instance of PrototypeBean every time it is injected. Changes to the bean's state will not affect other instances.
+
+---
+
+Use Singleton scope for stateless, shared beans across the application.
+
+Use Prototype scope for stateful, unique instances that should be created afresh each time.
+
+---
+
+
+
+
+
+Why we need no-arg constructor in our entities?
+
+1. No-Arg Constructor in Entities:
+
+JPA (Java Persistence API) Requirement: JPA implementations, including Hibernate (commonly used with Spring Data JPA), often require entities to have a no-argument constructor. This is because the JPA provider needs to create instances of the entity class during the process of retrieving entities from the database.
+
+Proxy Creation: Additionally, proxies or dynamically generated subclasses of entities are often used for lazy loading, and these proxies require a no-arg constructor for instantiation.
+
+@Entity
+public class ExampleEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // No-arg constructor is required by JPA
+    public ExampleEntity() {
+    }
+
+    // Other constructors, getters, setters...
+}
+
+
+2. Autowired Dependency in Spring:
+
+When you have a dependency (B) autowired in a class (A), Spring takes care of creating an instance of B and injecting it into A during the bean creation process.
+
+If B has its own dependencies, Spring recursively resolves those dependencies, ensuring that the entire object graph is constructed correctly.
+
+@Service
+public class A {
+    private final B b;
+
+    @Autowired
+    public A(B b) {
+        this.b = b;
+    }
+}
+
+
+Flow of Object Creation in Spring:
+
+1. Application Startup:
+
+Spring Boot application starts.
+
+Spring scans the classpath for components, services, repositories, etc.
+
+2. Component Scanning:
+
+Spring identifies classes annotated with @Component, @Service, @Repository, etc.
+
+It creates bean definitions for these classes.
+
+3. Bean Creation:
+
+For each bean definition, Spring creates an instance of the bean.
+
+If the bean has dependencies, Spring resolves those dependencies by looking up or creating the required beans.
+
+4. Dependency Injection:
+
+Spring injects dependencies into the beans. This can be done through constructor injection, setter injection, or field injection, depending on the configuration.
+
+5. Lifecycle Callbacks:
+
+If the bean implements certain interfaces (InitializingBean, DisposableBean) or uses annotations (@PostConstruct, @PreDestroy), Spring calls the corresponding lifecycle methods.
+
+6. Application Execution:
+
+The application starts executing, and the beans are available for use.
+```
