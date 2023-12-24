@@ -410,3 +410,48 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor;           -- De aquí NO se debe haber borrado
   SELECT * FROM instructor_detail;
 ```
+
+## 03-jpa-one-to-many
+
+One-To-Many
+
+- Un instructor puede tener muchos cursos
+- Es bidireccional
+
+Many-To-One
+
+- Muchos cursos pueden tener un instructor
+- Lo inverso a One-To-Many
+
+Pero un curso puede tener, como mucho, un instructor.
+
+Requerimientos:
+
+- Si se elimina un instructor, NO eliminiar los cursos
+- Si se elimina un curso, NO eliminar el instructor
+
+Es decir, no se aplican deletes en cascada.
+
+Proceso de desarrollo:
+
+- Trabajo preparatorio: Definir tablas de BD
+  - Ejecutar en SQuirreL el script `00-jpa-advanced-mappings-database-scripts/hb-03-one-to-many/create-db.sql`
+- Crear la clase Course
+  - Anotación @ManyToOne indicando la @JoinColumn(name="instructor_id") para hacer la relación con la entity Instructor
+  - No se aplica eliminación en cascada
+- Actualizar la clase Instructor
+  - Indicar una List<Course> y anotarla con @OneToMany(mappedBy="instructor")
+  - No se aplica eliminación en cascada
+  - Crear método para asignar un curso a un instructor. Necesario para mantener la bidireccionalidad
+- Crear el Main
+
+![alt text](./images/MappedBy.png)
+
+Consultas:
+
+```
+  use `hb-03-one-to-many`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+```

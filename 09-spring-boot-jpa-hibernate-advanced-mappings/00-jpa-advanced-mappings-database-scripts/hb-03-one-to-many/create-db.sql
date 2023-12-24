@@ -35,18 +35,13 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(128) DEFAULT NULL,
-  `instructor_id` int DEFAULT NULL,
-  
-  PRIMARY KEY (`id`),
-  
-  UNIQUE KEY `TITLE_UNIQUE` (`title`),
-  
-  KEY `FK_INSTRUCTOR_idx` (`instructor_id`),
-  
+  `instructor_id` int DEFAULT NULL,  
+  PRIMARY KEY (`id`),  
+  UNIQUE KEY `TITLE_UNIQUE` (`title`),  
+  KEY `FK_INSTRUCTOR_idx` (`instructor_id`),  
   CONSTRAINT `FK_INSTRUCTOR` 
   FOREIGN KEY (`instructor_id`) 
-  REFERENCES `instructor` (`id`) 
-  
+  REFERENCES `instructor` (`id`)   
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
