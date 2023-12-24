@@ -521,6 +521,12 @@ Soluciones:
 
 ![alt text](./images/FindInstructorWithCourses.png)
 
+Vemos en consola que se han ejecutado dos queries, una con el JOIN FETCH y la otra para obtener la data de instructorDetail.
+
+Se ha añadido a la consulta otro JOIN FETCH para recuperar también, en una sola consulta, instructorDetail.
+
+Ejecutando la app, veremos en consola que solo hace falta una sola query para traer toda la data necesaria.
+
 ```
 Difference between Join Fetch and Eager Loading
 
