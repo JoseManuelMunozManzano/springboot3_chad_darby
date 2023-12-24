@@ -720,3 +720,19 @@ Para probar, ejecutar el proyecto y las siguientes consultas SQL:
   SELECT * FROM course;
   SELECT * FROM review;
 ```
+
+### @OneToMany Unidireccional - Eliminar Course y Reviews
+
+Para ello:
+
+- Actualizamos nuestra app Main
+
+Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-04-one-to-many-uni`;
+  SELECT * FROM course;
+  SELECT * FROM review;
+```
+
+No debe haber registros, ya que se habrán borrado también las reviews asociadas, gracias al tipo de cascada, ALL
