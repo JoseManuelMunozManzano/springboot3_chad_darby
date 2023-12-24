@@ -616,3 +616,22 @@ String jpql = "SELECT p FROM ParentEntity p JOIN FETCH p.children";
 
 Remember that the solution may depend on your specific use case and architecture. Choose the approach that best fits your application's design and requirements.
 ```
+
+### @OneToMany - Actualizar Course
+
+Tenemos que:
+
+- Encontrar el course por su ID
+- Cambiar la data del course llamando a los métodos setter
+- Actualizar el course usando el DAO, usando un nuevo método que ejecute entityManager.merge()
+
+Para probar que se actualiza el course ejecutar el proyecto Spring Boot.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha actualizado:
+
+```
+  use `hb-03-one-to-many`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+```
