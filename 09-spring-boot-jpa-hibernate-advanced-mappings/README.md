@@ -676,3 +676,34 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor_detail;
   SELECT * FROM course;
 ```
+
+## 04-jpa-one-to-many-uni
+
+Un course puede tener muchas reviews. Es una relación unidireccional.
+
+Si se elimina un course, también borraremos todas sus reviews. Esto es porque reviews sin course no tiene sentido.
+
+Aplicaremos, por tanto, una eliminación en cascada.
+
+![alt text](./images/ProjectWithReview.png)
+
+Proceso de desarrollo:
+
+- Trabajo preparatorio: Definir tablas de BD
+  - Ejecutar en SQuirreL el script `00-jpa-advanced-mappings-database-scripts/hb-04-one-to-many-uni/create-db.sql`
+- Crear clase Review
+- Actualizar clase Course
+  - Con carga LAZY, con CascadeType.ALL y @JoinColumn(name="course_id")
+  - Se incluye un método necesario para añadir reviews
+
+![alt text](./images/JoinColumn.png)
+
+Consultas SQL
+
+```
+  use `hb-04-one-to-many-uni`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+  SELECT * FROM review;
+```
