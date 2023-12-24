@@ -698,12 +698,25 @@ Proceso de desarrollo:
 
 ![alt text](./images/JoinColumn.png)
 
-Consultas SQL
+Para probar, ejecutar el proyecto y las siguientes consultas SQL:
 
 ```
   use `hb-04-one-to-many-uni`;
-  SELECT * FROM instructor;
-  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+  SELECT * FROM review;
+```
+
+### @OneToMany Unidireccional - Recuperar Course y Reviews
+
+Para ello:
+
+- Creamos un nuevo método en nuestro DAO
+- Actualizamos nuestra app Main
+
+Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-04-one-to-many-uni`;
   SELECT * FROM course;
   SELECT * FROM review;
 ```

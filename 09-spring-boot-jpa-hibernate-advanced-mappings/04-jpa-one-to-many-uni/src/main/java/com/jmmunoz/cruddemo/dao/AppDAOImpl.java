@@ -148,4 +148,29 @@ public class AppDAOImpl implements AppDAO {
     // delete the course
     entityManager.remove(tempCourse);
   }
+
+  @Override
+  @Transactional
+  public void save(Course theCourse) {
+    // Guardamos el course y los reviews asociados, gracias al tipo de cascada indicado (ALL)
+    entityManager.persist(theCourse);
+  }
+
+  @Override
+  public Course findCourseAndReviewsByCourseId(int theId) {
+    
+    // create query
+    // Usamos JOIN FETCH para recuperar también las reviews
+    TypedQuery<Course> query = entityManager.createQuery(
+              "select c from Course c "
+            + "JOIN FETCH c.reviews "
+            + "where c.id = :data", Course.class);
+
+    query.setParameter("data", theId);
+
+    // execute query
+    Course course = query.getSingleResult();
+
+    return course;
+  }
 }
