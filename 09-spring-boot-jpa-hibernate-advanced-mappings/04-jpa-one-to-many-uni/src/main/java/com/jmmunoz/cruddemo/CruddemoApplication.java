@@ -42,8 +42,10 @@ public class CruddemoApplication {
 		// print the course
 		System.out.println(tempCourse);
 
-		// print the reviews
+		// print the reviews.
 		System.out.println(tempCourse.getReviews());
+
+		System.out.println("Done!");
 	}
 
 	private void createCourseAndReviews(AppDAO appDAO) {
