@@ -658,3 +658,21 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor_detail;
   SELECT * FROM course;
 ```
+
+### @OneToMany - Eliminar Course
+
+Tenemos que:
+
+- Eliminar el course por Id
+  - Se añade un nuevo método DAO que ejecute entityManager.remove()
+
+Para probar que se elimina el course ejecutar el proyecto Spring Boot.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha eliminado:
+
+```
+  use `hb-03-one-to-many`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+```
