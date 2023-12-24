@@ -141,7 +141,7 @@ Esto solo para desarrollo.
 
 ```
   # Show JPA/Hibernate logging messages
-  logging.level.org.hibernate.sql=trace
+  logging.level.org.hibernate.SQL=trace
   logging.level.org.hibernate.orm.jdbc.bind=trace
 ```
 
@@ -444,10 +444,13 @@ Proceso de desarrollo:
   - No se aplica eliminación en cascada
   - Crear método para asignar un curso a un instructor. Necesario para mantener la bidireccionalidad
 - Crear el Main
+  - Modificar application.properties para apuntar al nuevo esquema
 
 ![alt text](./images/MappedBy.png)
 
-Consultas:
+Para probar que se guarda el instructor, su detalle y sus cursos, ejecutar el proyecto Spring Boot.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha borrado:
 
 ```
   use `hb-03-one-to-many`;
