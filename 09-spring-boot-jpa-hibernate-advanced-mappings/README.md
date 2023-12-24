@@ -498,6 +498,7 @@ Veremos que falla porque la conexión está cerrada durante una carga lazy.
 Soluciones:
 
 - Indicando Eager en el campo courses vemos que funciona. Es la solución rápida, no recomendable
+  - Esta solución se ha codificado con el método `findInstructorWithCourses(appDAO);`
 
 ```
   @OneToMany(mappedBy = "instructor",
@@ -506,3 +507,8 @@ Soluciones:
                       CascadeType.DETACH, CascadeType.REFRESH})
   private List<Course> courses;
 ```
+
+- Encontrar cursos de un instructor
+  - Volver a dejar el fetch como LAZY (por defecto es LAZY para relaciones @OneToMany pero se indica explicitamente por legibilidad) y añadir un método a nuestro AppDAO para encontrar los cursos de un instructor. Este nuevo método se llamará desde la app Main y una vez recuperados los cursos se asociarán a su instructor
+
+![alt text](./images/FindCoursesForInstructor.png)

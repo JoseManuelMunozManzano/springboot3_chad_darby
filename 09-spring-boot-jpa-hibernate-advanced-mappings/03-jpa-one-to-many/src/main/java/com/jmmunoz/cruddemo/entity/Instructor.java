@@ -42,8 +42,9 @@ public class Instructor {
   private InstructorDetail instructorDetail;
 
   // mappedBy refiere a la propiedad instructor en la entity Course
+  // @OneToMany es LAZY por defecto, pero se indica para dejarlo claro.
   @OneToMany(mappedBy = "instructor",
-            fetch = FetchType.EAGER, 
+            fetch = FetchType.LAZY, 
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                       CascadeType.DETACH, CascadeType.REFRESH})
   private List<Course> courses;
