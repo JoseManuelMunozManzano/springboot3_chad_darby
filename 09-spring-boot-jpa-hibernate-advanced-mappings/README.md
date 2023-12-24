@@ -450,7 +450,7 @@ Proceso de desarrollo:
 
 Para probar que se guarda el instructor, su detalle y sus cursos, ejecutar el proyecto Spring Boot.
 
-Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha borrado:
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha guardado:
 
 ```
   use `hb-03-one-to-many`;
@@ -567,4 +567,52 @@ In summary, the main difference between "join fetch" and "eager loading" lies in
 When deciding between the two, consider the granularity of control you need over fetching related data. If you want to eagerly fetch data for all queries involving a relationship, you can use eager loading. If you want more control over which queries perform eager loading, you can use join fetch in JPQL queries.
 
 Keep in mind that both strategies should be used judiciously, considering the data volume, query patterns, and application performance requirements.
+```
+
+### @OneToMany - Actualizar Instructor
+
+Tenemos que:
+
+- Encontrar el instructor por su ID
+- Cambiar la data del instructor llamando a los métodos setter
+- Actualizar el instructor usando el DAO, usando un nuevo método que ejecute entityManager.merge()
+
+Para probar que se actualiza el instructor ejecutar el proyecto Spring Boot.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha actualizado:
+
+```
+  use `hb-03-one-to-many`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+```
+
+```
+A LazyInitializationException is a common exception that occurs in Java applications, particularly when working with Hibernate or other JPA (Java Persistence API) frameworks. It typically indicates that you're trying to access a lazily-loaded entity or collection outside of the original Hibernate session or transaction context.
+
+Here are some steps you can take to solve the LazyInitializationException:
+
+1. Understand Lazy Loading: Lazy loading is a technique used by JPA frameworks to load associated entities or collections from the database only when they are explicitly accessed. This helps improve performance by reducing unnecessary database queries. However, accessing lazily-loaded entities or collections outside of the original session or transaction context can lead to the LazyInitializationException.
+
+2. Keep Session Open: If you're accessing associated entities or collections outside of the original session, you can either:
+
+a. Fetch Eagerly: Change the fetching strategy of the association to "EAGER" loading. This means that the associated entities or collections will be loaded immediately along with the parent entity.
+
+@OneToMany(fetch = FetchType.EAGER)
+private List<ChildEntity> children;
+b. Initialize in Transaction: Ensure that you're accessing the lazily-loaded entities or collections within the same transactional context where they were loaded. Make sure that the original session or transaction is still open when you access the data.
+
+3. Use DTOs (Data Transfer Objects): Instead of passing JPA entities directly to the presentation layer, consider using DTOs to transfer data. This approach helps avoid accessing lazy associations outside of the transactional context.
+
+4. Open Session in View Pattern (OSIV): If you're using a web framework like Spring, consider using the Open Session in View pattern. It automatically keeps the Hibernate session open until the view is rendered, preventing LazyInitializationException by allowing lazy loading to occur within the view rendering phase.
+
+5. Fetch Join: Use fetch join queries to eagerly load associations when querying the database. This can help you avoid lazy loading issues by loading all necessary data in a single query.
+
+String jpql = "SELECT p FROM ParentEntity p JOIN FETCH p.children";
+6. Detach Entities: If you intend to use entities outside of the original session, you can detach them from the session using entityManager.detach(entity) or session.evict(entity). Be cautious with this approach, as detached entities may lose their connection to the database context.
+
+7. Use Transactional Methods: Ensure that your methods are marked as @Transactional if you're using Spring or a similar framework. This helps manage the transactional context and session properly.
+
+Remember that the solution may depend on your specific use case and architecture. Choose the approach that best fits your application's design and requirements.
 ```
