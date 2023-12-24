@@ -458,3 +458,51 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor_detail;
   SELECT * FROM course;
 ```
+
+### Eager vs Lazy
+
+Cuando recuperamos la data, ¿debemos recuperarlo TODO?
+
+- Eager lo recuperará todo, incluido entidades dependientes
+  - Puede impactar el rendimiento si hay muchísimos registros
+  - Ejemplo: Un curso puede tener más de 50.000 estudiantes y no queremos recuperar todos los estudiantes
+- Lazy recupera la entidad principal y SOLO cargará bajo demanda las entidades dependientes
+  - Ejemplo: Cargamos el curso, pero no los estudiantes. Estos se cargarán si los pedimos por programa
+  - Requiere de una sesión Hibernate abierta (necesita una conexión a BD para recuperar data) Si está cerrada Hibernate lanzará una excepción
+  - Es la mejor práctica y se recomienda usar carga perezosa
+
+Caso de uso real
+
+- En una vista principal de programa, usaríamos Lazy Loading
+  - Solo cargamos instructores, no sus cursos
+- En una vista detalle, recuperaríamos la entidad y las entidades dependientes necesarias
+  - Cargamos el instructor y sus cursos
+
+Tipo de Fetch
+
+Al definir la relación de mapeo se puede indicar el tipo de fetch (EAGER o LAZY)
+
+```
+  @OneToMany(fetch=FetchType.LAZY, mappedBy="instructor")
+  private List<Course> courses;
+```
+
+Tipos de Fetch por defecto en función del tipo de mapeo
+
+![alt text](./images/DefaultFetchTypes.png)
+
+Para probar que se realiza la búsqueda de forma correcta (eager o lazy) ejecutar el proyecto y ver la consola.
+
+Veremos que falla porque la conexión está cerrada durante una carga lazy.
+
+Soluciones:
+
+- Indicando Eager en el campo courses vemos que funciona. Es la solución rápida, no recomendable
+
+```
+  @OneToMany(mappedBy = "instructor",
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                      CascadeType.DETACH, CascadeType.REFRESH})
+  private List<Course> courses;
+```

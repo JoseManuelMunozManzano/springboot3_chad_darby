@@ -33,8 +33,24 @@ public class CruddemoApplication {
 
 			// deleteInstructorDetail(appDAO);
 
-			createInstructorWithCourses(appDAO);
+			// createInstructorWithCourses(appDAO);
+
+			findInstructorWithCourses(appDAO);
 		};
+	}
+
+	private void findInstructorWithCourses(AppDAO appDAO) {
+		int theId = 1;
+		System.out.println("Finding instructor id: " + theId);
+
+		// Solo carga el instructor.
+		// Los cursos no los carga (lazy loaded por defecto para @OneToMany)
+		Instructor tempInstructor = appDAO.findInstructorById(theId);
+
+		System.out.println("tempInstructor: " + tempInstructor);
+		System.out.println("the associated courses: " + tempInstructor.getCourses());
+
+		System.out.println("Done!");
 	}
 
 	private void createInstructorWithCourses(AppDAO appDAO) {
