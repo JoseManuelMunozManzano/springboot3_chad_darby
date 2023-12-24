@@ -29,7 +29,7 @@ public class CruddemoApplication {
 
 			// findInstructor(appDAO);
 
-			// deleteInstructor(appDAO);
+			deleteInstructor(appDAO);
 
 			// findInstructorDetail(appDAO);
 
@@ -45,7 +45,7 @@ public class CruddemoApplication {
 
 			// updateInstructor(appDAO);
 
-			updateCourse(appDAO);
+			// updateCourse(appDAO);
 		};
 	}
 
@@ -195,6 +195,7 @@ public class CruddemoApplication {
 		System.out.println("Deleting instructor id: " + theId);
 
 		// También elimina automáticamente el objeto instructor_details, debido al comportamiento CascadeType.ALL.
+		// Pero no toca los courses, debido a que así lo indica el tipo de cascada
 		appDAO.deleteInstructorById(theId);
 
 		System.out.println("Done!");

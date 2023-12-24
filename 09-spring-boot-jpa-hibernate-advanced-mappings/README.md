@@ -635,3 +635,26 @@ Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se 
   SELECT * FROM instructor_detail;
   SELECT * FROM course;
 ```
+
+### @OneToMany - Eliminar Instructor
+
+Tenemos que:
+
+- Encontrar el instructor por su ID
+- Eliminar la asociación de cada course con su instructor
+  - Para cada curso, se hace: tempCourse.setInstructor(null)
+  - Si esto no se hace obtendremos una violación de constraint
+  - Un instructor no se puede eliminar si está referenciado por un course
+- Eliminar el instructor usando el DAO, usando un nuevo método que ejecute entityManager.remove()
+  - Solo se borra el instructor, no se borran los cursos asociados porque así lo indica el tipo de cascade
+
+Para probar que se elimina el instructor ejecutar el proyecto Spring Boot.
+
+Luego ejecutar las siguientes consultas SQL para comprobar que efectivamente se ha eliminado:
+
+```
+  use `hb-03-one-to-many`;
+  SELECT * FROM instructor;
+  SELECT * FROM instructor_detail;
+  SELECT * FROM course;
+```

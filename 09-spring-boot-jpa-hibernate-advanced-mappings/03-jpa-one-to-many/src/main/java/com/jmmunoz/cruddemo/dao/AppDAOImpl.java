@@ -44,8 +44,17 @@ public class AppDAOImpl implements AppDAO {
     // recuperar instructor
     Instructor tempInstructor = findInstructorById(theId);
 
-    // eliminar instructor
-    // También elimina automáticamente el objeto instructor_details, debido al comportamiento CascadeType.ALL.
+    // get the courses
+    List<Course> courses = tempInstructor.getCourses();
+
+    // break association of all courses for the instructor
+    // Si no eliminamos al instructor de los courses --> constraint violation
+    for (Course tempCourse : courses) {
+      tempCourse.setInstructor(null);
+    }
+
+    // delete the instructor
+    // No se eliminan los cursos asociados debido al tipo de cascada indicado
     entityManager.remove(tempInstructor);
   }
 
