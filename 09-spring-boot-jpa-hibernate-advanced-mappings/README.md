@@ -512,3 +512,53 @@ Soluciones:
   - Volver a dejar el fetch como LAZY (por defecto es LAZY para relaciones @OneToMany pero se indica explicitamente por legibilidad) y añadir un método a nuestro AppDAO para encontrar los cursos de un instructor. Este nuevo método se llamará desde la app Main y una vez recuperados los cursos se asociarán a su instructor
 
 ![alt text](./images/FindCoursesForInstructor.png)
+
+- Encontrar Instructor con Cursos
+  - Es una refactorización de la solución anterior, ya que esa necesita una query extra (primero encontramos el instructor y luego sus cursos)
+  - Haremos un nuevo método que obtenga el instructor y los cursos, con solo una query
+  - Todo esto manteniendo la carga perezosa
+  - Se usará en la query JOIN FETCH (similar a carga EAGER)
+
+![alt text](./images/FindInstructorWithCourses.png)
+
+```
+Difference between Join Fetch and Eager Loading
+
+Both "join fetch" and "eager loading" are mechanisms to retrieve related entities from a database when querying for a particular entity. They aim is to reduce the number of database queries and improve performance by loading related data upfront. However, they work slightly differently and have different implications.
+
+
+Eager Loading:
+
+Eager loading is a fetch strategy where related entities are loaded immediately along with the main entity. In other words, when you query for an entity that has a relationship to other entities marked as "eager", JPA will automatically fetch those related entities from the database in a single query, using a join.
+
+Pros:
+- Simplifies code by loading all related data in a single query.
+- Avoids the N+1 query problem (retrieving N entities results in N+1 queries to fetch related entities).
+
+Cons:
+- May lead to performance issues if the related entities have a large amount of data or if many related entities are loaded unnecessarily.
+- Could result in over-fetching data if you only need a subset of related entities.
+
+
+Join Fetch:
+
+Join fetch is a keyword used in JPQL (Java Persistence Query Language) to indicate that you want to fetch related entities eagerly using a SQL join. It's a more explicit way of specifying eager loading for specific queries.
+
+Pros:
+- Provides fine-grained control over which queries should perform eager loading.
+- Allows you to optimize the queries by fetching only the necessary related entities.
+
+Cons:
+- Requires more explicit query construction using JPQL.
+- Might still lead to performance issues if used carelessly.
+
+
+In summary, the main difference between "join fetch" and "eager loading" lies in their usage:
+- Eager loading is a general configuration set on the relationship mapping in the entity classes. It applies to all queries involving that relationship unless explicitly overridden.
+- Join fetch is a specific JPQL keyword used in individual queries to indicate that eager loading should be applied to that specific query only.
+
+
+When deciding between the two, consider the granularity of control you need over fetching related data. If you want to eagerly fetch data for all queries involving a relationship, you can use eager loading. If you want more control over which queries perform eager loading, you can use join fetch in JPQL queries.
+
+Keep in mind that both strategies should be used judiciously, considering the data volume, query patterns, and application performance requirements.
+```
