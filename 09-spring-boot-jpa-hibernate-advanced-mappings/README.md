@@ -799,3 +799,43 @@ Para ello:
 - Modificamos nuestra Main app
 
 Para probar, ejecutar el proyecto y comprobar la consola
+
+### Añadir más cursos a un estudiante
+
+Realmente es una actualización de los cursos de un estudiante.
+
+Para ello:
+
+- Añadiremos un nuevo método a nuestra interface DAO, update()
+- Modificamos nuestra Main app
+
+Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-05-many-to-many`;
+  SELECT * FROM course;
+  SELECT * FROM student;
+  SELECT * FROM course_student;
+```
+
+```
+Effciency when adding courses to a student
+
+Frameworks like Hibernate are well-tested and widely accepted in the industry for their convenience, productivity benefits, and support for database interactions. They abstract away many of the complexities of working directly with raw SQL and provide a higher-level, object-oriented approach to database access.
+
+If you are concerned about performance and want to avoid loading all the courses for a student just to add a new one, you have a few options:
+
+1. Use a Direct SQL Insert: As you mentioned, you can execute a direct SQL insert statement to add a new record to the join table without loading all the courses. This can be more efficient for this specific operation.
+
+2. Use a Detached Entity: You can create a detached entity (a course object not associated with a Hibernate session) with the correct identifier and associate it with the student. Then, when you save the student, Hibernate will insert a new record into the join table without needing to load all the courses. Here's an example:
+
+Course courseToAdd = new Course();
+courseToAdd.setId(courseId); // Set the identifier of the existing course
+student.addCourse(courseToAdd);
+session.saveOrUpdate(student);
+3. Batch Inserts: If you need to add multiple courses to a student, you can consider batch insert operations. Hibernate allows you to use batch inserts, which can be more efficient for bulk operations. This can be done using the hibernate.jdbc.batch_size configuration property and appropriate transaction management.
+
+4. Custom SQL: You can use native SQL queries or stored procedures for specific operations that require high efficiency and don't fit well with Hibernate's default behavior.
+
+While Hibernate offers a convenient way to work with entities and their relationships, there are cases where direct SQL operations or custom optimizations may be more efficient. You can choose the approach that best suits your specific use case and performance requirements.
+```
