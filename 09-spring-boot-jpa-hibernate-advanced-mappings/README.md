@@ -839,3 +839,20 @@ session.saveOrUpdate(student);
 
 While Hibernate offers a convenient way to work with entities and their relationships, there are cases where direct SQL operations or custom optimizations may be more efficient. You can choose the approach that best suits your specific use case and performance requirements.
 ```
+
+### Eliminar Course
+
+Se elimina el course y la relación entre el course y el student. NO se elimina student.
+
+Para ello:
+
+- Modificamos nuestra Main app
+
+Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-05-many-to-many`;
+  SELECT * FROM course;
+  SELECT * FROM student;
+  SELECT * FROM course_student;
+```
