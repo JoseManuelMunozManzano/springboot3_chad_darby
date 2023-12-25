@@ -773,7 +773,7 @@ Otras Características:
 - Se hará grabación en cascada
 - Si se elimina un course, NO borramos los students, y si se elimina un student, NO borramos los courses es decir, no se aplica la eliminación en cascada
 
-Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
 
 ```
   use `hb-05-many-to-many`;

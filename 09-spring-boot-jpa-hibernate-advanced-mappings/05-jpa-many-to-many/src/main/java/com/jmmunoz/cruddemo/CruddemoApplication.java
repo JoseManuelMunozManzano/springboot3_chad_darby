@@ -12,6 +12,7 @@ import com.jmmunoz.cruddemo.entity.Course;
 import com.jmmunoz.cruddemo.entity.Instructor;
 import com.jmmunoz.cruddemo.entity.InstructorDetail;
 import com.jmmunoz.cruddemo.entity.Review;
+import com.jmmunoz.cruddemo.entity.Student;
 
 @SpringBootApplication
 public class CruddemoApplication {
@@ -27,8 +28,32 @@ public class CruddemoApplication {
 		
 		return runner -> {
 			
-
+			createCourseAndStudents(appDAO);
 		};
+	}
+
+	private void createCourseAndStudents(AppDAO appDAO) {
+
+		// create a course
+		Course tempCourse = new Course("Pacman - How to Score One Million Points");
+
+		// create the students
+		Student tempStudent1 = new Student("John", "Doe", "john@mail.com");
+		Student tempStudent2 = new Student("Mary", "Public", "mary@mail.com");
+
+		// add students to the course
+		tempCourse.addStudent(tempStudent1);
+		tempCourse.addStudent(tempStudent2);
+
+		// save the course and associated students
+		// Las operaciones persist se hacen en cascada, así que también se guardan los students.
+		// También se graba en la Join Table course_student
+		System.out.println("Saving the course: " + tempCourse);
+		System.out.println("associated students: " + tempCourse.getStudents());
+
+		appDAO.save(tempCourse);
+
+		System.out.println("Done!");
 	}
 
 	private void deleteCourseAndReviews(AppDAO appDAO) {
