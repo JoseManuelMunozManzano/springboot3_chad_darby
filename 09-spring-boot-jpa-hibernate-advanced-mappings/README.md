@@ -736,3 +736,48 @@ Para probar, ejecutar el proyecto y las siguientes consultas SQL:
 ```
 
 No debe haber registros, ya que se habrán borrado también las reviews asociadas, gracias al tipo de cascada, ALL
+
+## 05-jpa-many-to-many
+
+Un course puede tener muchos students.
+
+Un student puede tener muchos courses.
+
+Necesitamos mantener la pista de qué students están en qué courses y viceversa.
+
+Para esto usaremos una tabla intermedia, llamadas Join Tables, que son tablas especiales que proveen un mapeo (foreign keys para cada tabla) entre tablas, en este caso, entre course y student.
+
+![alt text](./images/JoinTable.png)
+
+![alt text](./images/JoinTable2.png)
+
+Proceso de desarrollo:
+
+- Trabajo preparatorio: Definir tablas de BD
+  - Ejecutar en SQuirreL el script `00-jpa-advanced-mappings-database-scripts/hb-05-many-to-many/create-db.sql`
+  - Vemos que se crea la Join Table llamada course_student y las foreign keys con course y student
+- Actualizar clase Course
+  - Crearemos un atributo `private List<Student> students;` con las anotaciones @ManyToMany y @JoinTable, en la que se indica el nombre de la Join Table (course_student) y las columnas con las que se relaciona (course_id y de forma inversa con student_id)
+- Actualizar clase Student
+  - Crearemos un atributo `private List<Course> courses;` con las anotaciones @ManyToMany y @JoinTable, en la que se indica el nombre de la Join Table (course_student) y las columnas con las que se relaciona (student_id y de forma inversa con course_id)
+
+Ejemplo desde el lado Course:
+
+![alt text](./images/MoreJoinTable.png)
+
+![alt text](./images/MoreInverse.png)
+
+Otras Características:
+
+- Haremos Lazy Loading de students y courses
+- Se hará grabación en cascada
+- Si se elimina un course, NO borramos los students, y si se elimina un student, NO borramos los courses es decir, no se aplica la eliminación en cascada
+
+Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-05-many-to-many`;
+  SELECT * FROM course;
+  SELECT * FROM student;
+  SELECT * FROM course_student;
+```
