@@ -781,3 +781,19 @@ Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
   SELECT * FROM student;
   SELECT * FROM course_student;
 ```
+
+### Encontrar course y students
+
+Para ello:
+
+- Añadiremos un nuevo método a nuestra interface DAO, findCourseAndStudentsByCourseId()
+- Modificamos nuestra Main app
+
+Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-05-many-to-many`;
+  SELECT * FROM course;
+  SELECT * FROM student;
+  SELECT * FROM course_student;
+```
