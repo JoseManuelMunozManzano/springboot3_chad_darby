@@ -789,11 +789,13 @@ Para ello:
 - Añadiremos un nuevo método a nuestra interface DAO, findCourseAndStudentsByCourseId()
 - Modificamos nuestra Main app
 
-Para probar, ejecutar el proyecto y las siguientes consultas SQL:
+Para probar, ejecutar el proyecto y comprobar la consola
 
-```
-  use `hb-05-many-to-many`;
-  SELECT * FROM course;
-  SELECT * FROM student;
-  SELECT * FROM course_student;
-```
+### Encontrar student y courses
+
+Para ello:
+
+- Añadiremos un nuevo método a nuestra interface DAO, findStudentAndCoursesByStudentId()
+- Modificamos nuestra Main app
+
+Para probar, ejecutar el proyecto y comprobar la consola

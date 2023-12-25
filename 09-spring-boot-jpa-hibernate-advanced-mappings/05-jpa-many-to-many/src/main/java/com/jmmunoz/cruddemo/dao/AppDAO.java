@@ -5,6 +5,7 @@ import java.util.List;
 import com.jmmunoz.cruddemo.entity.Course;
 import com.jmmunoz.cruddemo.entity.Instructor;
 import com.jmmunoz.cruddemo.entity.InstructorDetail;
+import com.jmmunoz.cruddemo.entity.Student;
 
 public interface AppDAO {
   
@@ -35,4 +36,6 @@ public interface AppDAO {
   Course findCourseAndReviewsByCourseId(int theId);
 
   Course findCourseAndStudentsByCourseId(int theId);
+
+  Student findStudentAndCoursesByStudentId(int theId);
 }

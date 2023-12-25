@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.jmmunoz.cruddemo.entity.Course;
 import com.jmmunoz.cruddemo.entity.Instructor;
 import com.jmmunoz.cruddemo.entity.InstructorDetail;
+import com.jmmunoz.cruddemo.entity.Student;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -172,13 +173,13 @@ public class AppDAOImpl implements AppDAO {
       Course course = query.getSingleResult();
       
       return course;
-    }
+  }
     
-    @Override
-    public Course findCourseAndStudentsByCourseId(int theId) {
+  @Override
+  public Course findCourseAndStudentsByCourseId(int theId) {
       
-      // create query
-      // Usamos JOIN FETCH para recuperar también los students
+    // create query
+    // Usamos JOIN FETCH para recuperar también los students
     TypedQuery<Course> query = entityManager.createQuery(
               "select c from Course c "
             + "JOIN FETCH c.students "
@@ -190,5 +191,23 @@ public class AppDAOImpl implements AppDAO {
     Course course = query.getSingleResult();
 
     return course;
+  }
+
+  @Override
+  public Student findStudentAndCoursesByStudentId(int theId) {
+
+    // create query
+    // Usamos JOIN FETCH para recuperar también los courses
+    TypedQuery<Student> query = entityManager.createQuery(
+              "select s from Student s "
+            + "JOIN FETCH s.courses "
+            + "where s.id = :data", Student.class);
+
+    query.setParameter("data", theId);
+
+    // execute query
+    Student student = query.getSingleResult();
+
+    return student;
   }
 }
