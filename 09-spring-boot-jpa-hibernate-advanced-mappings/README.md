@@ -856,3 +856,197 @@ Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
   SELECT * FROM student;
   SELECT * FROM course_student;
 ```
+
+### Eliminar Student
+
+Se elimina el student y la relación entre el student y el course. NO se elimina course.
+
+Para ello:
+
+- Añadiremos un nuevo método a nuestra interface DAO, deleteStudentById()
+- Modificamos nuestra Main app
+
+Para probar la grabación, ejecutar el proyecto y las siguientes consultas SQL:
+
+```
+  use `hb-05-many-to-many`;
+  SELECT * FROM course;
+  SELECT * FROM student;
+  SELECT * FROM course_student;
+```
+
+```
+Delete the link between the course and student so that a student is removed from the course without deleting it.
+
+There are two options
+
+Option 1: ORM solution
+
+Option 2: Native SQL solution
+
+---
+
+Option 1: ORM solution
+
+Here are the high-level steps
+
+1. Load a given student and get their list of coures
+2. In the list, remove the desired pacman course
+3. Perform commit on the transaction .... and this student is no longer associated with pacman course
+
+package com.luv2code.hibernate.demo;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.luv2code.hibernate.demo.entity.Course;
+import com.luv2code.hibernate.demo.entity.Instructor;
+import com.luv2code.hibernate.demo.entity.InstructorDetail;
+import com.luv2code.hibernate.demo.entity.Review;
+import com.luv2code.hibernate.demo.entity.Student;
+
+public class DeletePacmanCourseforMaryDemoVersion1 {
+
+	public static void main(String[] args) {
+
+		// create session factory
+		SessionFactory factory = new Configuration()
+								.configure("hibernate.cfg.xml")
+								.addAnnotatedClass(Instructor.class)
+								.addAnnotatedClass(InstructorDetail.class)
+								.addAnnotatedClass(Course.class)
+								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
+								.buildSessionFactory();
+
+		// create session
+		Session session = factory.getCurrentSession();
+
+		try {
+
+			// start a transaction
+			session.beginTransaction();
+
+			// get the student from database
+			int studentId = 2;
+			Student tempStudent = session.get(Student.class, studentId);
+
+			System.out.println("\nLoaded student: " + tempStudent);
+			System.out.println("Courses: " + tempStudent.getCourses());
+
+			// find the pacman course
+			int courseId = 10; // pacman
+			List<Course> courses = tempStudent.getCourses();
+
+			Iterator<Course> iterator = courses.iterator();
+			while (iterator.hasNext()) {
+
+				Course tempCourse = iterator.next();
+
+				// check for match on pacman course ... remove if found
+				if (tempCourse.getId() == courseId) {
+					iterator.remove();
+				}
+			}
+
+			// commit transaction
+			session.getTransaction().commit();
+
+			System.out.println("\n\nCourse deleted!");
+			System.out.println("Courses: " + tempStudent.getCourses());
+
+			System.out.println("Done!");
+		}
+		finally {
+
+			// add clean up code
+			session.close();
+
+			factory.close();
+		}
+	}
+
+}
+
+
+---
+
+Option 2: Native SQL solution
+
+another option is that you directly delete from join table using native sql. Somewhat of a backdoor solution but assumes that you are comfortable with native sql and the underlying db tables.
+
+package com.luv2code.hibernate.demo;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
+
+import com.luv2code.hibernate.demo.entity.Course;
+import com.luv2code.hibernate.demo.entity.Instructor;
+import com.luv2code.hibernate.demo.entity.InstructorDetail;
+import com.luv2code.hibernate.demo.entity.Review;
+import com.luv2code.hibernate.demo.entity.Student;
+
+public class DeletePacmanCourseForMaryDemoVersion2 {
+
+	public static void main(String[] args) {
+
+		// create session factory
+		SessionFactory factory = new Configuration()
+								.configure("hibernate.cfg.xml")
+								.addAnnotatedClass(Instructor.class)
+								.addAnnotatedClass(InstructorDetail.class)
+								.addAnnotatedClass(Course.class)
+								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
+								.buildSessionFactory();
+
+		// create session
+		Session session = factory.getCurrentSession();
+
+		try {
+
+			// start a transaction
+			session.beginTransaction();
+
+			// get the student from database
+			int studentId = 2; // mary
+			int courseId = 10; // pacman
+
+			System.out.println("Deleting courseId=" + courseId + " from studentId=" + studentId);
+
+			String nativeSql = "DELETE FROM course_student where course_id=:theCourseId and student_id=:theStudentId";
+
+			NativeQuery query = session.createNativeQuery(nativeSql);
+			query.setParameter("theCourseId", courseId);
+			query.setParameter("theStudentId",  studentId);
+
+			query.executeUpdate();
+
+			// commit transaction
+			session.getTransaction().commit();
+
+			System.out.println("Done!");
+		}
+		finally {
+
+			// add clean up code
+			session.close();
+
+			factory.close();
+		}
+	}
+
+}
+```
+
+```
+Examples Using DTOs
+
+https://www.youtube.com/watch?v=cxVHPXVI7KA
+```

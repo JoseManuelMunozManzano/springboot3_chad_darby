@@ -41,4 +41,6 @@ public interface AppDAO {
 
   // Añadir más cursos a student
   void update(Student tempStudent);
+
+  void deleteStudentById(int theId);
 }
