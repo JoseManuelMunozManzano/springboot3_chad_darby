@@ -24,4 +24,11 @@ public class MyDemoLoggingAspect {
   public void beforeAddAccountAdvice() {
     System.out.println("\n=====>>> Executing @Before advice on package com.jmunoz.aopdemo.dao(..)");
   }
+  
+  // Reutilizando la declaración de pointcut
+  @Before("forDaoPackage()")
+  public void performApiAnalytics() {
+    System.out.println("\n=====>>> Performing API analytics");
+  }
+
 }
