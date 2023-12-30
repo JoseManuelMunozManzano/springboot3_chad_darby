@@ -218,3 +218,21 @@ Hay varios tipos de pointcut.
 ![alt text](./images/PointcutExpressionLanguage_5.png)
 
 ![alt text](./images/PointcutExpressionLanguage_6.png)
+
+**Coincidencia en los parámetros de los métodos**
+
+Wildcards:
+
+- () --> busca coincidencias con métodos que no tienen argumentos
+- (\*) --> busca coincidencias con métodos que tienen un argumento de cualquier tipo
+- (..) --> busca coincidencias con métodos que tienen 0 o más argumentos de cualquier tipo
+
+![alt text](./images/PointcutExpressionLanguage_7.png)
+
+![alt text](./images/PointcutExpressionLanguage_8.png)
+
+![alt text](./images/PointcutExpressionLanguage_9.png)
+
+**Coincidencia en el paquete**
+
+![alt text](./images/PointcutExpressionLanguage_10.png)

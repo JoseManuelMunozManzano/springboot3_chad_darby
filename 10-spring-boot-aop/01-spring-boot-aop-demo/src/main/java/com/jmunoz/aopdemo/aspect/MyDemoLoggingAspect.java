@@ -46,8 +46,15 @@ public class MyDemoLoggingAspect {
   // Hacer match en métodos dado un tipo de retorno. Se usa el wildcard.
   // También vemos que no se indica el modificador. Es opcional indicarlo, no hace falta el wildcard.
   //
-  @Before("execution(* add*())")
+  // @Before("execution(* add*())")
+  // public void beforeAddAccountAdvice() {
+  //   System.out.println("\n=====>>> Executing @Before advice on addAccount()");
+  // }
+
+  // Añadir un tipo de parámetro a la Pointcut expression.
+  // IMPORTANTE: Indicamos el nombre de la clase totalmente calificado.
+  @Before("execution(* add*(com.jmunoz.aopdemo.Account))")
   public void beforeAddAccountAdvice() {
-    System.out.println("\n=====>>> Executing @Before advice on addAccount()");
-  }
+    System.out.println("\n=====>>> Executing @Before advice on add*(Account)");
+  }  
 }
