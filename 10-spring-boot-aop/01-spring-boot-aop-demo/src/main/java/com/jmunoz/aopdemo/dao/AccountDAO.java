@@ -9,4 +9,6 @@ public interface AccountDAO {
   void addSillyMember();
 
   void addAccount(Account theAccount);
+
+  void addAccount(Account theAccount, boolean vipFlag);
 }

@@ -53,8 +53,18 @@ public class MyDemoLoggingAspect {
 
   // Añadir un tipo de parámetro a la Pointcut expression.
   // IMPORTANTE: Indicamos el nombre de la clase totalmente calificado.
-  @Before("execution(* add*(com.jmunoz.aopdemo.Account))")
+  //
+  // @Before("execution(* add*(com.jmunoz.aopdemo.Account))")
+  // public void beforeAddAccountAdvice() {
+  //   System.out.println("\n=====>>> Executing @Before advice on add*(Account)");
+  // }
+
+  // Buscar métodos coincidentes con parámetro "Account" y más tipos de parámetros.
+  // Usaremos el wildcard ..
+  // Indica que pueden venir cero o más parámetros.
+  //
+  @Before("execution(* add*(com.jmunoz.aopdemo.Account, ..))")
   public void beforeAddAccountAdvice() {
-    System.out.println("\n=====>>> Executing @Before advice on add*(Account)");
-  }  
+    System.out.println("\n=====>>> Executing @Before advice on add*(Account, ..)");
+  }
 }
