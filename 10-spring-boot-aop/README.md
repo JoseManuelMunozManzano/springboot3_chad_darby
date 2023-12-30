@@ -188,3 +188,9 @@ Recomendación
     - @Before("execution(public void addAccount())")
 
 ![alt text](./images/BeforeExample.png)
+
+#### Testeo
+
+Para probar el aspecto, ejecutar la app.
+
+Vemos que, por debajo, antes de ejecutarse addAccount() se ejecuta el aspecto beforeAddAccountAdvice()
