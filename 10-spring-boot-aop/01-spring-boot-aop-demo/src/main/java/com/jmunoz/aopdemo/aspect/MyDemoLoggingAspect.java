@@ -37,8 +37,17 @@ public class MyDemoLoggingAspect {
 
   // Usando wildcards
   // Queremos que se haga match por cualquier método cuyo nombre comience por add
-  @Before("execution(public void add*())")
+  //
+  // @Before("execution(public void add*())")
+  // public void beforeAddAccountAdvice() {
+  //   System.out.println("\n=====>>> Executing @Before advice on addAccount()");
+  // }
+  
+  // Hacer match en métodos dado un tipo de retorno. Se usa el wildcard.
+  // También vemos que no se indica el modificador. Es opcional indicarlo, no hace falta el wildcard.
+  //
+  @Before("execution(* add*())")
   public void beforeAddAccountAdvice() {
     System.out.println("\n=====>>> Executing @Before advice on addAccount()");
-  }  
+  }
 }
