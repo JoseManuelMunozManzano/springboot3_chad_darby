@@ -29,8 +29,16 @@ public class MyDemoLoggingAspect {
   // tenemos que indicar el classname calificado => package + (class/interface)
   // En este ejemplo solo hará match para el método addAccount del paquete com.jmunoz.aopdemo.dao
   // y para la interface AccountDAO
-  @Before("execution(public void com.jmunoz.aopdemo.dao.AccountDAO.addAccount())")
+  //
+  // @Before("execution(public void com.jmunoz.aopdemo.dao.AccountDAO.addAccount())")
+  // public void beforeAddAccountAdvice() {
+  //   System.out.println("\n=====>>> Executing @Before advice on addAccount()");
+  // }
+
+  // Usando wildcards
+  // Queremos que se haga match por cualquier método cuyo nombre comience por add
+  @Before("execution(public void add*())")
   public void beforeAddAccountAdvice() {
     System.out.println("\n=====>>> Executing @Before advice on addAccount()");
-  }
+  }  
 }
