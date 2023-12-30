@@ -18,15 +18,27 @@ public class MyDemoLoggingAspect {
   // El método no tiene ni parámetros ni código.
   @Pointcut("execution(* com.jmunoz.aopdemo.dao.*.*(..))")
   private void forDaoPackage() {}
+
+  // Crear un pointcut para los métodos getter
+  @Pointcut("execution(* com.jmunoz.aopdemo.dao.*.get*(..))")
+  private void getter() {}
+
+  // Crear un pointcut para los métodos setter
+  @Pointcut("execution(* com.jmunoz.aopdemo.dao.*.set*(..))")
+  private void setter() {}
+  
+  // Crear un pointcut: incluir el paquete ... excluir getter/setter
+  @Pointcut("forDaoPackage() && !(getter() || setter())")
+  private void forDaoPackageNoGetterSetter() {}
   
   // Usando la declaración de pointcut
-  @Before("forDaoPackage()")
+  @Before("forDaoPackageNoGetterSetter()")
   public void beforeAddAccountAdvice() {
     System.out.println("\n=====>>> Executing @Before advice on package com.jmunoz.aopdemo.dao(..)");
   }
   
   // Reutilizando la declaración de pointcut
-  @Before("forDaoPackage()")
+  @Before("forDaoPackageNoGetterSetter()")
   public void performApiAnalytics() {
     System.out.println("\n=====>>> Performing API analytics");
   }

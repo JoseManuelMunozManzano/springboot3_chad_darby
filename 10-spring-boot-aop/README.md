@@ -257,12 +257,41 @@ Beneficios de usar declaraciones de Pointcut
 
 - Facilmente reutilizables en expresiones pointcut
 - Solo hay que actualizar el pointcut en un sitio
-- Se pueden compartir y combinar expresiones pointcut (lo veremos luego)
+- Se pueden compartir y combinar expresiones pointcut
 
 #### Proceso de desarrollo
 
 - Crear una declaración de pointcut
 - Aplicar la declaración de pointcut a los advices
+
+#### Testeo
+
+Para probar el aspecto, ejecutar la app.
+
+#### Combinar Pointcuts
+
+Tenemos un problema. ¿Cómo podemos aplicar varias expresiones pointcut a un advice?
+
+Sería bueno ejecutar un advice solo si se reunen ciertas condiciones.
+
+Queremos realizar el siguiente ejemplo: Aplicar la declaración de pointcut a todos los métodos de un paquete salvo a los métodos getter/setter
+
+Combinando expresiones pointcut:
+
+- Se pueden usar operadores lógicos para incluir/excluir métodos de la expresión pointcut
+  - && -> AND
+  - || -> OR
+  - ! -> NOT
+- Funciona como una sentencia "if"
+- La ejecución ocurre solo cuando se evalúa a true
+
+![alt text](./images/CombiningPointcuts.png)
+
+#### Proceso de desarrollo
+
+- Crear declaraciones de pointcut
+- Combinar declaraciones de pointcut
+- Aplicar la declaración de pointcut a advice(s)
 
 #### Testeo
 
