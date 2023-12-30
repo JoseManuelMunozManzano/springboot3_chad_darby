@@ -27,5 +27,11 @@ public class AccountDAOImpl implements AccountDAO {
   public void addAccount(Account theAccount, boolean vipFlag) {
     System.out.println(getClass() + ": DOING MY DB WORK: ADDING A CONCRETE VIP ACCOUNT");
   }
+  
+  @Override
+  public boolean doWork() {
+    System.out.println(getClass() + ": doWork()");
+    return true;
+  }
 
 }
