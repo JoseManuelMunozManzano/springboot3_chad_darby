@@ -26,7 +26,6 @@ public class AopdemoApplication {
 		};
 	}
 
-	// Por ahora no hay nada de AOP
 	private void demoTheBeforeAdvice(AccountDAO theAccountDAO) {
 
 		// call the business method
