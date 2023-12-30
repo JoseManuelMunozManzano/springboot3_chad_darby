@@ -194,3 +194,27 @@ Recomendación
 Para probar el aspecto, ejecutar la app.
 
 Vemos que, por debajo, antes de ejecutarse addAccount() se ejecuta el aspecto beforeAddAccountAdvice()
+
+#### AOP - Pointcut Expressions
+
+Un Pointcut es una expresión predicada para indicar dónde se deben aplicar los Advice.
+
+Hay varios tipos de pointcut.
+
+- Spring AOP usa el lenguaje de pointcut expression de AspectJ
+- Comenzaremos con pointcut `execution`
+  - Se aplica a ejecución de métodos
+
+**Coincidencia en el nombre del método o patrón**
+
+![alt text](./images/PointcutExpressionLanguage.png)
+
+![alt text](./images/PointcutExpressionLanguage_2.png)
+
+![alt text](./images/PointcutExpressionLanguage_3.png)
+
+![alt text](./images/PointcutExpressionLanguage_4.png)
+
+![alt text](./images/PointcutExpressionLanguage_5.png)
+
+![alt text](./images/PointcutExpressionLanguage_6.png)
