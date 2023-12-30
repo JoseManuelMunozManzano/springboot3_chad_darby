@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.jmunoz.aopdemo.dao.AccountDAO;
+
 @SpringBootApplication
 public class AopdemoApplication {
 
@@ -12,11 +14,22 @@ public class AopdemoApplication {
 		SpringApplication.run(AopdemoApplication.class, args);
 	}
 
+	// Gracias a la anotación @Bean, Spring Boot inyectará automáticamente la dependencia.
+	// No es necesario indicar @Autowired, de nuevo gracias a la anotación @Bean.
+	// Si es necesario haber anotado AccoundDAOImpl como un componente Spring.
 	@Bean
-	public CommandLineRunner commandLineRunner(String[] args) {
+	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO) {
 
 		return runner -> {
-			System.out.println("Hello world!");
+			
+			demoTheBeforeAdvice(theAccountDAO);
 		};
+	}
+
+	// Por ahora no hay nada de AOP
+	private void demoTheBeforeAdvice(AccountDAO theAccountDAO) {
+
+		// call the business method
+		theAccountDAO.addAccount();
 	}
 }
