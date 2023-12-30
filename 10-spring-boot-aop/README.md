@@ -296,3 +296,42 @@ Combinando expresiones pointcut:
 #### Testeo
 
 Para probar el aspecto, ejecutar la app.
+
+## 03-spring-boot-aop-demo-ordering-aspects
+
+#### Ordenando Aspects
+
+Tenemos un problema. ¿Cómo controlamos el orden en el que se aplican los advices?
+
+Vamos a tener tres advices:
+
+- beforeAddAccountAdvice
+- performApiAnalyticsAdvice
+- logToCloudAdvice
+
+¿Cómo gestionamos el orden de ejecución de los advices? Ahora mismo el orden es indefinido.
+
+Proceso de desarrollo para controlar el orden:
+
+- Refactor: Situar los advices en Aspects separados
+  - Igual para los Pointcuts. Nos los llevamos a una clase separada para poderlos compartir
+- Controlar el orden en los Aspects usando la anotación de clase @Order
+  - Ejemplo: @Order(1)
+  - Los números más bajos tiene una precedencia más alta
+    - Rango: Integer.MIN_VALUE a Integer.MAX_VALUE
+    - Los números negativos están permitidos
+    - Los números no tienen por qué ser consecutivos
+    - Si dos aspectos tienen el mismo número de @Order, su orden es indeterminado, pero no afecta al orden general de todos los aspectos
+- Esto garantiza el orden en el que se aplicarán los Aspects
+
+#### Testeo
+
+Para probar el aspecto, ejecutar la app.
+
+Veremos que el orden es:
+
+- 1. MyCloudLogAspect
+- 2. MyLoggingDemoAspect
+- 3. MyApiAnalyticsAspect
+
+![alt text](./images/OrderAnnotation.png)
