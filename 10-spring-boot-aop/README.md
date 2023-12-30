@@ -236,3 +236,34 @@ Wildcards:
 **Coincidencia en el paquete**
 
 ![alt text](./images/PointcutExpressionLanguage_10.png)
+
+## 02-spring-boot-aop-demo-pointcut-declarations
+
+#### Declaraciones de Pointcut
+
+Ahora mismo tenemos un problema. ¿Cómo podemos reutilizar una expresión Pointcut?
+
+Soluciones:
+
+- Copiar/pegar del método. No es la solución ideal
+- La solución ideal es crear una declaración de pointcut y aplicarla a muchos advices
+  - Usamos la anotación @Pointcut e indicamos la expresión
+  - El método no tiene ni parámetros ni cuerpo, solo sirve para refeerenciar este pointcut
+  - ![alt text](./images/PointcutDeclaration.png)
+  - Ahora aplicamos este pointcut a nuestros advices, usando el nombre del método. Puede reutilizarse
+  - ![alt text](./images/PointcutDeclaration_2.png)
+
+Beneficios de usar declaraciones de Pointcut
+
+- Facilmente reutilizables en expresiones pointcut
+- Solo hay que actualizar el pointcut en un sitio
+- Se pueden compartir y combinar expresiones pointcut (lo veremos luego)
+
+#### Proceso de desarrollo
+
+- Crear una declaración de pointcut
+- Aplicar la declaración de pointcut a los advices
+
+#### Testeo
+
+Para probar el aspecto, ejecutar la app.
