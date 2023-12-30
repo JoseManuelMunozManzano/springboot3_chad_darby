@@ -63,8 +63,18 @@ public class MyDemoLoggingAspect {
   // Usaremos el wildcard ..
   // Indica que pueden venir cero o más parámetros.
   //
-  @Before("execution(* add*(com.jmunoz.aopdemo.Account, ..))")
+  // @Before("execution(* add*(com.jmunoz.aopdemo.Account, ..))")
+  // public void beforeAddAccountAdvice() {
+  //   System.out.println("\n=====>>> Executing @Before advice on add*(Account, ..)");
+  // }
+
+  // Buscar métodos coincidentes con cualesquiera parámetros, cuyo nombre de método 
+  // empiece por add, que esté en cualquier paquete y que devuelva cualquier tipo.
+  // Usamos el wildcard ..
+  // Indica que pueden venir cero o más parámetros.
+  //
+  @Before("execution(* add*(..))")
   public void beforeAddAccountAdvice() {
-    System.out.println("\n=====>>> Executing @Before advice on add*(Account, ..)");
+    System.out.println("\n=====>>> Executing @Before advice on add*(..)");
   }
 }
