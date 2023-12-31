@@ -631,3 +631,5 @@ select * from employee;
 ```
 
 Acceder a la siguiente URL: `http://localhost:8080`
+
+Jugar con la web app y observar la consola para ver los resultados de los advice.
