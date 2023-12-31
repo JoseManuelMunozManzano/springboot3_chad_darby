@@ -587,3 +587,47 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+## 04-spring-boot-mvc-crud-demo-employees
+
+El objetivo de este proyecto es añadir soporte de logging AOP a una app Spring MVC CRUD.
+
+![alt text](./images/AOPWithSpringMVCDiagram.png)
+
+Proceso de desarrollo:
+
+- Añadir Spring Boot AOP Starter al fichero Maven pom
+  - Una vez hecho esto Spring Boot habilitará automáticamente el soporte para AOP
+- Crear Aspect
+  - Añadir soporte de logging
+  - Configurar pointcut declarations
+    - ![alt text](./images/AOPWithSpringMVCPointcutDeclarations.png)
+  - Añadir advice @Before
+  - Añadir advice @AfterReturning
+
+Para el proyecto se usa MariaDB y hay que ejecutar los SQL del siguiente script: `./04-spring-boot-mvc-crud-demo-employees/sql-scripts/employee-directory.sql` en SQuirreL.
+
+Nota: Yo he usado una imagen de Docker de MariaDB. El comando que he utilizado ha sido el siguiente:
+
+```
+  docker container run \
+  -e MARIADB_USER=springstudent \
+  -e MARIADB_PASSWORD=springstudent \
+  -e MARIADB_ROOT_PASSWORD=springstudentroot \
+  -e MARIADB_DATABASE=student_tracker \
+  -dp 3306:3306 \
+  --name student_tracker \
+  --volume student_tracker:/var/lib/mysql \
+  mariadb:jammy
+```
+
+Y para gestionar la BBDD uso el programa SQuirreL.
+
+Realizar los siguientes SQLs para ver los datos:
+
+```
+USE `employee_directory`;
+select * from employee;
+```
+
+Acceder a la siguiente URL: `http://localhost:8080`
