@@ -391,3 +391,25 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### @AfterReturning Advice - Modificar valor devuelto
+
+Nos concentramos en el uso de caso en el que realizamos un post-procesamiento de la data antes de devolverla al llamador.
+
+Interceptamos la data y realizamos un trabajo adicional sobre ella, formateándola o enriqueciéndola.
+
+Eso si, tenemos que tener cuidado porque esa data transformada, un programador que no haya hecho ese advice o no conozca AOP, puede que no sepa de donde viene.
+
+El equipo de desarrollo debe ser comunicado de que se está usando AOP y que se está haciendo esta transformación en la data.
+
+Recordar que usar AOP es como que hay un espía. Es como si se hace un pedido a Amazon y ese espía coge el paquete y le pone o quita cosas.
+
+El paquete nos llega y no hay lo que habíamos pedido. Nosotros no sabemos que existe ese espía y que ese paquete fue interceptado y modificado.
+
+![alt text](./images/ModifyReturnValue.png)
+
+![alt text](./images/CallingProgram.png)
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.

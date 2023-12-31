@@ -36,6 +36,27 @@ public class MyDemoLoggingAspect {
     
     // print out the results of the method call
     System.out.println("\n=====>>> result is: " + result);
+    
+    // let's post-process the data ... let's modify it!
+    
+    // convert the account names to uppercase
+    convertAccountNamesToUppercase(result);
+    
+    System.out.println("\n=====>>> result is: " + result);
+  }
+
+  private void convertAccountNamesToUppercase(List<Account> result) {
+
+    // loop through accounts
+    for (Account tempAccount : result) {
+      
+      // get uppercase version of name
+      String theUpperName = tempAccount.getName().toUpperCase();
+
+      // update the name on the account
+      tempAccount.setName(theUpperName);
+    }
+
   }
 
   // Tenemos que indicar el nombre de clase calificado porque ahora los pointcut declarations están en su propia clase.
