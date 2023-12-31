@@ -1,5 +1,8 @@
 package com.jmunoz.aopdemo.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.jmunoz.aopdemo.Account;
@@ -10,6 +13,24 @@ public class AccountDAOImpl implements AccountDAO {
 
   private String name;
   private String serviceCode;
+
+  @Override
+  public List<Account> findAccounts() {
+
+    List<Account> myAccounts = new ArrayList<>();
+
+    // create sample accounts
+    Account temp1 = new Account("Marina", "Silver");
+    Account temp2 = new Account("Tania", "Platinum");
+    Account temp3 = new Account("Adri", "Gold");
+
+    // add them to our accounts list
+    myAccounts.add(temp1);
+    myAccounts.add(temp2);
+    myAccounts.add(temp3);
+
+    return myAccounts;
+  }
 
   @Override
   public void addAccount() {

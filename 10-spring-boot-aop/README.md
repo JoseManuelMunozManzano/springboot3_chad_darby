@@ -349,3 +349,45 @@ Proceso de desarrollo:
 - Acceder y mostrar los argumentos del método
   - También usamos como argumento del método anotado con @Before un tipo JoinPoint
   - ![alt text](./images/MethodArguments.png)
+
+#### Ejemplo AOP con @AfterReturning Advice
+
+Vamos a crear un advice que se ejecutará tras finalizar un método de forma exitosa.
+
+El método sobre el que se aplicará el advice será findAccounts()
+
+El advice @AfterReturning se ejecuta tras ejecutarse el método de forma exitosa (sin excepciones).
+
+![alt text](./images/AfterReturningAdvice.png)
+
+Normalmente necesitamos acceder al valor devuelto por el método llamado. En nuestro ejemplo findAccounts() devuelve una lista de Account y en nuestro advice los vamos a listar.
+
+Para ello:
+
+- Usamos el parámetro returning dentro de la anotación @AfterReturning
+  - Le damos un nombre (result)
+- Usamos un parámetro del método advice con tipo JoinPoint
+- Usamos un tipo de parámetro en el método advice, que será en este caso la lista de Accounts
+  - El nombre del parámetro será el indicado en returning (result)
+- Ya dentro del método advice, podemos usar la variable (result)
+
+![alt text](./images/AccessReturnValue.png)
+
+Casos de uso:
+
+- Más comunes
+  - logging, security, transactions
+- Post-procesamiento de datos
+  - Post-procesamiento de datos antes de volver al llamador
+  - Formatear o enriquecer la data (con cuidado)
+
+Proceso de desarrollo:
+
+- Trabajo preparatorio: Añadir constructores a la clase Account
+- Añadir un nuevo método: findAccounts() en AccountDAO
+- Actualizar la app main par que llame al nuevo método: findAccounts()
+- Añadir un advice @AfterReturning
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.

@@ -1,9 +1,14 @@
 package com.jmunoz.aopdemo.dao;
 
+import java.util.List;
+
 import com.jmunoz.aopdemo.Account;
 
 public interface AccountDAO {
   
+  // add a new method: findAccounts()
+  List<Account> findAccounts();
+
   void addAccount();
 
   void addSillyMember();

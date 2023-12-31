@@ -1,5 +1,7 @@
 package com.jmunoz.aopdemo;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,8 +28,24 @@ public class AopdemoApplication {
 
 		return runner -> {
 			
-			demoTheBeforeAdvice(theAccountDAO, theMembershipDAO);
+			// demoTheBeforeAdvice(theAccountDAO, theMembershipDAO);
+
+			demoTheAfterReturningAdvice(theAccountDAO);
 		};
+	}
+
+	private void demoTheAfterReturningAdvice(AccountDAO theAccountDAO) {
+		
+		// call method to find the accounts
+		List<Account> theAccounts = theAccountDAO.findAccounts();
+
+		// display the accounts
+		System.out.println("\n\nMain Program: demoTheAfterReturningAdvice");
+		System.out.println("----");
+
+		System.out.println(theAccounts);
+
+		System.out.println("\n");
 	}
 
 	private void demoTheBeforeAdvice(AccountDAO theAccountDAO, MembershipDAO tMembershipDAO) {
@@ -39,7 +57,7 @@ public class AopdemoApplication {
 		Account myAccount = new Account();
 		myAccount.setName("José M.");
 		myAccount.setLevel("Platinum");
-		
+
 		theAccountDAO.addAccount(myAccount);
 
 		theAccountDAO.addAccount(myAccount, true);

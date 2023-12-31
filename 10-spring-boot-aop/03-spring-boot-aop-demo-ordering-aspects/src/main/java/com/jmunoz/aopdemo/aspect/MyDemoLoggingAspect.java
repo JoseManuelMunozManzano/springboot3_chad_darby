@@ -1,6 +1,9 @@
 package com.jmunoz.aopdemo.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -18,6 +21,22 @@ import com.jmunoz.aopdemo.Account;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+
+  // add a new advice for @AfterReturning on the findAccounts method
+  
+  // Recordar que el nombre indicado en returning, debe ser el mismo que aparezca en el parámetro del método.
+  @AfterReturning(
+        pointcut = "execution(* com.jmunoz.aopdemo.dao.AccountDAO.findAccounts(..))",
+        returning = "result")
+  public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
+
+    // print out which method we are advising on
+    String method = theJoinPoint.getSignature().toShortString();
+    System.out.println("\n=====>>> Executing @AfterReturning on method: " + method);
+    
+    // print out the results of the method call
+    System.out.println("\n=====>>> result is: " + result);
+  }
 
   // Tenemos que indicar el nombre de clase calificado porque ahora los pointcut declarations están en su propia clase.
   // JoinPoint tiene metadata sobre el método que se está ejecutando. Así podemos obtener la firma del método y sus argumentos.
