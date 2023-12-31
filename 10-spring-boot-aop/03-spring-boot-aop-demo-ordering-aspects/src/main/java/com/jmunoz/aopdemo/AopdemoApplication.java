@@ -37,6 +37,9 @@ public class AopdemoApplication {
 		theAccountDAO.addSillyMember();
 
 		Account myAccount = new Account();
+		myAccount.setName("José M.");
+		myAccount.setLevel("Platinum");
+		
 		theAccountDAO.addAccount(myAccount);
 
 		theAccountDAO.addAccount(myAccount, true);

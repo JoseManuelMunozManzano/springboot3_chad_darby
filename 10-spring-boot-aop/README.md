@@ -335,3 +335,17 @@ Veremos que el orden es:
 - 3. MyApiAnalyticsAspect
 
 ![alt text](./images/OrderAnnotation.png)
+
+#### Leer argumentos de los métodos con JoinPoints
+
+Tenemos un problema. Cuando estamos en el aspecto, ¿Cómo podemos acceder a los parámetros de los métodos?
+
+Proceso de desarrollo:
+
+- Acceder y mostrar la firma del método
+  - Usamos como argumento del método anotado con @Before un tipo JoinPoint
+  - JoinPoint tiene metadata sobre el método que se está ejecutando
+  - ![alt text](./images/MethodSignature.png)
+- Acceder y mostrar los argumentos del método
+  - También usamos como argumento del método anotado con @Before un tipo JoinPoint
+  - ![alt text](./images/MethodArguments.png)
