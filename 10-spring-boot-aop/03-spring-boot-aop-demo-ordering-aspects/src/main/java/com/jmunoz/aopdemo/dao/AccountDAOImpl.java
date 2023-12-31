@@ -16,6 +16,17 @@ public class AccountDAOImpl implements AccountDAO {
 
   @Override
   public List<Account> findAccounts() {
+    // Don't throw an exception
+    return findAccounts(false);
+  }
+
+  @Override
+  public List<Account> findAccounts(boolean tripWire) {
+
+    // for academic purposes ... simulate an exception
+    if (tripWire) {
+      throw new RuntimeException("No soup for you!!!");
+    }
 
     List<Account> myAccounts = new ArrayList<>();
 
@@ -29,8 +40,8 @@ public class AccountDAOImpl implements AccountDAO {
     myAccounts.add(temp2);
     myAccounts.add(temp3);
 
-    return myAccounts;
-  }
+    return myAccounts;    
+  }  
 
   @Override
   public void addAccount() {

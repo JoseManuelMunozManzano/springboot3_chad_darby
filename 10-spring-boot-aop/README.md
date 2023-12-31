@@ -413,3 +413,54 @@ El paquete nos llega y no hay lo que habíamos pedido. Nosotros no sabemos que e
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### Ejemplo AOP con @AfterThrowing Advice
+
+El advice @AfterThrowing se ejecuta tras finalizar un método si se lanza una excepción.
+
+![alt text](./images/AfterThrowing.png)
+
+Una vez que se lanza la excepción podemos leerla. La excepción sigue propagándose hacia atrás hasta la app main.
+
+![alt text](./images/AfterThrowingSequenceDiagram.png)
+
+Casos de uso:
+
+- Log de la excepción
+- Hacer auditoría de la excepción
+- Notificar al equipo de DevOps por email o SMS
+  - Evitar mandar SMS por cada excepción para no hacer spam. Solo para cosas muy críticas
+- Encapsular esta funcionalidad en aspectos AOP para una fácil reutilización
+  - En caso de excepción, se ejecutará esa funcionalidad
+
+Vamos a hacer un ejemplo en el que creamos un advice que se ejecutará tras lanzarse una excepción.
+
+Para ello:
+
+- Necesitaremos acceder al objeto de la excepción
+  - Usamos el parámetro throwing dentro de la anotación @AfterThrowing
+  - Le damos un nombre (theExc)
+- Usamos un parámetro del método advice con tipo JoinPoint
+- Usamos un tipo de parámetro en el método advice, que será un Throwable
+  - El nombre del parámetro será el indicado en returning (theExc)
+- Ya dentro del método advice, podemos usar la variable (theExc)
+
+![alt text](./images/AfterThrowingExample.png)
+
+Propagación de la excepción
+
+- Hasta este momento, solo hemos interceptado (leido) la excepción
+- Sin embargo, la excepción se sigue propagando al programa llamador
+  - La excepción funciona hasta ahora exactamente igual que si no existiera advice
+- Pero si queremos parar la propagación de la excepción (lo vemos más adelante)
+  - Usaremos el advice @Around
+
+Proceso de desarrollo:
+
+- En nuestra app main, añadir un bloque try/catch para manejar la excepción
+- Actualizar AccoundDAO para simular el lanzamiento de una excepción
+- Añadir un advice @AfterThrowing
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.
