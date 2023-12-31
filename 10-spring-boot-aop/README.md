@@ -545,3 +545,31 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### @Around Advice - Manejo de excepciones
+
+Para una excepción lanzada desde el proceeding join point:
+
+- Podemos manejarla/pasar de/parar la excepción
+- O podemos relanzar la excepción
+
+Tenemos un control muy fino sobre como podemos llamar al método de destino.
+
+Tanto si manejamos o paramos la excepción, el programa llamador NUNCA va a conocer que se lanzó una excepción, porque la estamos gestionando.
+
+Podemos gestionar/parar la excepción y devolver un valor por defecto o relanzar la excepción y que esta vuelva al programa llamador.
+
+Realmente depende de la aplicación, pero siempre que se pueda solucionar el problema raiz, evitando que se generen las excepciones, será lo mejor.
+
+Hay que usar esta característica con mucho cuidado!
+
+![alt text](./images/AroundAdviceHandleExceptionExample.png)
+
+Proceso de desarrollo:
+
+- Añadir una bandera para simular una excepción
+- Modificar el advice @Around para manejar la excepción
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.
