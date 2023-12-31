@@ -464,3 +464,42 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### Ejemplo AOP con @After Advice
+
+El advice @After se ejecuta tras finalizar un método.
+
+Funciona parecido a un finally en un bloque try/catch/finally, en el sentido en que, independientemente de que finalice exitosamente o con una excepción, se ejecutará este advice.
+
+![alt text](./images/AfterAdvice.png)
+
+![alt text](./images/AfterAdviceSequenceDiagram.png)
+
+Casos de uso:
+
+- Log de la excepción y/o realizar una auditoría
+- Código a ejecutar independientemente del resultado del método
+  - Por ejemplo, para hacer limpieza de recursos
+- Encapsular esta funcionalidad es aspectos AOP para una fácil reutilización en diferentes partes de nuestra app
+
+Vamos a hacer un ejemplo en el que creamos un advice que se ejecutará tras el método (finally ... éxito/error)
+
+![alt text](./images/AfterAdviceExample.png)
+
+Trucos para el advice @After
+
+- El advice @After no tiene acceso a la excepción
+  - Si necesitamos la excepción, usaremos el advice @AfterThrowing
+- El advice @After debería poder ejecutarse en caso de éxito o error
+  - El código no debe depender del camino feliz o de una excepción
+  - Logging / auditoría es aquí un ejemplo típico. Escribimos qué ha pasado, no intentamos inspeccionar o hacer algo muy elaborado
+
+Proceso de desarrollo:
+
+- Añadir un advice @After
+- Probar el caso de fallo/excepción
+- Probar el caso de éxito
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.

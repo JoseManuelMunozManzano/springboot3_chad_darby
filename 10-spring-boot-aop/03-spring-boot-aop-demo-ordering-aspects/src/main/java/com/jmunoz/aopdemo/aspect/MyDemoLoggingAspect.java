@@ -3,6 +3,7 @@ package com.jmunoz.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,6 +23,17 @@ import com.jmunoz.aopdemo.Account;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+
+  // El advice @After se ejecuta siempre, independientemente de una ejecución 
+  // del método exitosa o con lanzamiento de excepción
+  @After("execution(* com.jmunoz.aopdemo.dao.AccountDAO.findAccounts(..))")
+  public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+
+    // print out which method we are advising on
+    String method = theJoinPoint.getSignature().toShortString();
+    System.out.println("\n=====>>> Executing @After (finally) on method: " + method);
+
+  }
 
   // Recordar que el nombre indicado en throwing, debe ser el mismo que aparezca en el parámetro del método.
   @AfterThrowing(
