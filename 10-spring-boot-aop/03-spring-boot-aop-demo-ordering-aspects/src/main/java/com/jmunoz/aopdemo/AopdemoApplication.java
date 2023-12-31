@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.jmunoz.aopdemo.dao.AccountDAO;
 import com.jmunoz.aopdemo.dao.MembershipDAO;
+import com.jmunoz.aopdemo.service.TrafficFortuneService;
 
 // Se excluye la clase JmxAutoConfiguration.class porque da error mBeanExporter con el pointcut
 // @Before("execution(* add*(..))") de MyDemoLoggingAspect.java
@@ -22,9 +23,11 @@ public class AopdemoApplication {
 
 	// Gracias a la anotación @Bean, Spring Boot inyectará automáticamente la dependencia.
 	// No es necesario indicar @Autowired, de nuevo gracias a la anotación @Bean.
-	// Si es necesario haber anotado AccoundDAOImpl y MembershipDaoImpl como componentes Spring.
+	// Si es necesario haber anotado AccoundDAOImpl, MembershipDaoImpl y TrafficFortuneService como componentes Spring.
 	@Bean
-	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO, MembershipDAO theMembershipDAO) {
+	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO, 
+																						MembershipDAO theMembershipDAO, 
+																						TrafficFortuneService theTrafficFortuneService) {
 
 		return runner -> {
 			
@@ -34,8 +37,23 @@ public class AopdemoApplication {
 
 			// demoTheAfterThrowingAdvice(theAccountDAO);
 
-			demoTheAfterAdvice(theAccountDAO);
+			// demoTheAfterAdvice(theAccountDAO);
+
+			demoTheAroundService(theTrafficFortuneService);
 		};
+	}
+
+	private void demoTheAroundService(TrafficFortuneService theTrafficFortuneService) {
+
+		System.out.println("\nMain Program: demoTheAroundService");
+
+		System.out.println("Calling getFortune()");
+
+		String data = theTrafficFortuneService.getFortune();
+
+		System.out.println("\nMy fortune is: " + data);
+
+		System.out.println("Finished");
 	}
 
 	private void demoTheAfterAdvice(AccountDAO theAccountDAO) {

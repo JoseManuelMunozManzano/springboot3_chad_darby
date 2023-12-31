@@ -3,9 +3,11 @@ package com.jmunoz.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -23,6 +25,32 @@ import com.jmunoz.aopdemo.Account;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+
+  // El advice @Around se ejecuta antes y después de ejecutarse el método de destino.
+  // Es necesario indicar un tipo de parámetro ProceedingJoinPoint, que es un manejador del método de destino.
+  @Around("execution(* com.jmunoz.aopdemo.service.*.getFortune(..))")
+  public Object aroundGetFortune(ProceedingJoinPoint theProceedingJoinPoint) throws Throwable {
+
+    // print out method we are advising on
+    String method = theProceedingJoinPoint.getSignature().toShortString();
+    System.out.println("\n=====>>> Executing @Around on method: " + method);
+
+    // get begin timestamp
+    long begin = System.currentTimeMillis();
+
+    // now, let's execute the target method
+    Object result = theProceedingJoinPoint.proceed();
+
+    // get end timestamp
+    long end = System.currentTimeMillis();
+
+    // compute duration and display it
+    long duration = end - begin;
+    System.out.println("\n=====>>> Duration: " + duration / 1000.0 + " seconds");
+
+    // Este result es el mismo donde hemos obtenido el resultado de ejecutar el método de destino.
+    return result;
+  }
 
   // El advice @After se ejecuta siempre, independientemente de una ejecución 
   // del método exitosa o con lanzamiento de excepción

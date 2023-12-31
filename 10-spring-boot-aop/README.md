@@ -503,3 +503,45 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### Ejemplo AOP con @Around Advice
+
+El advice @Around se ejecuta antes y después de la ejecución del método.
+
+![alt text](./images/AroundAdvice.png)
+
+Casos de uso:
+
+- Más común: logging, auditoría, seguridad
+- Pre-procesamiento y post-procesamiento de la data
+- Instrumentar / Perfilar código
+  - ¿Cúanto tarda en ejecutarse una sección de código?
+- Gestionar excepciones
+  - Pasar / manegar / parar excepciones
+
+Vamos a hacer un ejemplo con nuestro antiguo FortuneService que hemos usado en otros módulos del curso.
+
+Queremos saber cuanto tarda una sección del código en ejecutarse.
+
+![alt text](./images/AroundAdviceSequenceDiagram.png)
+
+Para ello:
+
+- Cuando usamos el advice @Around necesitamos un manejador del método de destino
+  - A esto se le llama obtener una referencia a un "proceeding join point"
+  - Necesitamos en el método, por tanto, un parámetro de tipo ProceedingJoinPoint
+- En nuestro código usamos este proceeding join point para ejecutar el método de destino
+  - Usamos el método proceed() para ejecutar el método de destino. Se devuelve un Object con el resultado
+- Al final del método advice devolvemos el resultado al método llamador
+
+![alt text](./images/AroundAdviceExample.png)
+
+Proceso de desarrollo:
+
+- Crear un servicio TrafficFortuneService
+- Actualizar la app main para llamar a TrafficFortuneService
+- Añadir un advice @Around
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.
