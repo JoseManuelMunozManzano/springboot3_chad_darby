@@ -573,3 +573,17 @@ Proceso de desarrollo:
 Test:
 
 - Ejecutar la app y ver el resultado en consola.
+
+#### @Around Advice - Relanzar la excepción
+
+Nos centramos en como podemos relanzar la excepción desde un advice @Around.
+
+![alt text](./images/AroundAdviceRethrowExceptionExample.png)
+
+Proceso de desarrollo:
+
+- Modificar el advice @Around para relanzar la excepción
+
+Test:
+
+- Ejecutar la app y ver el resultado en consola.

@@ -41,8 +41,27 @@ public class AopdemoApplication {
 
 			// demoTheAroundAdvice(theTrafficFortuneService);
 
-			demoTheAroundAdviceHandleException(theTrafficFortuneService);
+			// demoTheAroundAdviceHandleException(theTrafficFortuneService);
+
+			demoTheAroundAdviceRethrowException(theTrafficFortuneService);
 		};
+	}
+
+	private void demoTheAroundAdviceRethrowException(TrafficFortuneService theTrafficFortuneService) {
+	
+		System.out.println("\nMain Program: demoTheAroundAdviceRethrowException");
+
+		System.out.println("Calling getFortune()");
+
+		boolean tripWire = true;
+
+		// Si comentamos el manejo de la excepción y añadimos un throw exc, relanzamos la excepción y
+		// entonces si que se devuelve la excepción y nos enteramos.
+		String data = theTrafficFortuneService.getFortune(tripWire);
+
+		System.out.println("\nMy fortune is: " + data);
+
+		System.out.println("Finished");
 	}
 
 	private void demoTheAroundAdviceHandleException(TrafficFortuneService theTrafficFortuneService) {

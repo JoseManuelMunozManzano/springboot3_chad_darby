@@ -47,11 +47,19 @@ public class MyDemoLoggingAspect {
       // log the exception
       System.out.println(exc.getMessage());
 
+      // SI QUEREMOS QUE SE GESTIONE LA EXCEPCION
+      //
       // give user a custom message
       // La aplicación main nunca sabrá que se produjo una excepción porque la estamos manejando 
       // y devolviendo un valor por defecto.
       // CUIDADO CON ESTO!!!
-      result = "Major accident! But no worries, your private AOP helicopter is on the way!";
+      //
+      // result = "Major accident! But no worries, your private AOP helicopter is on the way!";
+
+      // SI QUEREMOS RELANZAR LA EXCEPCION
+      //
+      // rethrow exception
+      throw exc;
     }
 
     // get end timestamp
