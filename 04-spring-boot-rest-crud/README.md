@@ -745,3 +745,42 @@ Con respecto a la ordenación, podemos ordenar por los nombres de propiedades de
 
   http://localhost:8080/employees?sort=lastName,firstName,asc
 ```
+
+**OpenAPI y Swagger**
+
+Tenemos una API REST, pero no tenemos ninguna documentación. Tenemos que mirar el código fuente para encontrar los endpoints (@GetMapping...), y luego usar Postman o curl para realizar las llamadas API REST. Esto no es lo ideal.
+
+Lo que queremos es que, en tiempo de ejecución, se genere documentación de la API, se inspeccionen los endpoints basado en configuraciones de Spring, anotaciones... y se provea una UI web para acceder a esos endpoints, sin necesidad de usar Postman.
+
+- `Springdoc` es un proyecto open-source separado. Ver `www.springdoc.org`
+- Genera documentación API
+- Inspecciona endpoints API basado en configuraciones de Spring, anotaciones...
+- Provee una UI web para acceder a los endpoints
+  - No es necesario usar Postman
+  - Springdoc provee una UI web `Swagger`para acceder a los endpoints
+
+Proceso de desarrollo para usar Swagger:
+
+- Añadir la dependencia Maven para `Springdoc`. La última versión puede encontrarse en `www.springdoc.org`
+
+```xml
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version><x.y.z/version>
+</dependency>
+```
+
+- Acceder a la UI Swagger
+  - Por defecto, la url es: `http://localhost:8080/swagger-ui/index.html`
+  - Puede configurarse un path personalizado en `application.properties` indicando la siguiente propiedad: `springdoc.swagger-ui.path=/my-fun-ui.html`, donde ahora la url sería `http://localhost:8080/my-fun-ui.html`
+- Recuperar los endpoints API como JSON o YAML
+  - Útil para integrar con otras herramientas de desarrollo
+  - Generación Cliente SDK, API mocking, contract testing...
+  - JSON o YAML es independiente del lenguaje
+  - Puede procesarse con Python, JavaScript, Go, etc
+  - Por defecto, los docs JSON están disponibles en: `http://localhost:8080/v3/api-docs`
+  - Por defecto, los docs YAML están disponibles en: `http://localhost:8080/v3/api-docs.yaml`
+    - El navegador web descargará el fichero YAML
+    - Se pueden ver con cualquier editor de texto
+  - Se pueden configurar path personalizados para los docs API en `application.properties`indicando la siguiente propiedad: `springdoc.api-docs.path=/my-api-docs`, donde ahora la doc. JSON estaría en la ruta `http://localhost:8080/my-api-docs` y la doc. YAML estaría en la ruta `http://localhost:8080/my-api-docs.yaml`
