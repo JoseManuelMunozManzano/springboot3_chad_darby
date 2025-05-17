@@ -184,7 +184,8 @@ El cliente REST podrá:
 - Obtener una lista de employees
 - Obtener un employee por su id
 - Añadir un nuevo employee
-- Actualizar un employee
+- Actualizar un employee completamente (vienen todos los campos)
+- Actualizar parcialmente un employee (algunos campos no vienen, son null)
 - Eliminar un employee
 
 Los métodos HTTP, endpoints y acción CRUD son:
@@ -194,6 +195,7 @@ POST          /api/employees                    Crear un nuevo employee
 GET           /api/employees                    Leer una lista de employees
 GET           /api/employees/{employeeId}       Leer un employee
 PUT           /api/employees                    Actualizar un employee existente
+PATCH         /api/employees/{employeeId}       Actualizar parcialmente un employee existente
 DELETE        /api/employees/{employeeId}       Eliminar un employee existente
 ```
 
@@ -205,6 +207,7 @@ El proceso de desarrollo será el siguiente:
 - Leer una lista de employees
 - Leer un employee
 - Actualizar un employee existente
+- Actualizar parcialmente un employee existente
 - Eliminar un employee existente
 
 La arquitectura será la siguiente:
@@ -224,10 +227,10 @@ Para el proyecto se usa MariaDB y uso esta imagen Docker:
   -e MARIADB_USER=springstudent \
   -e MARIADB_PASSWORD=springstudent \
   -e MARIADB_ROOT_PASSWORD=springstudentroot \
-  -e MARIADB_DATABASE=student_tracker \
+  -e MARIADB_DATABASE=employee_directory \
   -dp 3306:3306 \
-  --name student_tracker \
-  --volume student_tracker:/var/lib/mysql \
+  --name employee_directory \
+  --volume employee_directory:/var/lib/mysql \
   mariadb:jammy
 ```
 
@@ -448,6 +451,50 @@ Overall, Spring Data JPA streamlines database interactions and reduces the need 
 DAO is still used today because if you want to have your code tested, and more control over the library it is much better to Hibernate and define your own methods and what they are going to return. Yes, you can use Spring DATA for similar things, but if you reach a point where you might need to use EntityManager for something or try to handle your own transactions which you cannot do with Spring Data because it uses too much magic. Anything that uses too much magic under the hood is not good, which will lock you down with that specific library and in case something happens will make debugging impossible.
 
 The reason why DAO and Spring Data cannot be compared is simply because Spring Data is a repository pattern it is not a DAO pattern.
+```
+
+```
+We didn't use object mapper for all the other operations and it was still converting from json to java objects and vice versa.
+
+The ObjectMapper is a great workaround or solution when we are doing something partially, which is a PATCH request by defintion. Another fun fact about ObjectMapper, it is used in the background for all operations, the only difference is, if we do not directly implement it as we did here, it will work with the WHOLE object always.
+
+What happens in POST or PUT?
+
+In these two cases, Spring does the following for you:
+
+1. It automatically maps the entire incoming JSON to a Java object (Employee) using the @RequestBody annotation.
+
+2. This works great because POST and PUT are designed to replace the whole resource/object.
+
+What’s different about PATCH?
+
+1. With PATCH, the incoming JSON contains only a subset of fields.
+
+2. Spring can’t directly map this partial JSON into an existing Employee object because it doesn't know how to merge the new values into the existing object.
+
+If we were to refuse to use ObjectMapper, things would stop looking clean and would also become hard to test, which is always the case with the spaghetti code.
+
+if (patchPayload.containsKey("firstName")) {
+    tempEmployee.setFirstName((String) patchPayload.get("firstName"));
+}
+As you can see, this looks extremely messy only for one field, so the solution is — ObjectMapper keeps it clean and generic.
+
+TLDR:
+Because PATCH typically involves partial updates, Spring can't directly map that to a full Java object like it does with POST or PUT.
+
+So in your PATCH code, you’re doing this:
+
+1. Grabbing the existing full Employee object from DB.
+
+2. Taking the partial update (just a map).
+
+3. Merging the two manually using ObjectMapper.
+
+4. Saving the result.
+
+You're essentially telling Spring:
+
+"Hey, I’ll take over here — let me do this manually since your default full-mapping isn’t what I want for partial updates."
 ```
 
 - Testing: Importar en Postman el archivo Darby-04-spring-boot-rest-crud-employee.postman_collection.json

@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "293a1010-30c5-44d9-bb71-7adb551910b3",
-		"name": "Darby-04-spring-boot-rest-crud-employee-with-spring-data-rest",
+		"_postman_id": "ae77c734-f0c2-42ff-8b77-e9a181f0704a",
+		"name": "Darby-04-spring-boot-rest-crud-employee",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7508044"
 	},
@@ -12,14 +12,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/magic-api/employees",
+					"raw": "http://localhost:8080/api/employees",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"magic-api",
+						"api",
 						"employees"
 					]
 				}
@@ -32,14 +32,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/magic-api/employees/2",
+					"raw": "http://localhost:8080/api/employees/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"magic-api",
+						"api",
 						"employees",
 						"2"
 					]
@@ -62,14 +62,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/magic-api/employees",
+					"raw": "http://localhost:8080/api/employees",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"magic-api",
+						"api",
 						"employees"
 					]
 				}
@@ -83,7 +83,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Timothy\",\n    \"lastName\": \"Patterson\",\n    \"email\": \"tim@luv2code.com\"\n}",
+					"raw": "{\n    \"id\": 1,\n    \"firstName\": \"Timothy\",\n    \"lastName\": \"Patterson\",\n    \"email\": \"tim@luv2code.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,16 +91,45 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/magic-api/employees/1",
+					"raw": "http://localhost:8080/api/employees",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"magic-api",
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Employee",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vega.juan@demo.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employees/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
 						"employees",
-						"1"
+						"5"
 					]
 				}
 			},
@@ -112,42 +141,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/magic-api/employees/5",
+					"raw": "http://localhost:8080/api/employees/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"magic-api",
+						"api",
 						"employees",
 						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all employees sorting",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/magic-api/employees?sort=lastName,desc",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"magic-api",
-						"employees"
-					],
-					"query": [
-						{
-							"key": "sort",
-							"value": "lastName,desc"
-						}
 					]
 				}
 			},

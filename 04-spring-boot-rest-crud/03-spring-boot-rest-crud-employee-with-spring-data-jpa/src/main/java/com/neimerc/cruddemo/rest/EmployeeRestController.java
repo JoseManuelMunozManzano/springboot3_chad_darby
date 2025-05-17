@@ -1,16 +1,12 @@
 package com.neimerc.cruddemo.rest;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.neimerc.cruddemo.entity.Employee;
 import com.neimerc.cruddemo.service.EmployeeService;
@@ -21,9 +17,14 @@ public class EmployeeRestController {
   
   private EmployeeService employeeService;
 
+  // ObjectMapper esta preconfigurado por SpringBoot y es fácilmente inyectable.
+  // Sirve para pasar de JSON a objeto y al revés.
+  private ObjectMapper objectMapper;
+
   //@Autowired
-  public EmployeeRestController(EmployeeService theEmployeeService) {
+  public EmployeeRestController(EmployeeService theEmployeeService, ObjectMapper theObjectMapper) {
     employeeService = theEmployeeService;
+    objectMapper = theObjectMapper;
   }
 
   // exponer "/employees" y devolver una lista de empleados
@@ -64,6 +65,42 @@ public class EmployeeRestController {
     Employee dbEmployee = employeeService.save(theEmployee);
 
     return dbEmployee;
+  }
+
+  // añadir mapeo para PATCH "/employees/{employeeId}" - patch employee ... actualización parcial
+  @PatchMapping("/employees/{employeeId}")
+  public Employee patchEmployee(@PathVariable int employeeId, @RequestBody Map<String, Object> patchPayload) {
+    Employee tempEmployee = employeeService.findById(employeeId);
+
+    // throw exception if null
+    if (tempEmployee == null) {
+      throw new RuntimeException("Employee id not found - " + employeeId);
+    }
+
+    // throw exception if request body contains "id" key
+    if (patchPayload.containsKey("id")) {
+      throw new RuntimeException("Employee id not allowed in request body - " + employeeId);
+    }
+
+    Employee patchedEmployee = apply(patchPayload, tempEmployee);
+
+    Employee dbEmployee = employeeService.save(patchedEmployee);
+
+    return dbEmployee;
+  }
+
+  private Employee apply(Map<String, Object> patchPayload, Employee tempEmployee) {
+    // Convertir el objeto employee a un node JSON object
+    ObjectNode employeeNode = objectMapper.convertValue(tempEmployee, ObjectNode.class);
+
+    // Convertir map pathPayload a un node JSON object
+    ObjectNode patchNode = objectMapper.convertValue(patchPayload, ObjectNode.class);
+
+    // Unir las actualizaciones patch en el node employee
+    employeeNode.setAll(patchNode);
+
+    // Convertir node JSON object de vuelta a un objeto Employee
+    return objectMapper.convertValue(employeeNode, Employee.class);
   }
 
   // exponer "/employees/{employeeId}" - eliminar un employee
