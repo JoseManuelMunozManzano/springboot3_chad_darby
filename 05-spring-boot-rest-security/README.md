@@ -83,10 +83,10 @@ Para el proyecto se usa MariaDB y uso esta imagen Docker:
   -e MARIADB_USER=springstudent \
   -e MARIADB_PASSWORD=springstudent \
   -e MARIADB_ROOT_PASSWORD=springstudentroot \
-  -e MARIADB_DATABASE=student_tracker \
+  -e MARIADB_DATABASE=employee_directory \
   -dp 3306:3306 \
-  --name student_tracker \
-  --volume student_tracker:/var/lib/mysql \
+  --name employee_directory \
+  --volume employee_directory:/var/lib/mysql \
   mariadb:jammy
 ```
 

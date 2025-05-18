@@ -217,6 +217,50 @@
 			"response": []
 		},
 		{
+			"name": "Patch employee - con Usuario/Password",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "mary",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"firstName\": \"Petko\",\n    \"lastName\": \"Dukhon\",\n    \"email\": \"petko@luv2code.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete employee - con Usuario/Password",
 			"request": {
 				"auth": {
